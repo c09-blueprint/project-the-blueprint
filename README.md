@@ -67,7 +67,7 @@ Blueprint allows users to work on their project offline, and sync their changes 
 **Might attempt as bonus**
 
 - Cloudfare (1 point) - CAPTCHA replacement for additional user authentication
-- Sockect.IO (2 points) - for users to chat (through message) while collaborating
+- Socket.IO (2 points) - for users to chat (through message) while collaborating
 - Stripe (2 points) - for payment processing (eg. purchase memberships for additional features)
 
 ## Project Aim
