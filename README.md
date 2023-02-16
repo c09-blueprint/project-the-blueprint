@@ -14,9 +14,33 @@
 
 ## What is Blueprint?  
 
-TODO
-- flowcharts / mindmaps / workflow digrams / network diagrams / process digrams / data visualization
+Blueprint is a collaborative whiteboarding tool for brainstorming and visualizing ideas. With Blueprint, users can create interactive diagrams like flowcharts and mind-maps and share them with teammates, clients, or anyone who needs to see their ideas. Its user-friendly interface allows users to drag and drop various elements to create diagrams with ease.  
 
+**Brainstorm and Visualization**  
+
+Blueprint provides a wide range of shapes, icons, and other visual elements that users can drag and drop onto the canvas to create different types of diagrams including flowcharts, mind-maps, workflow diagrams, and process diagrams. Users can also jot down ideas by drawing and adding text.  
+
+**Real-time Collaboration**  
+
+Blueprint allows multiple users to work on the same project simultaneously with video/audio call capabilities, making it perfect for remote collaboration.  
+
+**Project Management**  
+
+Blueprint allows users to create a page or a team and invite other users to collaborate.  
+Users belonging to a page or a team can be categorized into one of the following roles:
+- Owner (read/write/delete permission)
+- Collaborator (read/write permission)
+- Viewer (read-only permission)  
+
+Blueprints also allows users to collaborate on a project anonymously through project link.  
+
+**Awareness**  
+
+Blueprint allows users to see updates and changes made to the project, and also see who else is working on the project in real-time.   
+
+**Offline Editting**  
+
+Blueprint allows users to work on their project offline, and sync their changes when they reconnect to the internet.   
 
 ## Tech Stack  
 
@@ -41,8 +65,8 @@ TODO
 
 **Might attempt as bonus**  
 - Cloudfare (1 point) - CAPTCHA replacement for additional user authentication
-- Sockect.IO (2 points) - for users to chat while collaborating 
-- Stripe (2 points) - for any financial transactions (eg. purchase memberships for additional features)
+- Sockect.IO (2 points) - for users to chat (through message) while collaborating 
+- Stripe (2 points) - for payment processing (eg. purchase memberships for additional features)
 
 ## Project Aim  
 
@@ -52,7 +76,7 @@ We aim to have the following core features implemented:
 - Users can add shapes and lines to create charts
 - Users can draw and add text
 - Users can invite other users to collaborate
-- Complexity points: Yjs, React Flow, SendGrid
+- **Complexity points**: Yjs, React Flow, SendGrid
 
 **Beta Version** (March 20)  
 We aim to extend and improve the core features:
@@ -60,12 +84,12 @@ We aim to extend and improve the core features:
 - Users can video or audio call other collaborators
 - Implement authentication and authorization
   - Users have different permission levels:
-    - Owner (able to delete the page or team)
-    - Collaborator (Read and Write)
-    - Viewer (Read only)
+    - Owner (read/write/delete permission)
+    - Collaborator (read/write permission)
+    - Viewer (read-only permission)
   - Users can collaborate anonymously through project link 
   - Users can SSO with other third parties (e.g. Google)
-- Complexity points: Yjs, React Flow, SendGrid, Auth0, PeerJS 
+- **Complexity points**: Yjs, React Flow, SendGrid, Auth0, PeerJS 
 
 **Final Version** (April 3)  
 We aim to implement additional features and have a fluid and cohesive whiteboarding collaboration tool by the end:
@@ -73,4 +97,4 @@ We aim to implement additional features and have a fluid and cohesive whiteboard
 - Implement offline editing
 - Finetune all features
 - Deploy the product to the cloud
-- Complexity points: Yjs, React Flow, SendGrid, Auth0, PeerJS 
+- **Complexity points**: Yjs, React Flow, SendGrid, Auth0, PeerJS 
