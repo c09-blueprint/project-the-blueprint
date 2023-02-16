@@ -27,7 +27,7 @@ Blueprint allows multiple users to work on the same project simultaneously with 
 **Project Management**  
 
 Blueprint allows users to create a page or a team and invite other users to collaborate.  
-Users belonging to a page or a team can be categorized into one of the following roles:
+Users belonging to a page or a team can be assigned one of the following roles:
 - Owner (read/write/delete permission)
 - Collaborator (read/write permission)
 - Viewer (read-only permission)  
