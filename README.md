@@ -14,7 +14,7 @@
 
 ## What is Blueprint?
 
-Blueprint is a collaborative whiteboarding tool for brainstorming and visualizing ideas. With Blueprint, users can create interactive diagrams like flowcharts and mind-maps and share them with teammates, clients, or anyone who needs to see their ideas. Its user-friendly interface allows users to drag and drop various elements to create diagrams with ease.
+Blueprint is a collaborative whiteboarding tool for brainstorming and visualizing ideas. With Blueprint, users can create interactive diagrams like flowcharts and mind-maps and share them with teammates, clients, or anyone who needs to see their ideas. It's a user-friendly interface that allows users to drag and drop various elements to create diagrams with ease.
 
 **Brainstorm and Visualization**
 
