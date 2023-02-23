@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import { ENDPOINTS } from "./endpoints";
 import GenericService from "./service";
 
