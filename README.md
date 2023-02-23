@@ -6,9 +6,9 @@
 
 ## To run the app locally
 
-- run `npm install` in `frontend` and `backend` folder
-- run frontend on port 3000: cd into `frontend` and run `npm start`
-- rund backend on port 3001: cd into `backend` and run `node app.js` or `nodemon app.js`
+- on first install, run `npm install` in `/blueprint/frontend` and `/blueprint/backend`
+- run frontend on port 3000: in `/blueprint/frontend` run `npm start`
+- rund backend on port 3001: in `/blueprint/backend` run `node app.js` or `nodemon app.js`
 
 ## Team Information
 
