@@ -4,6 +4,12 @@
 
 **Team Name**: The Blueprint
 
+## To run the app locally
+
+- run `npm install` in `frontend` and `backend` folder
+- run frontend on port 3000: cd into `frontend` and run `npm start`
+- rund backend on port 3001: cd into `backend` and run `node app.js` or `nodemon app.js`
+
 ## Team Information
 
 | Name         | Student Number | UTORid   | Email                           |
