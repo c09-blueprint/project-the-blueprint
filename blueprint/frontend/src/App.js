@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import "./App.css";
 
 import { createUser, getMe } from "./reducers/userReducer";
+import TestReactFlow from "./test";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,8 +27,8 @@ function App() {
   }
 
   return (
-    <div>
-      <button onClick={dispatchCreateUser}>Create User</button>
+    <div class="test-react">
+      <TestReactFlow></TestReactFlow>
     </div>
   );
 }
