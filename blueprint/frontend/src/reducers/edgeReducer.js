@@ -21,10 +21,10 @@ const edgeSlice = createSlice({
 export const { setEdges } = edgeSlice.actions;
 
 export const updateEdge = (edge) => {
-    return async (dispatch) => {
-      // todo: prob update db
-      dispatch(setEdges(edge));
-    };
+  return async (dispatch) => {
+    // todo: prob update db
+    dispatch(setEdges(edge));
+  };
 };
 
 export default edgeSlice.reducer;

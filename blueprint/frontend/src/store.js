@@ -12,7 +12,7 @@ const store = configureStore({
     example: exampleReducer,
     user: userReducer,
     node: nodeReducer,
-    edgeReducer: edgeReducer
+    edgeReducer: edgeReducer,
   },
 });
 

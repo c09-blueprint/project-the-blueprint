@@ -21,10 +21,10 @@ const nodeSlice = createSlice({
 export const { setNodes } = nodeSlice.actions;
 
 export const updateNode = (node) => {
-    return async (dispatch) => {
-      // todo: prob update db
-      dispatch(setNodes(node));
-    };
+  return async (dispatch) => {
+    // todo: prob update db
+    dispatch(setNodes(node));
+  };
 };
 
 export default nodeSlice.reducer;
