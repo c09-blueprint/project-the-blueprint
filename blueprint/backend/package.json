@@ -13,7 +13,9 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "sequelize": "^6.28.2",
-    "sqlite3": "^5.1.4"
+    "sqlite3": "^5.1.4",
+    "y-websocket": "^1.4.5",
+    "yjs": "^13.5.47"
   },
   "devDependencies": {
     "nodemon": "^2.0.20",
