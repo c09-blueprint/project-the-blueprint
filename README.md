@@ -8,7 +8,8 @@
 
 - on first install, run `npm install` in `/blueprint/frontend` and `/blueprint/backend`
 - run frontend on port 3000: in `/blueprint/frontend` run `npm start`
-- rund backend on port 3001: in `/blueprint/backend` run `node app.js` or `nodemon app.js`
+- rund backend: in `/blueprint/backend` run `npm run start`
+  - This runs the Blurprint server on port 3001 and a websocket server on port 3002.
 
 ## Team Information
 
