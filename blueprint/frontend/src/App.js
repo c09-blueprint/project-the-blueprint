@@ -4,6 +4,7 @@ import "./App.css";
 
 import { createUser, getMe } from "./reducers/userReducer";
 import TestReactFlow from "./test";
+import Draw from "./canvas";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +29,8 @@ function App() {
 
   return (
     <div class="test-react">
-      <TestReactFlow></TestReactFlow>
+      {/* <TestReactFlow></TestReactFlow> */}
+      <Draw></Draw>
     </div>
   );
 }
