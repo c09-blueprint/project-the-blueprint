@@ -8,6 +8,17 @@ import TestReactFlow from "./test";
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 
+import ReactFlow, {
+  MiniMap,
+  Controls,
+  Background,
+  useNodesState,
+  useEdgesState,
+  addEdge,
+  ReactFlowProvider,
+  useReactFlow,
+} from "reactflow";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -53,7 +64,9 @@ function App() {
 
   return (
     <div class="test-react">
-      <TestReactFlow></TestReactFlow>
+      <ReactFlowProvider>
+        <TestReactFlow></TestReactFlow>
+      </ReactFlowProvider>
     </div>
   );
 }
