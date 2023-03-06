@@ -1,7 +1,7 @@
 import "reactflow/dist/style.css";
 
 import { useState, useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ReactFlow, {
   Controls,
   Background,
@@ -68,8 +68,12 @@ const TestReactFlow = () => {
   let [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
+  //dispatch(updateNode(initialNodes)); // Infinite loop when this is uncommented...
+  let nodesStore = useSelector((state) => state.node);
   useEffect(() => {
     dispatch(updateNode(nodes));
+    console.log("USEEFFECT NODES STORE 1", nodesStore);
+    console.log("USEEFFECT NODES", nodes);
   }, [dispatch, nodes]);
 
   useEffect(() => {
@@ -224,7 +228,7 @@ const TestReactFlow = () => {
       </button>
 
       <ReactFlow
-        nodes={nodes}
+        nodes={nodesStore}
         onNodesChange={onNodesChange}
         edges={edges}
         onEdgesChange={onEdgesChange}

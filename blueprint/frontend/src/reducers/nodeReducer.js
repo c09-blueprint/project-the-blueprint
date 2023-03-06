@@ -1,29 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
+import { applyNodeChanges } from "reactflow";
 
 const initialState = null;
 
 // initialize store and actions
 const nodeSlice = createSlice({
   name: "node",
-  initialState,
+  initialState: [],
   reducers: {
     // set entire list
     setNodes(state, action) {
       return action.payload;
     },
     // set node label but I pass in the entire list of nodes in the payload, ideally I want to just pass in the node id and label and use the state to get the nodes
+    // Issue is I can't edit the value as I get "TypeError: Cannot assign to read only property 'label' of object '#<Object>'"
     setNodeLabel(state, action) {
-      let { id, label, nodes } = action.payload;
-      console.log("setNodeLabel", nodes);
-      nodes.forEach((node) => {
+      const { id, label, nodes } = action.payload;
+      state.map((node) => {
         if (node.id === id) {
-          node.data.label = label;
+          node.data = { ...node.data, label };
         }
       });
-
-      return nodes;
     },
+
     //TODO: append node
     //TODO: update node
     //TODO: delete node
@@ -45,6 +45,12 @@ export const updateNodeLabel = (id, label, nodes) => {
   return async (dispatch) => {
     console.log("updateNodeLabel", id, label, nodes);
     dispatch(setNodeLabel({ id, label, nodes }));
+  };
+};
+
+export const onNodesChange = (changes) => {
+  return async (dispatch) => {
+    dispatch(setNodes(changes));
   };
 };
 

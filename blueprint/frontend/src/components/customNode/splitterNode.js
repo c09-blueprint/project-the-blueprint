@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useEffect } from "react";
 import { Handle, Position } from "reactflow";
 import { updateNodeLabel } from "../../reducers/nodeReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,8 @@ const handleStyle = { padding: 3 };
 
 // the argument is the props of the node
 export default memo(({ data, id, isConnectable, selected }) => {
+  // Not sure if this is how we should do it
+  let currentLabel = data.label;
   let nodesStore = useSelector((state) => state.node);
   console.log("splitterNode nodestore:", nodesStore);
   const dispatch = useDispatch();
@@ -18,6 +20,17 @@ export default memo(({ data, id, isConnectable, selected }) => {
     },
     [dispatch, id, nodesStore]
   );
+
+  useEffect(() => {
+    if (nodesStore[id - 1]) {
+      currentLabel = nodesStore[id - 1].data.label;
+      let testLabel = document.getElementById("label-" + id);
+      testLabel.innerHTML = currentLabel;
+      console.log("LABEL", testLabel);
+    }
+    console.log("splitterNode currentLabel:", nodesStore[id - 1]);
+    console.log("splitterNode currentLabel VALUE:", currentLabel);
+  }, [nodesStore[id - 1].data.label]);
 
   return (
     <div className="text-updater-node">
@@ -34,7 +47,9 @@ export default memo(({ data, id, isConnectable, selected }) => {
         isConnectable={isConnectable}
       />
       <div>
-        <div style={{ padding: 10, wordWrap: "break-word" }}>{data.label}</div>
+        <div id={"label-" + id} style={{ padding: 10, wordWrap: "break-word" }}>
+          {data.label}
+        </div>
         <input id="text" name="text" onChange={onChange} className="nodrag" />
       </div>
       <Handle
