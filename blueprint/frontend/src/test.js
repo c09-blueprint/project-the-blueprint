@@ -1,4 +1,6 @@
 import "reactflow/dist/style.css";
+import "./drawing.css";
+import "./draw.js";
 
 import { useState, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -15,6 +17,7 @@ import { updateEdge } from "./reducers/edgeReducer";
 
 const TestReactFlow = () => {
   const dispatch = useDispatch();
+  const panOnDrag = [1, 2];
 
   const initialNodes = [
     {
@@ -56,17 +59,31 @@ const TestReactFlow = () => {
   );
 
   return (
-    <div style={{ height: "100%" }}>
-      <ReactFlow
-        nodes={nodes}
-        onNodesChange={onNodesChange}
-        edges={edges}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-      >
-        <Background />
-        <Controls />
-      </ReactFlow>
+    <div>
+      <button id="reset">Reset</button>
+      <button id="restore">Restore</button>
+      <button id="save">Save</button>
+      <button id="red">Red</button>
+      <button id="drawON">Drawing ON</button>
+      <button id="drawOFF">Drawing OFF</button>
+      <div class="container">
+        <div id="react-layer" class="box">
+          <ReactFlow
+            nodes={nodes}
+            onNodesChange={onNodesChange}
+            edges={edges}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            panOnDrag={panOnDrag}
+          >
+            <Background />
+            <Controls />
+          </ReactFlow>
+        </div>
+        <div id="canvas-overlay" class="box overlay">
+          <canvas id="canvas" className="board"></canvas>
+        </div>
+      </div>
     </div>
   );
 };

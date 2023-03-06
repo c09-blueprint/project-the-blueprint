@@ -1,4 +1,29 @@
 window.addEventListener("load", function () {
+  document.getElementById("reset").addEventListener("click", () => {
+    console.log("reset");
+    ctx.reset(); // Clear the context!
+  });
+  document.getElementById("restore").addEventListener("click", () => {
+    console.log("restore");
+    ctx.restore(); // Clear the context!
+  });
+  document.getElementById("save").addEventListener("click", () => {
+    console.log("save");
+    ctx.save(); // Clear the context!
+  });
+  document.getElementById("red").addEventListener("click", () => {
+    console.log("red");
+    ctx.strokeStyle = "red"; // Clear the context!
+  });
+  document.getElementById("drawOFF").addEventListener("click", () => {
+    document.getElementById("canvas-overlay").classList.remove("overlay");
+    document.getElementById("react-layer").classList.add("overlay");
+  });
+  document.getElementById("drawON").addEventListener("click", () => {
+    document.getElementById("canvas-overlay").classList.add("overlay");
+    document.getElementById("react-layer").classList.remove("overlay");
+  });
+
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
 

@@ -29,8 +29,8 @@ function App() {
 
   return (
     <div class="test-react">
-      {/* <TestReactFlow></TestReactFlow> */}
-      <Draw></Draw>
+      {/* <Draw></Draw> */}
+      <TestReactFlow></TestReactFlow>
     </div>
   );
 }
