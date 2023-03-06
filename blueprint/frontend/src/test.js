@@ -16,10 +16,14 @@ import { updateEdge } from "./reducers/edgeReducer";
 
 import splitterNode from "./components/customNode/splitterNode";
 import resizableDefaultNode from "./components/customNode/resizableDefaultNode";
+import resizableInputNode from "./components/customNode/resizableInputNode";
+import resizableOutputNode from "./components/customNode/resizableOutputNode";
 
 const customNodeTypes = {
   splitterNode,
   resizableDefaultNode,
+  resizableInputNode,
+  resizableOutputNode,
 };
 
 const TestReactFlow = () => {
@@ -38,30 +42,30 @@ const TestReactFlow = () => {
       position: { x: 100, y: 100 },
       data: { label: "World" },
     },
-    {
-      id: "3",
-      type: "splitterNode",
-      position: { x: 300, y: 50 },
-    },
-    {
-      id: "4",
-      type: "resizableDefaultNode",
-      data: { label: "NodeResizer when selected" },
-      position: { x: 100, y: 300 },
-      style: {
-        background: "#fff",
-        border: "1px solid black",
-        borderRadius: 15,
-        fontSize: 12,
-      },
-    },
+    // {
+    //   id: "3",
+    //   type: "splitterNode",
+    //   position: { x: 300, y: 50 },
+    // },
+    // {
+    //   id: "4",
+    //   type: "resizableDefaultNode",
+    //   data: { label: "NodeResizer when selected" },
+    //   position: { x: 100, y: 300 },
+    //   style: {
+    //     background: "#fff",
+    //     border: "1px solid black",
+    //     borderRadius: 15,
+    //     fontSize: 12,
+    //   },
+    // },
   ];
   const initialEdges = [];
 
   let nodeId = initialNodes.length;
   const connectionLineStyle = { stroke: "#2495ff" };
 
-  const [nodes, setNodes] = useState(initialNodes);
+  let [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
   useEffect(() => {
@@ -146,6 +150,17 @@ const TestReactFlow = () => {
   //   setNodes((nds) => nds.concat(newNode));
   // }, [nodeId]);
 
+  // export function SetNodeLabel(nodeId, label) {
+  //   setNodes((nds) => {
+  //     nds.forEach((node) => {
+  //       if (node.id === nodeId) {
+  //         node.data.label = label;
+  //       }
+  //     });
+  //     return nds;
+  //   });
+  // }
+
   const onDragStart = (event, nodeType, style) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.setData("style", style);
@@ -158,22 +173,16 @@ const TestReactFlow = () => {
     console.log(reactFlowInstance.getEdges());
   }, []);
 
-  // let drag = false;
-  // document
-  //   .getElementById("btn-add")
-  //   .addEventListener("mousedown", () => (drag = false));
-  // document
-  //   .getElementById("btn-add")
-  //   .addEventListener("mousemove", () => (drag = true));
-  // document
-  //   .getElementById("btn-add")
-  //   .addEventListener("mouseup", () => console.log(drag ? "drag" : "click"));
+  const resizableStyle =
+    '{ "background": "#fff", "border": "1px solid black", "borderRadius": 15, "fontSize": 12 }';
 
   return (
     <div style={{ height: "100%" }}>
       <button
         //onClick={addDefaultNode}
-        onDragStart={(event) => onDragStart(event, "input")}
+        onDragStart={(event) =>
+          onDragStart(event, "resizableInputNode", resizableStyle)
+        }
         draggable
         id="btn-add"
       >
@@ -181,15 +190,9 @@ const TestReactFlow = () => {
       </button>
       <button
         //onClick={addDefaultNode}
-        onDragStart={(event) => onDragStart(event, "default")}
-        draggable
-        id="btn-add"
-      >
-        add default node
-      </button>
-      <button
-        //onClick={addDefaultNode}
-        onDragStart={(event) => onDragStart(event, "output")}
+        onDragStart={(event) =>
+          onDragStart(event, "resizableOutputNode", resizableStyle)
+        }
         draggable
         id="btn-add"
       >
@@ -197,7 +200,9 @@ const TestReactFlow = () => {
       </button>
       <button
         //onClick={addDefaultNode}
-        onDragStart={(event) => onDragStart(event, "splitterNode")}
+        onDragStart={(event) =>
+          onDragStart(event, "splitterNode", resizableStyle)
+        }
         draggable
         id="btn-add"
       >
@@ -206,11 +211,7 @@ const TestReactFlow = () => {
       <button
         //onClick={addDefaultNode}
         onDragStart={(event) =>
-          onDragStart(
-            event,
-            "resizableDefaultNode",
-            '{ "background": "#fff", "border": "1px solid black", "borderRadius": 15, "fontSize": 12 }'
-          )
+          onDragStart(event, "resizableDefaultNode", resizableStyle)
         }
         draggable
         id="btn-add"

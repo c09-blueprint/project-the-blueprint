@@ -7,7 +7,7 @@ import "@reactflow/node-resizer/dist/style.css";
 
 const handleStyle = { padding: 3 };
 
-const resizableDefaultNode = ({ data, selected }) => {
+const resizableInputNode = ({ data, selected }) => {
   return (
     <div className="text-updater-node" style={handleStyle}>
       <NodeResizer
@@ -17,11 +17,10 @@ const resizableDefaultNode = ({ data, selected }) => {
         minHeight={100}
         handleStyle={handleStyle}
       />
-      <Handle type="target" position={Position.Top} />
-      <div style={{ padding: 10, wordWrap: "break-word" }}>{data.label}</div>
       <Handle type="source" position={Position.Bottom} />
+      <div style={{ padding: 10, wordWrap: "break-word" }}>{data.label}</div>
     </div>
   );
 };
 
-export default memo(resizableDefaultNode);
+export default memo(resizableInputNode);

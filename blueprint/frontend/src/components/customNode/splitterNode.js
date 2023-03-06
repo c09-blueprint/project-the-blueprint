@@ -1,21 +1,40 @@
 import React, { memo, useCallback } from "react";
 import { Handle, Position } from "reactflow";
+import { updateNodeLabel } from "../../reducers/nodeReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { NodeResizer } from "@reactflow/node-resizer";
 
-const handleStyle = { border: "1px solid #777", padding: 10 };
+const handleStyle = { padding: 3 };
 
-export default memo(({ data, isConnectable }) => {
-  const onChange = useCallback((evt) => {
-    console.log(evt.target.value);
-  }, []);
+// the argument is the props of the node
+export default memo(({ data, id, isConnectable, selected }) => {
+  let nodesStore = useSelector((state) => state.node);
+  console.log("splitterNode nodestore:", nodesStore);
+  const dispatch = useDispatch();
+
+  const onChange = useCallback(
+    (evt) => {
+      dispatch(updateNodeLabel(id, evt.target.value, nodesStore));
+    },
+    [dispatch, id, nodesStore]
+  );
 
   return (
-    <div className="text-updater-node" style={handleStyle}>
+    <div className="text-updater-node">
+      <NodeResizer
+        color="#2495ff"
+        isVisible={selected}
+        minWidth={100}
+        minHeight={100}
+        handleStyle={handleStyle}
+      />
       <Handle
         type="target"
         position={Position.Top}
         isConnectable={isConnectable}
       />
       <div>
+        <div style={{ padding: 10, wordWrap: "break-word" }}>{data.label}</div>
         <input id="text" name="text" onChange={onChange} className="nodrag" />
       </div>
       <Handle
@@ -29,7 +48,7 @@ export default memo(({ data, isConnectable }) => {
         type="source"
         position={Position.Bottom}
         id="right"
-        style={{ left: 188 }}
+        style={{ left: 95 + "%" }}
         isConnectable={isConnectable}
       />
     </div>
