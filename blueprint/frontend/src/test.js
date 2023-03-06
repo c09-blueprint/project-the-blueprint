@@ -66,8 +66,8 @@ const TestReactFlow = () => {
       <button id="red">Red</button>
       <button id="drawON">Drawing ON</button>
       <button id="drawOFF">Drawing OFF</button>
-      <div class="container">
-        <div id="react-layer" class="box">
+      <div className="container">
+        <div id="react-layer" className="box">
           <ReactFlow
             nodes={nodes}
             onNodesChange={onNodesChange}
@@ -80,8 +80,8 @@ const TestReactFlow = () => {
             <Controls />
           </ReactFlow>
         </div>
-        <div id="canvas-overlay" class="box overlay">
-          <canvas id="canvas" className="board"></canvas>
+        <div id="canvas-overlay" className="box overlay">
+          <canvas id="canvas" className=""></canvas>
         </div>
       </div>
     </div>
