@@ -1,10 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import "./App.css";
-
 import { createUser, getMe } from "./reducers/userReducer";
 import TestReactFlow from "./test";
-import Draw from "./canvas";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,8 +26,7 @@ function App() {
   }
 
   return (
-    <div class="test-react">
-      {/* <Draw></Draw> */}
+    <div className="parent">
       <TestReactFlow></TestReactFlow>
     </div>
   );

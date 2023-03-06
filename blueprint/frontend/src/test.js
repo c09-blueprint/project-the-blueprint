@@ -1,6 +1,7 @@
 import "reactflow/dist/style.css";
 import "./drawing.css";
-import "./draw.js";
+// import "./draw.js";
+import "./drawFabric.js";
 
 import { useState, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -63,9 +64,11 @@ const TestReactFlow = () => {
       <button id="reset">Reset</button>
       <button id="restore">Restore</button>
       <button id="save">Save</button>
-      <button id="red">Red</button>
+      <button id="red">Add textbox</button>
       <button id="drawON">Drawing ON</button>
       <button id="drawOFF">Drawing OFF</button>
+      <button id="reactON">Use React-Flow ON</button>
+      <button id="reactOFF">Use React-Flow OFF</button>
       <div className="container">
         <div id="react-layer" className="box">
           <ReactFlow
