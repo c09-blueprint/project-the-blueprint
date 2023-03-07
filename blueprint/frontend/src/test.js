@@ -41,7 +41,7 @@ const TestReactFlow = () => {
     {
       id: "2",
       position: { x: 100, y: 100 },
-      //   data: { label: "World" },
+      data: { label: "World" },
     },
     // {
     //   id: "3",
@@ -103,8 +103,6 @@ const TestReactFlow = () => {
     (event) => {
       event.preventDefault();
       nodeId++;
-
-      // const id = `${++nodeId}`;
       console.log("nodeIdDrop", nodeId);
 
       const type = event.dataTransfer.getData("application/reactflow");
@@ -155,17 +153,6 @@ const TestReactFlow = () => {
   //   setNodes((nds) => nds.concat(newNode));
   // }, [nodeId]);
 
-  // export function SetNodeLabel(nodeId, label) {
-  //   setNodes((nds) => {
-  //     nds.forEach((node) => {
-  //       if (node.id === nodeId) {
-  //         node.data.label = label;
-  //       }
-  //     });
-  //     return nds;
-  //   });
-  // }
-
   const onDragStart = (event, nodeType, style) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.setData("style", style);
@@ -183,58 +170,12 @@ const TestReactFlow = () => {
 
   return (
     <div style={{ height: "100%" }} class="container-fluid">
-      {/* <button
-            //onClick={addDefaultNode}
-            onDragStart={(event) =>
-              onDragStart(event, "resizableInputNode", resizableStyle)
-            }
-            draggable
-            id="btn-add"
-          >
-            add input node
-          </button>
-          <button
-            //onClick={addDefaultNode}
-            onDragStart={(event) =>
-              onDragStart(event, "resizableOutputNode", resizableStyle)
-            }
-            draggable
-            id="btn-add"
-          >
-            add output node
-          </button>
-          <button
-            //onClick={addDefaultNode}
-            onDragStart={(event) =>
-              onDragStart(event, "splitterNode", resizableStyle)
-            }
-            draggable
-            id="btn-add"
-          >
-            add splitter node
-          </button>
-          <button
-            //onClick={addDefaultNode}
-            onDragStart={(event) =>
-              onDragStart(event, "resizableDefaultNode", resizableStyle)
-            }
-            draggable
-            id="btn-add"
-          >
-            add resizableDefaultNode node
-          </button>
-
-          <button onClick={logCurrentState} className="btn-add">
-            log current state
-          </button> */}
-
       <div class="row" style={{ height: "100%", width: "100%" }}>
         <div
           class="col d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
           style={{ width: 280 }}
         >
           <button
-            //onClick={addDefaultNode}
             onDragStart={(event) =>
               onDragStart(event, "resizableInputNode", resizableStyle)
             }
@@ -244,7 +185,6 @@ const TestReactFlow = () => {
             add input node
           </button>
           <button
-            //onClick={addDefaultNode}
             onDragStart={(event) =>
               onDragStart(event, "resizableOutputNode", resizableStyle)
             }
@@ -254,7 +194,6 @@ const TestReactFlow = () => {
             add output node
           </button>
           <button
-            //onClick={addDefaultNode}
             onDragStart={(event) =>
               onDragStart(event, "splitterNode", resizableStyle)
             }
@@ -264,7 +203,6 @@ const TestReactFlow = () => {
             add splitter node
           </button>
           <button
-            //onClick={addDefaultNode}
             onDragStart={(event) =>
               onDragStart(event, "resizableDefaultNode", resizableStyle)
             }
