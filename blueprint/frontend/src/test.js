@@ -1,4 +1,5 @@
 import "reactflow/dist/style.css";
+import "./test.css";
 
 import { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +41,7 @@ const TestReactFlow = () => {
     {
       id: "2",
       position: { x: 100, y: 100 },
-      data: { label: "World" },
+      //   data: { label: "World" },
     },
     // {
     //   id: "3",
@@ -181,66 +182,119 @@ const TestReactFlow = () => {
     '{ "background": "#fff", "border": "1px solid black", "borderRadius": 15, "fontSize": 12 }';
 
   return (
-    <div style={{ height: "100%" }}>
-      <button
-        //onClick={addDefaultNode}
-        onDragStart={(event) =>
-          onDragStart(event, "resizableInputNode", resizableStyle)
-        }
-        draggable
-        id="btn-add"
-      >
-        add input node
-      </button>
-      <button
-        //onClick={addDefaultNode}
-        onDragStart={(event) =>
-          onDragStart(event, "resizableOutputNode", resizableStyle)
-        }
-        draggable
-        id="btn-add"
-      >
-        add output node
-      </button>
-      <button
-        //onClick={addDefaultNode}
-        onDragStart={(event) =>
-          onDragStart(event, "splitterNode", resizableStyle)
-        }
-        draggable
-        id="btn-add"
-      >
-        add splitter node
-      </button>
-      <button
-        //onClick={addDefaultNode}
-        onDragStart={(event) =>
-          onDragStart(event, "resizableDefaultNode", resizableStyle)
-        }
-        draggable
-        id="btn-add"
-      >
-        add resizableDefaultNode node
-      </button>
+    <div style={{ height: "100%" }} class="container-fluid">
+      {/* <button
+            //onClick={addDefaultNode}
+            onDragStart={(event) =>
+              onDragStart(event, "resizableInputNode", resizableStyle)
+            }
+            draggable
+            id="btn-add"
+          >
+            add input node
+          </button>
+          <button
+            //onClick={addDefaultNode}
+            onDragStart={(event) =>
+              onDragStart(event, "resizableOutputNode", resizableStyle)
+            }
+            draggable
+            id="btn-add"
+          >
+            add output node
+          </button>
+          <button
+            //onClick={addDefaultNode}
+            onDragStart={(event) =>
+              onDragStart(event, "splitterNode", resizableStyle)
+            }
+            draggable
+            id="btn-add"
+          >
+            add splitter node
+          </button>
+          <button
+            //onClick={addDefaultNode}
+            onDragStart={(event) =>
+              onDragStart(event, "resizableDefaultNode", resizableStyle)
+            }
+            draggable
+            id="btn-add"
+          >
+            add resizableDefaultNode node
+          </button>
 
-      <button onClick={logCurrentState} className="btn-add">
-        log current state
-      </button>
+          <button onClick={logCurrentState} className="btn-add">
+            log current state
+          </button> */}
 
-      <ReactFlow
-        nodes={nodesStore}
-        onNodesChange={onNodesChange}
-        edges={edges}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
-        connectionLineStyle={connectionLineStyle}
-        nodeTypes={customNodeTypes}
-      >
-        <Background />
-        <Controls />
-      </ReactFlow>
+      <div class="row" style={{ height: "100%", width: "100%" }}>
+        <div
+          class="col d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+          style={{ width: 280 }}
+        >
+          <button
+            //onClick={addDefaultNode}
+            onDragStart={(event) =>
+              onDragStart(event, "resizableInputNode", resizableStyle)
+            }
+            draggable
+            id="btn-add"
+          >
+            add input node
+          </button>
+          <button
+            //onClick={addDefaultNode}
+            onDragStart={(event) =>
+              onDragStart(event, "resizableOutputNode", resizableStyle)
+            }
+            draggable
+            id="btn-add"
+          >
+            add output node
+          </button>
+          <button
+            //onClick={addDefaultNode}
+            onDragStart={(event) =>
+              onDragStart(event, "splitterNode", resizableStyle)
+            }
+            draggable
+            id="btn-add"
+          >
+            add splitter node
+          </button>
+          <button
+            //onClick={addDefaultNode}
+            onDragStart={(event) =>
+              onDragStart(event, "resizableDefaultNode", resizableStyle)
+            }
+            draggable
+            id="btn-add"
+          >
+            add DefaultNode node
+          </button>
+          <button onClick={logCurrentState} className="btn-add">
+            log current state
+          </button>
+        </div>
+
+        <div class="col-11">
+          <ReactFlow
+            nodes={nodesStore}
+            onNodesChange={onNodesChange}
+            edges={edges}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
+            connectionLineStyle={connectionLineStyle}
+            nodeTypes={customNodeTypes}
+          >
+            <Background />
+            <Controls />
+          </ReactFlow>
+        </div>
+      </div>
     </div>
   );
 };
