@@ -1,57 +1,102 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
 import { applyNodeChanges } from "reactflow";
 
-const initialState = null;
+import { setUserModifiedNodes } from "./userStateReducer";
 
-// initialize store and actions
+/* hardcode for now */
+const initialState = {
+  currentId: 3,
+  nodes: [
+    {
+      id: "1",
+      position: { x: 0, y: 0 },
+      data: { label: "Hello" },
+      type: "input",
+    },
+    {
+      id: "2",
+      position: { x: 100, y: 100 },
+      data: { label: "World" },
+    },
+  ],
+};
+
 const nodeSlice = createSlice({
-  name: "node",
-  initialState: [],
+  name: "nodes",
+  initialState,
   reducers: {
-    // set entire list
+    /* 
+      Resets the entire state. 
+      Payload should be { currentId: xxx, nodes: xxx }
+      Most likely only used when observed new changes from server.
+    */
     setNodes(state, action) {
       return action.payload;
     },
-    // set node label but I pass in the entire list of nodes in the payload, ideally I want to just pass in the node id and label and use the state to get the nodes
-    // Issue is I can't edit the value as I get "TypeError: Cannot assign to read only property 'label' of object '#<Object>'"
+    /*
+      Applies changes to old nodes state using react-flow helper function.
+      Assuming no new nodes are added. ie: currentId don't need to change.
+    */
+    applyChangesOnNodes(state, action) {
+      return { ...state, nodes: applyNodeChanges(action.payload, state.nodes) };
+    },
+    /*
+      Assigns id and appends to state.nodes; increments currentId.
+    */
+    appendNode(state, action) {
+      return {
+        currentId: state.currentId + 1,
+        nodes: [
+          ...state.nodes,
+          { ...action.payload, id: state.currentId.toString() },
+        ],
+      };
+    },
+    /*
+      Modifies the label of a node given id.
+    */
     setNodeLabel(state, action) {
-      const { id, label, nodes } = action.payload;
-      state.map((node) => {
+      const { id, label } = action.payload;
+      state.nodes.map((node) => {
         if (node.id === id) {
           node.data = { ...node.data, label };
         }
+        return node;
       });
     },
-
-    //TODO: append node
-    //TODO: update node
-    //TODO: delete node
   },
 });
 
-// create actions for a redux store
-export const { setNodes, setNodeLabel } = nodeSlice.actions;
-
-export const updateNode = (node) => {
-  return async (dispatch) => {
-    // todo: prob update db
-    dispatch(setNodes(node));
-  };
-};
-
-//TODO: prob dont want to pass in nodes here but I need to figure out how to get the state in the reducer
-export const updateNodeLabel = (id, label, nodes) => {
-  return async (dispatch) => {
-    console.log("updateNodeLabel", id, label, nodes);
-    dispatch(setNodeLabel({ id, label, nodes }));
-  };
-};
-
-export const onNodesChange = (changes) => {
-  return async (dispatch) => {
-    dispatch(setNodes(changes));
-  };
-};
-
+export const { setNodes, applyChangesOnNodes, appendNode, setNodeLabel } =
+  nodeSlice.actions;
 export default nodeSlice.reducer;
+
+/*
+  User modified nodes.
+*/
+export const updateNodes = (changes) => {
+  return async (dispatch) => {
+    dispatch(applyChangesOnNodes(changes));
+    dispatch(setUserModifiedNodes(true));
+  };
+};
+
+/*
+  User added a new node.
+*/
+export const addNewNode = (node) => {
+  return async (dispatch) => {
+    dispatch(appendNode(node));
+    dispatch(setUserModifiedNodes(true));
+  };
+};
+
+/*
+  User added a label to a node.
+*/
+export const updateNodeLabel = (id, label) => {
+  return async (dispatch) => {
+    dispatch(setNodeLabel({ id, label }));
+    dispatch(setUserModifiedNodes(true));
+  };
+};

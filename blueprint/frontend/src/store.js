@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import exampleReducer from "./reducers/exampleReducer";
 import userReducer from "./reducers/userReducer";
+import userStateReducer from "./reducers/userStateReducer";
 import nodeReducer from "./reducers/nodeReducer";
 import edgeReducer from "./reducers/edgeReducer";
 
@@ -11,8 +12,9 @@ const store = configureStore({
   reducer: {
     example: exampleReducer,
     user: userReducer,
-    node: nodeReducer,
-    edgeReducer: edgeReducer,
+    userState: userStateReducer,
+    nodes: nodeReducer,
+    edges: edgeReducer,
   },
 });
 

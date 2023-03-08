@@ -1,25 +1,26 @@
 import "reactflow/dist/style.css";
 import "./test.css";
 
-import { useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ReactFlow, {
-  Controls,
-  Background,
-  applyEdgeChanges,
-  applyNodeChanges,
-  addEdge,
-  useReactFlow,
-} from "reactflow";
+import ReactFlow, { Controls, Background, useReactFlow } from "reactflow";
 
-import { updateNode } from "./reducers/nodeReducer";
-import { updateEdge } from "./reducers/edgeReducer";
+import * as Y from "yjs";
+import { WebsocketProvider } from "y-websocket";
+
+import { setNodes, updateNodes, addNewNode } from "./reducers/nodeReducer";
+import { setEdges, updateEdges, addNewEdge } from "./reducers/edgeReducer";
+import {
+  setUserModifiedNodes,
+  setUserModifiedEdges,
+} from "./reducers/userStateReducer";
 
 import splitterNode from "./components/customNode/splitterNode";
 import resizableDefaultNode from "./components/customNode/resizableDefaultNode";
 import resizableInputNode from "./components/customNode/resizableInputNode";
 import resizableOutputNode from "./components/customNode/resizableOutputNode";
 
+/* Custom Node Types */
 const customNodeTypes = {
   splitterNode,
   resizableDefaultNode,
@@ -27,71 +28,97 @@ const customNodeTypes = {
   resizableOutputNode,
 };
 
+/* For setting up yjs connection */
+const HOST = "localhost";
+const PORT = "3002";
+const WEBSOCKET_URL = "ws://" + HOST + ":" + PORT;
+
+// initial document
+const ydoc = new Y.Doc();
+
+// ymap
+const elementMap = ydoc.getMap("element-map");
+
+// *HARD CODED FOR NOW* unique room id
+const roomId = "test-id";
+
 const TestReactFlow = () => {
-  const reactFlowInstance = useReactFlow();
   const dispatch = useDispatch();
 
-  const initialNodes = [
-    {
-      id: "1",
-      position: { x: 0, y: 0 },
-      data: { label: "Hello" },
-      type: "input",
-    },
-    {
-      id: "2",
-      position: { x: 100, y: 100 },
-      data: { label: "World" },
-    },
-    // {
-    //   id: "3",
-    //   type: "splitterNode",
-    //   position: { x: 300, y: 50 },
-    // },
-    // {
-    //   id: "4",
-    //   type: "resizableDefaultNode",
-    //   data: { label: "NodeResizer when selected" },
-    //   position: { x: 100, y: 300 },
-    //   style: {
-    //     background: "#fff",
-    //     border: "1px solid black",
-    //     borderRadius: 15,
-    //     fontSize: 12,
-    //   },
-    // },
-  ];
-  const initialEdges = [];
-
-  let nodeId = initialNodes.length;
+  const reactFlowInstance = useReactFlow();
   const connectionLineStyle = { stroke: "#2495ff" };
 
-  let [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const nodes = useSelector((state) => state.nodes);
+  const edges = useSelector((state) => state.edges);
+  const userModifiedNodes = useSelector(
+    (state) => state.userState.modifiedNodes
+  );
+  const userModifiedEdges = useSelector(
+    (state) => state.userState.modifiedEdges
+  );
 
-  //dispatch(updateNode(initialNodes)); // Infinite loop when this is uncommented...
-  let nodesStore = useSelector((state) => state.node);
+  /* 
+    Connect to y-websocket provider with YJS document and unique room id.
+    Set up observer
+  */
   useEffect(() => {
-    dispatch(updateNode(nodes));
-    console.log("USEEFFECT NODES STORE 1", nodesStore);
-    console.log("USEEFFECT NODES", nodes);
-  }, [dispatch, nodes]);
+    // make websocket server connection on mount
+    const websockerProvider = new WebsocketProvider(
+      WEBSOCKET_URL,
+      roomId,
+      ydoc
+    );
+    console.log("Connected to YJS websocket provider.");
+
+    // set up observer
+    elementMap.observe((event) => {
+      console.log("observed");
+      dispatch(setNodes(elementMap.get("nodes")));
+      dispatch(setEdges(elementMap.get("edges")));
+    });
+
+    // cleanup function to disconnect from websocket when unmount
+    return () => {
+      websockerProvider.destroy();
+    };
+  }, [dispatch]);
+
+  /*
+    Publishers. 
+    Only publish if this user made changes.
+  */
+  useEffect(() => {
+    // todo
+    if (userModifiedNodes) {
+      console.log("user changed nodes");
+      elementMap.set("nodes", nodes);
+      dispatch(setUserModifiedNodes(false));
+    }
+  }, [dispatch, nodes, userModifiedNodes]);
 
   useEffect(() => {
-    dispatch(updateEdge(edges));
-  }, [dispatch, edges]);
+    // todo
+    if (userModifiedEdges) {
+      console.log("user changed edges");
+      elementMap.set("edges", edges);
+      dispatch(setUserModifiedEdges(false));
+    }
+  }, [dispatch, edges, userModifiedEdges]);
 
+  /* Callback functions to handle user-made changes. */
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
+    (changes) => dispatch(updateNodes(changes)),
+    [dispatch]
   );
+
   const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    []
+    (changes) => dispatch(updateEdges(changes)),
+    [dispatch]
   );
+
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    []
+    (params) => dispatch(addNewEdge(params)),
+    [dispatch]
   );
 
   const onDragOver = useCallback((event) => {
@@ -102,8 +129,6 @@ const TestReactFlow = () => {
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-      nodeId++;
-      console.log("nodeIdDrop", nodeId);
 
       const type = event.dataTransfer.getData("application/reactflow");
       const style = event.dataTransfer.getData("style");
@@ -117,41 +142,22 @@ const TestReactFlow = () => {
         x: event.clientX - 50,
         y: event.clientY - 50,
       });
+
+      // setup new node
       const newNode = {
-        id: `${nodeId}`,
         type,
         position,
         data: { label: `${type} node` },
       };
-
-      console.log("STYLE ", style);
-      console.log(typeof style);
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
       }
 
-      setNodes((nds) => nds.concat(newNode));
+      // add node
+      dispatch(addNewNode(newNode));
     },
-    [reactFlowInstance, nodeId, setNodes]
+    [dispatch, reactFlowInstance]
   );
-
-  // const addDefaultNode = useCallback(() => {
-  //   console.log("nodeIdDrag", nodeId);
-  //   let currentNodes = reactFlowInstance.getNodes();
-  //   nodeId++;
-  //   const newNode = {
-  //     id: `${nodeId}`,
-  //     position: {
-  //       x: window.innerWidth / 2,
-  //       y: window.innerHeight / 2,
-  //     },
-  //     data: {
-  //       label: `Node ${nodeId}`,
-  //     },
-  //   };
-  //   console.log("newNode", nodeId);
-  //   setNodes((nds) => nds.concat(newNode));
-  // }, [nodeId]);
 
   const onDragStart = (event, nodeType, style) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
@@ -159,20 +165,14 @@ const TestReactFlow = () => {
     event.dataTransfer.effectAllowed = "move";
   };
 
-  const logCurrentState = useCallback(() => {
-    console.log(reactFlowInstance);
-    console.log(reactFlowInstance.getNodes());
-    console.log(reactFlowInstance.getEdges());
-  }, []);
-
   const resizableStyle =
     '{ "background": "#fff", "border": "1px solid black", "borderRadius": 15, "fontSize": 12 }';
 
   return (
-    <div style={{ height: "100%" }} class="container-fluid">
-      <div class="row" style={{ height: "100%", width: "100%" }}>
+    <div style={{ height: "100%" }} className="container-fluid">
+      <div className="row" style={{ height: "100%", width: "100%" }}>
         <div
-          class="col d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+          className="col d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
           style={{ width: 280 }}
         >
           <button
@@ -211,14 +211,11 @@ const TestReactFlow = () => {
           >
             add DefaultNode node
           </button>
-          <button onClick={logCurrentState} className="btn-add">
-            log current state
-          </button>
         </div>
 
-        <div class="col-11">
+        <div className="col-11">
           <ReactFlow
-            nodes={nodesStore}
+            nodes={nodes.nodes}
             onNodesChange={onNodesChange}
             edges={edges}
             onEdgesChange={onEdgesChange}
