@@ -1,7 +1,7 @@
 import "reactflow/dist/style.css";
 import "./test.css";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactFlow, { Controls, Background, useReactFlow } from "reactflow";
 
@@ -43,9 +43,10 @@ const elementMap = ydoc.getMap("element-map");
 const roomId = "test-id";
 
 const TestReactFlow = () => {
+  const [edgeType, setEdgeType] = useState("default");
+  const reactFlowInstance = useReactFlow();
   const dispatch = useDispatch();
 
-  const reactFlowInstance = useReactFlow();
   const connectionLineStyle = { stroke: "#2495ff" };
 
   const nodes = useSelector((state) => state.nodes);
@@ -117,8 +118,8 @@ const TestReactFlow = () => {
   );
 
   const onConnect = useCallback(
-    (params) => dispatch(addNewEdge(params)),
-    [dispatch]
+    (params) => dispatch(addNewEdge({ ...params, type: edgeType })),
+    [dispatch, edgeType]
   );
 
   const onDragOver = useCallback((event) => {
@@ -133,7 +134,7 @@ const TestReactFlow = () => {
       const type = event.dataTransfer.getData("application/reactflow");
       const style = event.dataTransfer.getData("style");
 
-      // check if the dropped element is valid
+      // check if the dropped node is valid
       if (typeof type === "undefined" || !type) {
         return;
       }
@@ -165,55 +166,98 @@ const TestReactFlow = () => {
     event.dataTransfer.effectAllowed = "move";
   };
 
+  const logCurrentState = useCallback(() => {
+    console.log(reactFlowInstance);
+    console.log(reactFlowInstance.getNodes());
+    console.log(reactFlowInstance.getEdges());
+  }, []);
+
+  const changeEdgeType = (edge) => {
+    console.log("edge NEW: ", edgeType);
+    setEdgeType(edge);
+    console.log("edge NEW: ", edgeType);
+  };
+
   const resizableStyle =
-    '{ "background": "#fff", "border": "1px solid black", "borderRadius": 15, "fontSize": 12 }';
+    '{ "background": "#fff", "border": "1px solid black", "borderRadius": 3, "fontSize": 12 }';
 
   return (
-    <div style={{ height: "100%" }} className="container-fluid">
-      <div className="row" style={{ height: "100%", width: "100%" }}>
-        <div
-          className="col d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
-          style={{ width: 280 }}
-        >
+    <div style={{ height: "100%" }} class="container-fluid overflow-auto">
+      <div
+        class="row no-padding-margin"
+        style={{ height: "100%", width: "100%" }}
+      >
+        <div class="col-xl-3 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
           <button
-            onDragStart={(event) =>
-              onDragStart(event, "resizableInputNode", resizableStyle)
-            }
-            draggable
-            id="btn-add"
+            onClick={logCurrentState}
+            className="btn-add"
+            style={{ marginBottom: "20px" }}
           >
-            add input node
+            log state
           </button>
-          <button
-            onDragStart={(event) =>
-              onDragStart(event, "resizableOutputNode", resizableStyle)
-            }
-            draggable
-            id="btn-add"
-          >
-            add output node
-          </button>
-          <button
-            onDragStart={(event) =>
-              onDragStart(event, "splitterNode", resizableStyle)
-            }
-            draggable
-            id="btn-add"
-          >
-            add splitter node
-          </button>
-          <button
-            onDragStart={(event) =>
-              onDragStart(event, "resizableDefaultNode", resizableStyle)
-            }
-            draggable
-            id="btn-add"
-          >
-            add DefaultNode node
-          </button>
+          <h4>Add Node</h4>
+          <div class="two-grid">
+            <button
+              onDragStart={(event) =>
+                onDragStart(event, "resizableInputNode", resizableStyle)
+              }
+              draggable
+              id="input-node"
+              class="drop-icon"
+            ></button>
+            <button
+              onDragStart={(event) =>
+                onDragStart(event, "resizableOutputNode", resizableStyle)
+              }
+              draggable
+              id="output-node"
+              class="drop-icon"
+            ></button>
+            <button
+              onDragStart={(event) =>
+                onDragStart(event, "splitterNode", resizableStyle)
+              }
+              draggable
+              id="splitter-node"
+              class="drop-icon"
+            ></button>
+            <button
+              onDragStart={(event) =>
+                onDragStart(event, "resizableDefaultNode", resizableStyle)
+              }
+              draggable
+              id="default-node"
+              class="drop-icon"
+            ></button>
+          </div>
+          <h4>Change Edge Type</h4>
+          <div class="two-grid">
+            <button
+              onClick={() => changeEdgeType("default")}
+              style={{ marginBottom: "20px" }}
+              class="drop-icon"
+            >
+              default
+            </button>
+            <button
+              onClick={() => changeEdgeType("straight")}
+              style={{ marginBottom: "20px" }}
+              class="drop-icon"
+            >
+              straight
+            </button>
+
+            <button
+              onClick={() => changeEdgeType("step")}
+              style={{ marginBottom: "20px" }}
+              class="drop-icon"
+            >
+              step
+            </button>
+          </div>
         </div>
 
-        <div className="col-11">
+        <div class="col-xl-9  col-12 col-md-9" style={{ height: "100%" }}>
           <ReactFlow
             nodes={nodes.nodes}
             onNodesChange={onNodesChange}
@@ -223,6 +267,7 @@ const TestReactFlow = () => {
             onDragOver={onDragOver}
             onDrop={onDrop}
             connectionLineStyle={connectionLineStyle}
+            connectionLineType={edgeType}
             nodeTypes={customNodeTypes}
           >
             <Background />
