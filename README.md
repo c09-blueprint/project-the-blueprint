@@ -4,6 +4,13 @@
 
 **Team Name**: The Blueprint
 
+## To run the app locally
+
+- on first install, run `npm install` in `/blueprint/frontend` and `/blueprint/backend`
+- run frontend on port 3000: in `/blueprint/frontend` run `npm start`
+- rund backend: in `/blueprint/backend` run `npm run start`
+  - This runs the Blurprint server on port 3001 and a websocket server on port 3002.
+
 ## Team Information
 
 | Name         | Student Number | UTORid   | Email                           |
