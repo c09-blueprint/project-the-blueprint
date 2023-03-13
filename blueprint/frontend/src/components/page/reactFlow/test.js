@@ -3,22 +3,31 @@ import "./test.css";
 
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import ReactFlow, { Controls, Background, useReactFlow } from "reactflow";
 
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
 
-import { setNodes, updateNodes, addNewNode } from "./reducers/nodeReducer";
-import { setEdges, updateEdges, addNewEdge } from "./reducers/edgeReducer";
+import {
+  setNodes,
+  updateNodes,
+  addNewNode,
+} from "../../../reducers/nodeReducer";
+import {
+  setEdges,
+  updateEdges,
+  addNewEdge,
+} from "../../../reducers/edgeReducer";
 import {
   setUserModifiedNodes,
   setUserModifiedEdges,
-} from "./reducers/userStateReducer";
+} from "../../../reducers/userStateReducer";
 
-import splitterNode from "./components/customNode/splitterNode";
-import resizableDefaultNode from "./components/customNode/resizableDefaultNode";
-import resizableInputNode from "./components/customNode/resizableInputNode";
-import resizableOutputNode from "./components/customNode/resizableOutputNode";
+import splitterNode from "../../customNode/splitterNode";
+import resizableDefaultNode from "../../customNode/resizableDefaultNode";
+import resizableInputNode from "../../customNode/resizableInputNode";
+import resizableOutputNode from "../../customNode/resizableOutputNode";
 
 /* Custom Node Types */
 const customNodeTypes = {
@@ -39,10 +48,9 @@ const ydoc = new Y.Doc();
 // ymap
 const elementMap = ydoc.getMap("element-map");
 
-// *HARD CODED FOR NOW* unique room id
-const roomId = "test-id";
-
 const TestReactFlow = () => {
+  const { userId, roomId } = useParams();
+
   const [edgeType, setEdgeType] = useState("default");
   const reactFlowInstance = useReactFlow();
   const dispatch = useDispatch();
@@ -63,13 +71,13 @@ const TestReactFlow = () => {
     Set up observer
   */
   useEffect(() => {
+
     // make websocket server connection on mount
     const websockerProvider = new WebsocketProvider(
       WEBSOCKET_URL,
       roomId,
       ydoc
     );
-    console.log("Connected to YJS websocket provider.");
 
     // set up observer
     elementMap.observe((event) => {
@@ -82,7 +90,7 @@ const TestReactFlow = () => {
     return () => {
       websockerProvider.destroy();
     };
-  }, [dispatch]);
+  }, [dispatch, roomId]);
 
   /*
     Publishers. 
@@ -170,7 +178,7 @@ const TestReactFlow = () => {
     console.log(reactFlowInstance);
     console.log(reactFlowInstance.getNodes());
     console.log(reactFlowInstance.getEdges());
-  }, []);
+  }, [reactFlowInstance]);
 
   const changeEdgeType = (edge) => {
     console.log("edge NEW: ", edgeType);
@@ -182,12 +190,15 @@ const TestReactFlow = () => {
     '{ "background": "#fff", "border": "1px solid black", "borderRadius": 3, "fontSize": 12 }';
 
   return (
-    <div style={{ height: "100%" }} class="container-fluid overflow-auto">
+    <div style={{ height: "100%" }} className="container-fluid overflow-auto">
+      <div>
+        <p>User: {userId}</p>
+      </div>
       <div
-        class="row no-padding-margin"
+        className="row no-padding-margin"
         style={{ height: "100%", width: "100%" }}
       >
-        <div class="col-xl-3 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
+        <div className="col-xl-3 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
           <button
             onClick={logCurrentState}
             className="btn-add"
@@ -196,14 +207,14 @@ const TestReactFlow = () => {
             log state
           </button>
           <h4>Add Node</h4>
-          <div class="two-grid">
+          <div className="two-grid">
             <button
               onDragStart={(event) =>
                 onDragStart(event, "resizableInputNode", resizableStyle)
               }
               draggable
               id="input-node"
-              class="drop-icon"
+              className="drop-icon"
             ></button>
             <button
               onDragStart={(event) =>
@@ -211,7 +222,7 @@ const TestReactFlow = () => {
               }
               draggable
               id="output-node"
-              class="drop-icon"
+              className="drop-icon"
             ></button>
             <button
               onDragStart={(event) =>
@@ -219,7 +230,7 @@ const TestReactFlow = () => {
               }
               draggable
               id="splitter-node"
-              class="drop-icon"
+              className="drop-icon"
             ></button>
             <button
               onDragStart={(event) =>
@@ -227,22 +238,22 @@ const TestReactFlow = () => {
               }
               draggable
               id="default-node"
-              class="drop-icon"
+              className="drop-icon"
             ></button>
           </div>
           <h4>Change Edge Type</h4>
-          <div class="two-grid">
+          <div className="two-grid">
             <button
               onClick={() => changeEdgeType("default")}
               style={{ marginBottom: "20px" }}
-              class="drop-icon"
+              className="drop-icon"
             >
               default
             </button>
             <button
               onClick={() => changeEdgeType("straight")}
               style={{ marginBottom: "20px" }}
-              class="drop-icon"
+              className="drop-icon"
             >
               straight
             </button>
@@ -250,14 +261,14 @@ const TestReactFlow = () => {
             <button
               onClick={() => changeEdgeType("step")}
               style={{ marginBottom: "20px" }}
-              class="drop-icon"
+              className="drop-icon"
             >
               step
             </button>
           </div>
         </div>
 
-        <div class="col-xl-9  col-12 col-md-9" style={{ height: "100%" }}>
+        <div className="col-xl-9  col-12 col-md-9" style={{ height: "100%" }}>
           <ReactFlow
             nodes={nodes.nodes}
             onNodesChange={onNodesChange}
