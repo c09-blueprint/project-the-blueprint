@@ -23,6 +23,18 @@ button {
   background-image: url("../public/splitterNode.svg");
 }
 
+#default-edge {
+  background-image: url("../public/defaultEdge.svg");
+}
+
+#straight-edge {
+  background-image: url("../public/straightEdge.svg");
+}
+
+#step-edge {
+  background-image: url("../public/stepEdge.svg");
+}
+
 .drop-icon {
   height: 40px;
   width: 80px;

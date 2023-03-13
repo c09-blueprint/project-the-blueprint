@@ -1,7 +1,7 @@
 import "reactflow/dist/style.css";
 import "./test.css";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactFlow, { Controls, Background, useReactFlow } from "reactflow";
 
@@ -45,6 +45,9 @@ const roomId = "test-id";
 const TestReactFlow = () => {
   const [edgeType, setEdgeType] = useState("default");
   const reactFlowInstance = useReactFlow();
+  //
+  const reactFlowWrapper = useRef(null);
+
   const dispatch = useDispatch();
 
   const connectionLineStyle = { stroke: "#2495ff" };
@@ -127,9 +130,37 @@ const TestReactFlow = () => {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
+  const onClickAddNode = useCallback(
+    (type, style) => {
+      const reactFlowBoundry = reactFlowWrapper.current.getBoundingClientRect();
+
+      if (typeof type === "undefined" || !type) {
+        return;
+      }
+
+      const newNode = {
+        type,
+        position: {
+          x: window.innerWidth / 2 - reactFlowBoundry.left,
+          y: window.innerHeight / 2 - reactFlowBoundry.top,
+        },
+        data: { label: `${type} node` },
+      };
+      if (style !== "undefined") {
+        newNode.style = JSON.parse(style);
+        console.log("style: ", newNode.style);
+      }
+      dispatch(addNewNode(newNode));
+    },
+    [dispatch]
+  );
+
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
+      // get the reactflow bounds so we can calculate the correct position
+      const reactFlowBoundry = reactFlowWrapper.current.getBoundingClientRect();
+      console.log("reactFlowBounds: ", reactFlowBoundry);
 
       const type = event.dataTransfer.getData("application/reactflow");
       const style = event.dataTransfer.getData("style");
@@ -140,8 +171,8 @@ const TestReactFlow = () => {
       }
 
       const position = reactFlowInstance.project({
-        x: event.clientX - 50,
-        y: event.clientY - 50,
+        x: event.clientX - reactFlowBoundry.left,
+        y: event.clientY - reactFlowBoundry.top,
       });
 
       // setup new node
@@ -152,6 +183,7 @@ const TestReactFlow = () => {
       };
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
+        console.log("style: ", newNode.style);
       }
 
       // add node
@@ -198,6 +230,9 @@ const TestReactFlow = () => {
           <h4>Add Node</h4>
           <div class="two-grid">
             <button
+              onClick={() =>
+                onClickAddNode("resizableInputNode", resizableStyle)
+              }
               onDragStart={(event) =>
                 onDragStart(event, "resizableInputNode", resizableStyle)
               }
@@ -206,6 +241,9 @@ const TestReactFlow = () => {
               class="drop-icon"
             ></button>
             <button
+              onClick={() =>
+                onClickAddNode("resizableOutputNode", resizableStyle)
+              }
               onDragStart={(event) =>
                 onDragStart(event, "resizableOutputNode", resizableStyle)
               }
@@ -214,6 +252,7 @@ const TestReactFlow = () => {
               class="drop-icon"
             ></button>
             <button
+              onClick={() => onClickAddNode("splitterNode", resizableStyle)}
               onDragStart={(event) =>
                 onDragStart(event, "splitterNode", resizableStyle)
               }
@@ -222,6 +261,9 @@ const TestReactFlow = () => {
               class="drop-icon"
             ></button>
             <button
+              onClick={() =>
+                onClickAddNode("resizableDefaultNode", resizableStyle)
+              }
               onDragStart={(event) =>
                 onDragStart(event, "resizableDefaultNode", resizableStyle)
               }
@@ -235,29 +277,30 @@ const TestReactFlow = () => {
             <button
               onClick={() => changeEdgeType("default")}
               style={{ marginBottom: "20px" }}
+              id="default-edge"
               class="drop-icon"
-            >
-              default
-            </button>
+            ></button>
             <button
               onClick={() => changeEdgeType("straight")}
               style={{ marginBottom: "20px" }}
+              id="straight-edge"
               class="drop-icon"
-            >
-              straight
-            </button>
+            ></button>
 
             <button
               onClick={() => changeEdgeType("step")}
               style={{ marginBottom: "20px" }}
+              id="step-edge"
               class="drop-icon"
-            >
-              step
-            </button>
+            ></button>
           </div>
         </div>
 
-        <div class="col-xl-9  col-12 col-md-9" style={{ height: "100%" }}>
+        <div
+          class="col-xl-9 col-12 col-md-9 no-padding-margin"
+          style={{ height: "100%" }}
+          ref={reactFlowWrapper}
+        >
           <ReactFlow
             nodes={nodes.nodes}
             onNodesChange={onNodesChange}

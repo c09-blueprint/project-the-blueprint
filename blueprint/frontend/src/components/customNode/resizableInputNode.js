@@ -1,15 +1,23 @@
-import { memo, FC } from "react";
+import React, { memo, useCallback } from "react";
 import { Handle, Position, NodeProps } from "reactflow";
-
+import { useDispatch } from "react-redux";
 import { NodeResizer } from "@reactflow/node-resizer";
+import { updateNodeLabel } from "../../reducers/nodeReducer";
 
 import "@reactflow/node-resizer/dist/style.css";
+import { handleStyle, resizeLabel } from "./globalNodeStyle";
 
-const handleStyle = { padding: 3 };
+export default memo(({ data, id, selected }) => {
+  const dispatch = useDispatch();
+  const onChange = useCallback(
+    (evt) => dispatch(updateNodeLabel(id, evt.target.value)),
+    [dispatch, id]
+  );
 
-const resizableInputNode = ({ data, selected }) => {
+  resizeLabel();
+
   return (
-    <div className="text-updater-node" style={handleStyle}>
+    <div className="text-updater-node">
       <NodeResizer
         color="#2495ff"
         isVisible={selected}
@@ -18,9 +26,15 @@ const resizableInputNode = ({ data, selected }) => {
         handleStyle={handleStyle}
       />
       <Handle type="source" position={Position.Bottom} />
-      <div style={{ padding: 10, wordWrap: "break-word" }}>{data.label}</div>
+      <div class="text-area-wrapper">
+        <textarea
+          onChange={onChange}
+          placeholder="Enter text"
+          className="nodrag"
+        >
+          {data.label}
+        </textarea>
+      </div>
     </div>
   );
-};
-
-export default memo(resizableInputNode);
+});

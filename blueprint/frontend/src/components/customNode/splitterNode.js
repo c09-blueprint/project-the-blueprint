@@ -3,18 +3,22 @@ import { Handle, Position } from "reactflow";
 import { updateNodeLabel } from "../../reducers/nodeReducer";
 import { useDispatch } from "react-redux";
 import { NodeResizer } from "@reactflow/node-resizer";
-
-const handleStyle = { padding: 3 };
+import {
+  handleStyle,
+  useUpdateNodeLabel,
+  resizeLabel,
+} from "./globalNodeStyle";
+import "./splitterNode.css";
 
 // the argument is the props of the node
 export default memo(({ data, id, isConnectable, selected }) => {
   const dispatch = useDispatch();
-
   const onChange = useCallback(
     (evt) => dispatch(updateNodeLabel(id, evt.target.value)),
     [dispatch, id]
   );
 
+  resizeLabel();
   return (
     <div className="text-updater-node">
       <NodeResizer
@@ -29,11 +33,14 @@ export default memo(({ data, id, isConnectable, selected }) => {
         position={Position.Top}
         isConnectable={isConnectable}
       />
-      <div>
-        <div id={"label-" + id} style={{ padding: 10, wordWrap: "break-word" }}>
+      <div class="text-area-wrapper">
+        <textarea
+          onChange={onChange}
+          placeholder="Enter text"
+          className="nodrag"
+        >
           {data.label}
-        </div>
-        <input id="text" name="text" onChange={onChange} className="nodrag" />
+        </textarea>
       </div>
       <Handle
         type="source"
