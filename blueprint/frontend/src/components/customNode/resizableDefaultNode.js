@@ -28,12 +28,11 @@ export default memo(({ data, id, selected }) => {
       <Handle type="target" position={Position.Top} />
       <div class="text-area-wrapper">
         <textarea
+          value={data.label}
           onChange={onChange}
           placeholder="Enter text"
           className="nodrag"
-        >
-          {data.label}
-        </textarea>
+        />
       </div>
       <Handle type="source" position={Position.Bottom} />
     </div>
