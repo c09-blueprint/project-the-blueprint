@@ -26,6 +26,7 @@ const TestReactFlow = () => {
       position: { x: 0, y: 0 },
       data: { label: "Hello" },
       type: "input",
+      style: { backgroundColor: "transparent" },
     },
     {
       id: "2",

@@ -50,5 +50,9 @@ import { fabric } from "fabric";
     cnv.width = window.innerWidth;
 
     const canvas = new fabric.Canvas("canvas");
+
+    canvas.on("after:render", function () {
+      console.log("Canvas was rendered");
+    });
   });
 })();
