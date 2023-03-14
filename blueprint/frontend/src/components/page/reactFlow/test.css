@@ -8,19 +8,19 @@ button {
 }
 
 #input-node {
-  background-image: url("../public/inputNode.svg");
+  background-image: url("../../../../public/inputNode.svg");
 }
 
 #output-node {
-  background-image: url("../public/outputNode.svg");
+  background-image: url("../../../../public/outputNode.svg");
 }
 
 #default-node {
-  background-image: url("../public/defaultNode.svg");
+  background-image: url("../../../../public/defaultNode.svg");
 }
 
 #splitter-node {
-  background-image: url("../public/splitterNode.svg");
+  background-image: url("../../../../public/splitterNode.svg");
 }
 
 #default-edge {
