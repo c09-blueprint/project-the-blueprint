@@ -5,20 +5,8 @@ import { setUserModifiedNodes } from "./userStateReducer";
 
 /* hardcode for now */
 const initialState = {
-  currentId: 3,
-  nodes: [
-    {
-      id: "1",
-      position: { x: 0, y: 0 },
-      data: { label: "Hello" },
-      type: "input",
-    },
-    {
-      id: "2",
-      position: { x: 100, y: 100 },
-      data: { label: "World" },
-    },
-  ],
+  currentId: 1,
+  nodes: [],
 };
 
 const nodeSlice = createSlice({
