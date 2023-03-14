@@ -1,0 +1,40 @@
+button {
+  background-color: white;
+  border: none;
+}
+
+.container-fluid {
+  padding: 0 !important;
+}
+
+#input-node {
+  background-image: url("../public/inputNode.svg");
+}
+
+#output-node {
+  background-image: url("../public/outputNode.svg");
+}
+
+#default-node {
+  background-image: url("../public/defaultNode.svg");
+}
+
+#splitter-node {
+  background-image: url("../public/splitterNode.svg");
+}
+
+.drop-icon {
+  height: 40px;
+  width: 80px;
+  background-size: 100%;
+  margin: 0 5px;
+}
+
+.two-grid {
+  margin: 0 auto;
+}
+
+.no-padding-margin {
+  padding: 0 !important;
+  margin: 0 !important;
+}

@@ -8,7 +8,8 @@
 
 - on first install, run `npm install` in `/blueprint/frontend` and `/blueprint/backend`
 - run frontend on port 3000: in `/blueprint/frontend` run `npm start`
-- rund backend on port 3001: in `/blueprint/backend` run `node app.js` or `nodemon app.js`
+- rund backend: in `/blueprint/backend` run `npm run start`
+  - This runs the Blurprint server on port 3001 and a websocket server on port 3002.
 
 ## Team Information
 
@@ -20,7 +21,7 @@
 
 ## What is Blueprint?
 
-Blueprint is a collaborative whiteboarding tool for brainstorming and visualizing ideas. With Blueprint, users can create interactive diagrams like flowcharts and mind-maps and share them with teammates, clients, or anyone who needs to see their ideas. Its user-friendly interface allows users to drag and drop various elements to create diagrams with ease.
+Blueprint is a collaborative whiteboarding tool for brainstorming and visualizing ideas. With Blueprint, users can create interactive diagrams like flowcharts and mind-maps and share them with teammates, clients, or anyone who needs to see their ideas. It's a user-friendly interface that allows users to drag and drop various elements to create diagrams with ease.
 
 **Brainstorm and Visualization**
 
@@ -73,7 +74,7 @@ Blueprint allows users to work on their project offline, and sync their changes 
 **Might attempt as bonus**
 
 - Cloudfare (1 point) - CAPTCHA replacement for additional user authentication
-- Sockect.IO (2 points) - for users to chat (through message) while collaborating
+- Socket.IO (2 points) - for users to chat (through message) while collaborating
 - Stripe (2 points) - for payment processing (eg. purchase memberships for additional features)
 
 ## Project Aim

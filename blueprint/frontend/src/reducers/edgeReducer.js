@@ -1,30 +1,56 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { addEdge, applyEdgeChanges } from "reactflow";
 
-const initialState = null;
+import { setUserModifiedEdges } from "./userStateReducer";
 
-// initialize store and actions
+const initialState = [];
+
 const edgeSlice = createSlice({
-  name: "edge",
+  name: "edges",
   initialState,
   reducers: {
-    // set entire list
+    /* 
+      Resets the entire edge list. 
+      Most likely only used when observed new changes from server.
+    */
     setEdges(state, action) {
       return action.payload;
     },
-    //TODO: append node
-    //TODO: update node
-    //TODO: delete node
+    /*
+      Apply changes to old edges state using react-flow helper function.
+    */
+    applyChangesOnEdges(state, action) {
+      return applyEdgeChanges(action.payload, state);
+    },
+    /*
+      Add a new edge using react-flow helper function.
+    */
+    appendEdge(state, action) {
+      return addEdge(action.payload, state);
+    },
   },
 });
 
 // create actions for a redux store
-export const { setEdges } = edgeSlice.actions;
+export const { setEdges, applyChangesOnEdges, appendEdge } = edgeSlice.actions;
+export default edgeSlice.reducer;
 
-export const updateEdge = (edge) => {
+/*
+  User modified edges.
+*/
+export const updateEdges = (changes) => {
   return async (dispatch) => {
-    // todo: prob update db
-    dispatch(setEdges(edge));
+    dispatch(applyChangesOnEdges(changes));
+    dispatch(setUserModifiedEdges(true));
   };
 };
 
-export default edgeSlice.reducer;
+/*
+  User added a new node.
+*/
+export const addNewEdge = (changes) => {
+  return async (dispatch) => {
+    dispatch(appendEdge(changes));
+    dispatch(setUserModifiedEdges(true));
+  };
+};
