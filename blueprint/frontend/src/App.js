@@ -1,14 +1,17 @@
-import "./App.css";
-import TestReactFlow from "./test";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 
-import { ReactFlowProvider } from "reactflow";
+import { PAGES } from "./routes";
+import NotFound from "./components/page/NotFoundPage";
+import ReactFlowPage from "./components/page/reactFlow/ReactFlowPage";
 
 function App() {
   return (
-    <div className="test-react">
-      <ReactFlowProvider>
-        <TestReactFlow></TestReactFlow>
-      </ReactFlowProvider>
+    <div>
+      <Routes>
+        <Route path="*" element={<NotFound />} />
+        <Route path={PAGES.pagePath} element={<ReactFlowPage />} />
+      </Routes>
     </div>
   );
 }
