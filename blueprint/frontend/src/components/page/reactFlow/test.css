@@ -24,15 +24,15 @@ button {
 }
 
 #default-edge {
-  background-image: url("../public/defaultEdge.svg");
+  background-image: url("../../../../public/defaultEdge.svg");
 }
 
 #straight-edge {
-  background-image: url("../public/straightEdge.svg");
+  background-image: url("../../../../public/straightEdge.svg");
 }
 
 #step-edge {
-  background-image: url("../public/stepEdge.svg");
+  background-image: url("../../../../public/stepEdge.svg");
 }
 
 .drop-icon {
