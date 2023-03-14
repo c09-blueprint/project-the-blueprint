@@ -71,7 +71,6 @@ const TestReactFlow = () => {
     Set up observer
   */
   useEffect(() => {
-
     // make websocket server connection on mount
     const websockerProvider = new WebsocketProvider(
       WEBSOCKET_URL,
