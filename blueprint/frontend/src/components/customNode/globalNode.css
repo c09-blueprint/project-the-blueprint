@@ -21,6 +21,12 @@ textarea {
   width: 100%;
 }
 
+.node-shape {
+  height: 100%;
+  width: 100%;
+  
+}
+
 .circle-text-area-wrapper {
   height: 50%;
   width: 80%;
@@ -35,4 +41,10 @@ textarea {
   margin-top: 30%;
   height: 50%;
   width: 40%;
+}
+
+.toolbar-wrapper {
+  border: 2px solid whitesmoke;
+  border-radius: 25px;
+  padding: 10px;
 }

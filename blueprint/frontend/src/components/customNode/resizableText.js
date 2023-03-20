@@ -7,6 +7,7 @@ import { updateNodeLabel } from "../../reducers/nodeReducer";
 import "@reactflow/node-resizer/dist/style.css";
 import { handleStyle } from "./globalNodeStyle";
 import "./resizableText.css";
+import NodeToolbarSelected from "./nodeToolbarSelected";
 
 export default memo(({ data, id, selected }) => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export default memo(({ data, id, selected }) => {
         minHeight={100}
         handleStyle={handleStyle}
       />
+      <NodeToolbarSelected id={id} />
       <div class="text-area-wrapper">
         <textarea
           value={data.label}

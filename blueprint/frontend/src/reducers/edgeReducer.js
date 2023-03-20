@@ -69,7 +69,7 @@ export const updateEdges = (changes) => {
 };
 
 /*
-  User added a new node.
+  User added a new edge.
 */
 export const addNewEdge = (changes) => {
   return async (dispatch) => {

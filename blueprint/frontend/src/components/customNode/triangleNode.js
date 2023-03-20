@@ -6,6 +6,7 @@ import { updateNodeLabel } from "../../reducers/nodeReducer";
 
 import "@reactflow/node-resizer/dist/style.css";
 import { handleStyle } from "./globalNodeStyle";
+import NodeToolbarSelected from "./nodeToolbarSelected";
 
 export default memo(({ data, id, selected }) => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ export default memo(({ data, id, selected }) => {
   );
 
   return (
-    <div className="text-updater-node">
+    <div className="node-shape">
       <NodeResizer
         color="#2495ff"
         isVisible={selected}
@@ -23,6 +24,7 @@ export default memo(({ data, id, selected }) => {
         minHeight={100}
         handleStyle={handleStyle}
       />
+      <NodeToolbarSelected id={id} />
       <svg
         style={{ display: "block", overflow: "visible" }}
         viewBox="0 0 100 100"

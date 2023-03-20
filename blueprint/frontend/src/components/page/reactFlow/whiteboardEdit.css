@@ -38,9 +38,9 @@ button {
 .drop-icon {
   height: 40px;
   width: 80px;
-  margin: 0 5px;
-  top: 0;
-  left: 0;
+  margin: 5px 0 5px 5px;
+
+  border-radius: 3px;
 }
 
 .two-grid {

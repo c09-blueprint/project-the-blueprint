@@ -64,11 +64,47 @@ const nodeSlice = createSlice({
         return node;
       });
     },
+    /*
+      deletes the node given id.
+    */
+    deleteNode(state, action) {
+      const { id } = action.payload;
+      console.log("deleting node: " + id);
+      let filterNodes = state.nodes.filter((node) => node.id !== id);
+      return { ...state, nodes: filterNodes };
+    },
+
+    duplicateNode(state, action) {
+      const { id } = action.payload;
+      let nodeToDuplicate = state.nodes.find((node) => node.id === id);
+      console.log("duplicating node: " + id);
+      console.log(nodeToDuplicate);
+      let newNode = {
+        ...nodeToDuplicate,
+        id: state.currentId.toString(),
+        position: {
+          x: nodeToDuplicate.position.x + 100,
+          y: nodeToDuplicate.position.y + 100,
+        },
+      };
+      console.log(newNode);
+      // return state;
+      return {
+        currentId: state.currentId + 1,
+        nodes: [...state.nodes, newNode],
+      };
+    },
   },
 });
 
-export const { setNodes, applyChangesOnNodes, appendNode, setNodeLabel } =
-  nodeSlice.actions;
+export const {
+  setNodes,
+  applyChangesOnNodes,
+  appendNode,
+  setNodeLabel,
+  deleteNode,
+  duplicateNode,
+} = nodeSlice.actions;
 export default nodeSlice.reducer;
 
 /*
@@ -97,6 +133,26 @@ export const addNewNode = (node) => {
 export const updateNodeLabel = (id, label) => {
   return async (dispatch) => {
     dispatch(setNodeLabel({ id, label }));
+    dispatch(setUserModifiedNodes(true));
+  };
+};
+
+/*
+  User deleted a node.
+*/
+export const removeNode = (id) => {
+  return async (dispatch) => {
+    dispatch(deleteNode({ id }));
+    dispatch(setUserModifiedNodes(true));
+  };
+};
+
+/*
+  User duplicated a node.
+*/
+export const duplicateNodeById = (id) => {
+  return async (dispatch) => {
+    dispatch(duplicateNode({ id }));
     dispatch(setUserModifiedNodes(true));
   };
 };

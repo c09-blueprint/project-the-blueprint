@@ -3,6 +3,7 @@ import { Handle, Position } from "reactflow";
 import { useDispatch } from "react-redux";
 import { NodeResizer } from "@reactflow/node-resizer";
 import { updateNodeLabel } from "../../reducers/nodeReducer";
+import NodeToolbarSelected from "./nodeToolbarSelected";
 
 import "@reactflow/node-resizer/dist/style.css";
 import { handleStyle } from "./globalNodeStyle";
@@ -23,6 +24,7 @@ export default memo(({ data, id, selected }) => {
         minHeight={100}
         handleStyle={handleStyle}
       />
+      <NodeToolbarSelected id={id} />
       <Handle type="source" position={Position.Bottom} />
       <div class="text-area-wrapper">
         <textarea

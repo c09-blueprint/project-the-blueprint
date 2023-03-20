@@ -1,5 +1,5 @@
 import "reactflow/dist/style.css";
-import "./test.css";
+import "./whiteboardEdit.css";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -65,7 +65,7 @@ const ydoc = new Y.Doc();
 // ymap
 const elementMap = ydoc.getMap("element-map");
 
-const TestReactFlow = () => {
+const WhiteboardReactFlow = () => {
   const { userId, roomId } = useParams();
 
   const [edgeType, setEdgeType] = useState("defaultEdge");
@@ -205,7 +205,7 @@ const TestReactFlow = () => {
       const newNode = {
         type,
         position,
-        data: { label: `${type} node`, shape: data },
+        data: { label: `${type}`, shape: data },
       };
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
@@ -251,11 +251,52 @@ const TestReactFlow = () => {
   return (
     <div style={{ height: "100%" }} className="container-fluid overflow-auto">
       <div>
-        <p>User: {userId}</p>
+        {/* referenced from https://getbootstrap.com/docs/4.0/components/navbar/*/}
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+          <p>User: {userId} &emsp;</p>
+
+          <a class="navbar-brand" href="#">
+            Blueprint
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">
+                  Home
+                </a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  Share
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  Login
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        {/* end */}
       </div>
       <div
         className="row no-padding-margin"
-        style={{ height: "100%", width: "100%" }}
+        style={{ height: "95%", width: "100%" }}
       >
         <div className="col-xl-3 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
           <button
@@ -277,7 +318,9 @@ const TestReactFlow = () => {
               draggable
               id="input-node"
               className="drop-icon"
-            ></button>
+            >
+              input
+            </button>
             <button
               onClick={() =>
                 onClickAddNode("resizableOutputNode", resizableStyle)
@@ -288,7 +331,9 @@ const TestReactFlow = () => {
               draggable
               id="output-node"
               className="drop-icon"
-            ></button>
+            >
+              output
+            </button>
             <button
               onClick={() => onClickAddNode("splitterNode", resizableStyle)}
               onDragStart={(event) =>
@@ -297,7 +342,9 @@ const TestReactFlow = () => {
               draggable
               id="splitter-node"
               className="drop-icon"
-            ></button>
+            >
+              2-split
+            </button>
             <button
               onClick={() =>
                 onClickAddNode("resizableDefaultNode", resizableStyle)
@@ -308,7 +355,9 @@ const TestReactFlow = () => {
               draggable
               id="default-node"
               className="drop-icon"
-            ></button>
+            >
+              default
+            </button>
             <button
               onClick={() =>
                 onClickAddNode("resizableText", resizableTextStyle)
@@ -403,4 +452,4 @@ const TestReactFlow = () => {
   );
 };
 
-export default TestReactFlow;
+export default WhiteboardReactFlow;
