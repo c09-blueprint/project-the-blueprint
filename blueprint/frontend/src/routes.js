@@ -5,3 +5,7 @@ export const PAGES = {
 export const DASHBOARD = {
   pagePath: "/DASHBOARD",
 };
+
+export const SENDGRID = {
+  pagePath: "/SENDGRID",
+};

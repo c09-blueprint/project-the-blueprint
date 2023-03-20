@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 import { usersRouter } from "./routers/usersRouter.js";
+import { emailRouter } from "./routers/emailRouter.js";
 
 const PORT = 3001;
 export const app = express();
@@ -26,6 +27,7 @@ app.use(function (req, res, next) {
 });
 
 app.use("/api/users", usersRouter);
+app.use("/api/emails", emailRouter);
 
 app.listen(PORT, (err) => {
   if (err) console.log(err);
