@@ -1,0 +1,35 @@
+.menubar {
+  background: #0dcaf0;
+  padding: 10px;
+}
+
+.bp-logo {
+  padding: 20px;
+  font-size: 30px !important;
+}
+
+.menu-item-padding {
+  padding: 10px !important;
+  padding-left: 15px !important;
+  font-size: 20px !important;
+}
+
+.edit-btn {
+  width: 25%;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+.algin-right {
+  text-align: right !important;
+}
+
+/* .container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+} */
+
+.doc-card {
+  width: 350px;
+}
