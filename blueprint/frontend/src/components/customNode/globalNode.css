@@ -1,0 +1,38 @@
+textarea {
+  border: none;
+  resize: none !important;
+  overflow-y: hidden !important;
+  width: 100%;
+  height: 100%;
+  white-space: normal;
+  text-align: justify;
+  -moz-text-align-last: center; /* Firefox 12+ support */
+  text-align-last: center;
+}
+
+.text-area-wrapper {
+  padding: 20px;
+  height: 100%;
+  width: 100%;
+}
+
+.text-updater-node {
+  height: 100%;
+  width: 100%;
+}
+
+.circle-text-area-wrapper {
+  height: 50%;
+  width: 80%;
+}
+
+.diamond-text-area-wrapper {
+  height: 50%;
+  width: 40%;
+}
+
+.triangle-text-area-wrapper {
+  margin-top: 30%;
+  height: 50%;
+  width: 40%;
+}

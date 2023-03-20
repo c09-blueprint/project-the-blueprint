@@ -3,7 +3,17 @@ import { addEdge, applyEdgeChanges } from "reactflow";
 
 import { setUserModifiedEdges } from "./userStateReducer";
 
-const initialState = [];
+const initialState = [
+  {
+    id: "e1-2",
+    source: "1",
+    target: "2",
+    data: {
+      label: "edge label",
+    },
+    type: "defaultEdge",
+  },
+];
 
 const edgeSlice = createSlice({
   name: "edges",
@@ -28,11 +38,24 @@ const edgeSlice = createSlice({
     appendEdge(state, action) {
       return addEdge(action.payload, state);
     },
+    /*
+      Modifies the label of a edge given id.
+    */
+    setEdgeLabel(state, action) {
+      const { id, label } = action.payload;
+      state.forEach((edge) => {
+        if (edge.id === id) {
+          edge.data = { ...edge.data, label };
+        }
+        console.log(edge);
+      });
+    },
   },
 });
 
 // create actions for a redux store
-export const { setEdges, applyChangesOnEdges, appendEdge } = edgeSlice.actions;
+export const { setEdges, applyChangesOnEdges, appendEdge, setEdgeLabel } =
+  edgeSlice.actions;
 export default edgeSlice.reducer;
 
 /*
@@ -51,6 +74,16 @@ export const updateEdges = (changes) => {
 export const addNewEdge = (changes) => {
   return async (dispatch) => {
     dispatch(appendEdge(changes));
+    dispatch(setUserModifiedEdges(true));
+  };
+};
+
+/*
+  User added a label to a edge.
+*/
+export const updateEdgeLabel = (id, label) => {
+  return async (dispatch) => {
+    dispatch(setEdgeLabel({ id, label }));
     dispatch(setUserModifiedEdges(true));
   };
 };

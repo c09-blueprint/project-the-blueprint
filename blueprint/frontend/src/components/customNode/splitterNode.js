@@ -3,7 +3,7 @@ import { Handle, Position } from "reactflow";
 import { updateNodeLabel } from "../../reducers/nodeReducer";
 import { useDispatch } from "react-redux";
 import { NodeResizer } from "@reactflow/node-resizer";
-import { handleStyle, resizeLabel } from "./globalNodeStyle";
+import { handleStyle } from "./globalNodeStyle";
 import "./splitterNode.css";
 
 // the argument is the props of the node
@@ -14,7 +14,6 @@ export default memo(({ data, id, isConnectable, selected }) => {
     [dispatch, id]
   );
 
-  resizeLabel();
   return (
     <div className="text-updater-node">
       <NodeResizer

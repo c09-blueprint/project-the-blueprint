@@ -5,7 +5,7 @@ import { NodeResizer } from "@reactflow/node-resizer";
 import { updateNodeLabel } from "../../reducers/nodeReducer";
 
 import "@reactflow/node-resizer/dist/style.css";
-import { handleStyle, resizeLabel } from "./globalNodeStyle";
+import { handleStyle } from "./globalNodeStyle";
 
 export default memo(({ data, id, selected }) => {
   const dispatch = useDispatch();
@@ -13,8 +13,6 @@ export default memo(({ data, id, selected }) => {
     (evt) => dispatch(updateNodeLabel(id, evt.target.value)),
     [dispatch, id]
   );
-
-  resizeLabel();
 
   return (
     <div className="text-updater-node">

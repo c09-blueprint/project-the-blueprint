@@ -23,14 +23,36 @@ export default memo(({ data, id, selected }) => {
         minHeight={100}
         handleStyle={handleStyle}
       />
+      <svg
+        style={{ display: "block", overflow: "visible" }}
+        viewBox="0 0 100 100"
+        width="100%"
+        height="100%"
+        preserveAspectRatio="none"
+      >
+        <polygon points="50 0, 100 100, 0 100" fill="blue" stroke="black" />
+      </svg>
       <Handle type="target" position={Position.Top} />
-      <div class="text-area-wrapper">
-        <textarea
-          value={data.label}
-          onChange={onChange}
-          placeholder="Enter text"
-          className="nodrag"
-        />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <div className="triangle-text-area-wrapper">
+          <textarea
+            value={data.label}
+            onChange={onChange}
+            placeholder="Enter text"
+            className="nodrag "
+          />
+        </div>
       </div>
       <Handle type="source" position={Position.Bottom} />
     </div>

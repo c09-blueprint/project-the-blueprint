@@ -1,9 +1,18 @@
-textarea {
+/* textarea {
   border: none;
   resize: none !important;
   overflow-y: hidden !important;
+  width: 100%;
+  height: 100%;
 }
 
 .text-area-wrapper {
   padding: 20px;
+  height: 100%;
+  width: 100%;
 }
+
+.text-updater-node {
+  height: 100%;
+  width: 100%;
+} */
