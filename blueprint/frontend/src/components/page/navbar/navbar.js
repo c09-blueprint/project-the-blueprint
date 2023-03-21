@@ -21,12 +21,12 @@ const Navbar = () => {
         <ul className="navbar-nav menu-item-padding">
           <li className="nav-item active">
             <a className="nav-link" href="#">
-              All Projects <span class="sr-only">(current)</span>
+              All Workspaces <span class="sr-only">(current)</span>
             </a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#">
-              Your Projects
+              Your Workspaces
             </a>
           </li>
           <li className="nav-item">
@@ -50,15 +50,22 @@ const Navbar = () => {
               aria-labelledby="navbarDropdownMenuLink"
             >
               <a className="dropdown-item" href="#">
-                Blank Document
+                Blank Workspace
               </a>
               <a className="dropdown-item" href="#">
-                Example Document
+                Example Workspace
               </a>
               <a className="dropdown-item" href="#">
                 Something else here
               </a>
             </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto menu-item-padding">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              Login
+            </a>
           </li>
         </ul>
       </div>

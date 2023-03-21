@@ -1,5 +1,4 @@
 import "./dashboard.css";
-import Navbar from "../navbar/navbar.js";
 import React from "react";
 import "../styles/cols.css";
 
@@ -42,16 +41,25 @@ function DocCard() {
   );
 }
 
+const WorkspaceCard = () => {
+  return (
+    <div className="card text-white bg-info mb-3">
+      <div className="card-header">Workspace</div>
+      <div className="card-body">
+        <h5 className="card-title">Workspace Name</h5>
+        <p className="card-text">Description here</p>
+      </div>
+    </div>
+  );
+};
+
 const Dashbord = () => {
   return (
     <div>
-      <div>
-        <Navbar></Navbar>
-      </div>
       <div className="card-deck cards-spacing">
         <DocCard></DocCard>
         <DocCard></DocCard>
-        <DocCard></DocCard>
+        <WorkspaceCard></WorkspaceCard>
       </div>
     </div>
   );
