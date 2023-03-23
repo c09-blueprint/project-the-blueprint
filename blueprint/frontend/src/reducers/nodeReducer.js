@@ -74,6 +74,9 @@ const nodeSlice = createSlice({
       return { ...state, nodes: filterNodes };
     },
 
+    /* 
+      Duplicates the node given id.
+    */
     duplicateNode(state, action) {
       const { id } = action.payload;
       let nodeToDuplicate = state.nodes.find((node) => node.id === id);
@@ -88,11 +91,32 @@ const nodeSlice = createSlice({
         },
       };
       console.log(newNode);
-      // return state;
       return {
         currentId: state.currentId + 1,
         nodes: [...state.nodes, newNode],
       };
+    },
+
+    changeFillColor(state, action) {
+      const { id, type, color } = action.payload;
+      console.log("TYPE ***********", type);
+      state.nodes.map((node) => {
+        if (node.id === id) {
+          if (
+            type !== "circleNode" &&
+            type !== "diamondNode" &&
+            type !== "triangleNode"
+          ) {
+            node.style = { ...node.style, backgroundColor: color };
+          } else {
+            console.log(
+              "changing color of node: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + color
+            );
+            node.data = { ...node.data, shapeFill: color };
+          }
+        }
+        return node;
+      });
     },
   },
 });
@@ -104,6 +128,7 @@ export const {
   setNodeLabel,
   deleteNode,
   duplicateNode,
+  changeFillColor,
 } = nodeSlice.actions;
 export default nodeSlice.reducer;
 
@@ -153,6 +178,14 @@ export const removeNode = (id) => {
 export const duplicateNodeById = (id) => {
   return async (dispatch) => {
     dispatch(duplicateNode({ id }));
+    dispatch(setUserModifiedNodes(true));
+  };
+};
+
+/* User changed background color of a node. */
+export const changeBackgroundColor = (id, type, color) => {
+  return async (dispatch) => {
+    dispatch(changeFillColor({ id, type, color }));
     dispatch(setUserModifiedNodes(true));
   };
 };

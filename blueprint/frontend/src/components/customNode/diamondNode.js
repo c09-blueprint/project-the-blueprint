@@ -8,7 +8,7 @@ import "@reactflow/node-resizer/dist/style.css";
 import { handleStyle } from "./globalNodeStyle";
 import NodeToolbarSelected from "./nodeToolbarSelected";
 
-export default memo(({ data, id, selected }) => {
+export default memo(({ data, id, selected, type }) => {
   const dispatch = useDispatch();
   const onChange = useCallback(
     (evt) => dispatch(updateNodeLabel(id, evt.target.value)),
@@ -24,7 +24,7 @@ export default memo(({ data, id, selected }) => {
         minHeight={100}
         handleStyle={handleStyle}
       />
-      <NodeToolbarSelected id={id} />
+      <NodeToolbarSelected id={id} type={type} />
       <svg
         style={{ display: "block", overflow: "visible" }}
         viewBox="0 0 100 100"
@@ -32,7 +32,11 @@ export default memo(({ data, id, selected }) => {
         height="100%"
         preserveAspectRatio="none"
       >
-        <polygon points="0 50,50 100,100 50,50 0" fill="green" stroke="black" />
+        <polygon
+          points="0 50,50 100,100 50,50 0"
+          fill={data?.shapeFill || "green"}
+          stroke="black"
+        />
       </svg>
       <Handle type="target" position={Position.Top} />
       <div

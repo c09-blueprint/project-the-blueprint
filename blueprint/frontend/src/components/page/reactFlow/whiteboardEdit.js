@@ -205,7 +205,7 @@ const WhiteboardReactFlow = () => {
       const newNode = {
         type,
         position,
-        data: { label: `${type}`, shape: data },
+        data: { label: `${type}` },
       };
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
