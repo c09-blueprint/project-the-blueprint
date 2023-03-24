@@ -1,5 +1,5 @@
 import "reactflow/dist/style.css";
-import "./test.css";
+import "./whiteboardEdit.css";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,13 @@ import splitterNode from "../../customNode/splitterNode";
 import resizableDefaultNode from "../../customNode/resizableDefaultNode";
 import resizableInputNode from "../../customNode/resizableInputNode";
 import resizableOutputNode from "../../customNode/resizableOutputNode";
+import resizableText from "../../customNode/resizableText";
+import circleNode from "../../customNode/circleNode";
+import diamondNode from "../../customNode/diamondNode";
+import triangleNode from "../../customNode/triangleNode";
+import defaultEdge from "../../customEdge/defaultEdge";
+import straightEdge from "../../customEdge/straightEdge";
+import stepEdge from "../../customEdge/stepEdge";
 
 /* Custom Node Types */
 const customNodeTypes = {
@@ -35,6 +42,16 @@ const customNodeTypes = {
   resizableDefaultNode,
   resizableInputNode,
   resizableOutputNode,
+  resizableText,
+  circleNode,
+  diamondNode,
+  triangleNode,
+};
+
+const customEdgeTypes = {
+  defaultEdge,
+  straightEdge,
+  stepEdge,
 };
 
 /* For setting up yjs connection */
@@ -48,12 +65,13 @@ const ydoc = new Y.Doc();
 // ymap
 const elementMap = ydoc.getMap("element-map");
 
-const TestReactFlow = () => {
+const WhiteboardReactFlow = () => {
   const { userId, roomId } = useParams();
 
-  const [edgeType, setEdgeType] = useState("default");
+  const [edgeType, setEdgeType] = useState("defaultEdge");
+  const [edgeTypeStyle, setEdgeTypeStyle] = useState("default");
   const reactFlowInstance = useReactFlow();
-  //
+
   const reactFlowWrapper = useRef(null);
 
   const dispatch = useDispatch();
@@ -138,7 +156,7 @@ const TestReactFlow = () => {
   }, []);
 
   const onClickAddNode = useCallback(
-    (type, style) => {
+    (type, style, data) => {
       const reactFlowBoundry = reactFlowWrapper.current.getBoundingClientRect();
 
       if (typeof type === "undefined" || !type) {
@@ -151,7 +169,7 @@ const TestReactFlow = () => {
           x: window.innerWidth / 2 - reactFlowBoundry.left,
           y: window.innerHeight / 2 - reactFlowBoundry.top,
         },
-        data: { label: `${type} node` },
+        data: { label: `${type} node`, shape: data },
       };
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
@@ -169,9 +187,10 @@ const TestReactFlow = () => {
       const reactFlowBoundry = reactFlowWrapper.current.getBoundingClientRect();
       console.log("reactFlowBounds: ", reactFlowBoundry);
 
-      const type = event.dataTransfer.getData("application/reactflow");
+      const type = event.dataTransfer.getData("nodeType");
       const style = event.dataTransfer.getData("style");
-
+      const data = event.dataTransfer.getData("data");
+      console.log("DATA **************: ", data);
       // check if the dropped node is valid
       if (typeof type === "undefined" || !type) {
         return;
@@ -186,7 +205,7 @@ const TestReactFlow = () => {
       const newNode = {
         type,
         position,
-        data: { label: `${type} node` },
+        data: { label: `${type}` },
       };
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
@@ -199,9 +218,10 @@ const TestReactFlow = () => {
     [dispatch, reactFlowInstance]
   );
 
-  const onDragStart = (event, nodeType, style) => {
-    event.dataTransfer.setData("application/reactflow", nodeType);
+  const onDragStart = (event, nodeType, style, data) => {
+    event.dataTransfer.setData("nodeType", nodeType);
     event.dataTransfer.setData("style", style);
+    event.dataTransfer.setData("data", data);
     event.dataTransfer.effectAllowed = "move";
   };
 
@@ -212,22 +232,71 @@ const TestReactFlow = () => {
   }, [reactFlowInstance]);
 
   const changeEdgeType = (edge) => {
-    console.log("edge NEW: ", edgeType);
     setEdgeType(edge);
-    console.log("edge NEW: ", edgeType);
+    if (edge === "defaultEdge") {
+      setEdgeTypeStyle("default");
+    } else if (edge === "straightEdge") {
+      setEdgeTypeStyle("straight");
+    } else if (edge === "stepEdge") {
+      setEdgeTypeStyle("smoothstep");
+    }
   };
 
   const resizableStyle =
-    '{ "background": "#fff", "border": "1px solid black", "borderRadius": 3, "fontSize": 12 }';
+    '{ "background": "#fff", "border": "1px solid black", "borderRadius": 3, "fontSize": 12}';
+
+  const resizableTextStyle =
+    '{ "background": "rgba(0, 0, 0, 0)", "fontSize": 12 }';
 
   return (
     <div style={{ height: "100%" }} className="container-fluid overflow-auto">
       <div>
-        <p>User: {userId}</p>
+        {/* referenced from https://getbootstrap.com/docs/4.0/components/navbar/*/}
+        <nav className="navbar navbar-expand-lg navbar-light bg-primary">
+          <p>User: {userId} &emsp;</p>
+
+          <a className="navbar-brand" href="#">
+            Blueprint
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item active">
+                <a className="nav-link" href="#">
+                  Home
+                </a>
+              </li>
+            </ul>
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Share
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Login
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        {/* end */}
       </div>
       <div
         className="row no-padding-margin"
-        style={{ height: "100%", width: "100%" }}
+        style={{ height: "95%", width: "100%" }}
       >
         <div className="col-xl-3 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
           <button
@@ -249,7 +318,9 @@ const TestReactFlow = () => {
               draggable
               id="input-node"
               className="drop-icon"
-            ></button>
+            >
+              input
+            </button>
             <button
               onClick={() =>
                 onClickAddNode("resizableOutputNode", resizableStyle)
@@ -260,7 +331,9 @@ const TestReactFlow = () => {
               draggable
               id="output-node"
               className="drop-icon"
-            ></button>
+            >
+              output
+            </button>
             <button
               onClick={() => onClickAddNode("splitterNode", resizableStyle)}
               onDragStart={(event) =>
@@ -269,7 +342,9 @@ const TestReactFlow = () => {
               draggable
               id="splitter-node"
               className="drop-icon"
-            ></button>
+            >
+              2-split
+            </button>
             <button
               onClick={() =>
                 onClickAddNode("resizableDefaultNode", resizableStyle)
@@ -280,25 +355,69 @@ const TestReactFlow = () => {
               draggable
               id="default-node"
               className="drop-icon"
-            ></button>
+            >
+              default
+            </button>
+            <button
+              onClick={() =>
+                onClickAddNode("resizableText", resizableTextStyle)
+              }
+              onDragStart={(event) =>
+                onDragStart(event, "resizableText", resizableTextStyle)
+              }
+              draggable
+              className="drop-icon"
+            >
+              text
+            </button>
+            <button
+              onClick={() => onClickAddNode("circleNode", resizableTextStyle)}
+              onDragStart={(event) =>
+                onDragStart(event, "circleNode", resizableTextStyle)
+              }
+              draggable
+              className="drop-icon"
+            >
+              circle
+            </button>
+            <button
+              onClick={() => onClickAddNode("diamondNode", resizableTextStyle)}
+              onDragStart={(event) =>
+                onDragStart(event, "diamondNode", resizableTextStyle)
+              }
+              draggable
+              className="drop-icon"
+            >
+              diamond
+            </button>
+            <button
+              onClick={() => onClickAddNode("triangleNode", resizableTextStyle)}
+              onDragStart={(event) =>
+                onDragStart(event, "triangleNode", resizableTextStyle)
+              }
+              draggable
+              className="drop-icon"
+            >
+              triangle
+            </button>
           </div>
           <h4>Change Edge Type</h4>
           <div className="two-grid">
             <button
-              onClick={() => changeEdgeType("default")}
+              onClick={() => changeEdgeType("defaultEdge")}
               style={{ marginBottom: "20px" }}
               id="default-edge"
               className="drop-icon"
             ></button>
             <button
-              onClick={() => changeEdgeType("straight")}
+              onClick={() => changeEdgeType("straightEdge")}
               style={{ marginBottom: "20px" }}
               id="straight-edge"
               className="drop-icon"
             ></button>
 
             <button
-              onClick={() => changeEdgeType("step")}
+              onClick={() => changeEdgeType("stepEdge")}
               style={{ marginBottom: "20px" }}
               id="step-edge"
               className="drop-icon"
@@ -320,7 +439,8 @@ const TestReactFlow = () => {
             onDragOver={onDragOver}
             onDrop={onDrop}
             connectionLineStyle={connectionLineStyle}
-            connectionLineType={edgeType}
+            edgeTypes={customEdgeTypes}
+            connectionLineType={edgeTypeStyle}
             nodeTypes={customNodeTypes}
           >
             <Background />
@@ -332,4 +452,4 @@ const TestReactFlow = () => {
   );
 };
 
-export default TestReactFlow;
+export default WhiteboardReactFlow;

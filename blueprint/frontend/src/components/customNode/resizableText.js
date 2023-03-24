@@ -6,6 +6,7 @@ import { updateNodeLabel } from "../../reducers/nodeReducer";
 
 import "@reactflow/node-resizer/dist/style.css";
 import { handleStyle } from "./globalNodeStyle";
+import "./resizableText.css";
 import NodeToolbarSelected from "./nodeToolbarSelected";
 
 export default memo(({ data, id, selected }) => {
@@ -25,7 +26,6 @@ export default memo(({ data, id, selected }) => {
         handleStyle={handleStyle}
       />
       <NodeToolbarSelected id={id} />
-      <Handle type="target" position={Position.Top} />
       <div className="text-area-wrapper">
         <textarea
           value={data.label}
@@ -34,7 +34,6 @@ export default memo(({ data, id, selected }) => {
           className="nodrag"
         />
       </div>
-      <Handle type="source" position={Position.Bottom} />
     </div>
   );
 });

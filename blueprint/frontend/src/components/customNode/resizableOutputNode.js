@@ -5,7 +5,8 @@ import { NodeResizer } from "@reactflow/node-resizer";
 import { updateNodeLabel } from "../../reducers/nodeReducer";
 
 import "@reactflow/node-resizer/dist/style.css";
-import { handleStyle, resizeLabel } from "./globalNodeStyle";
+import { handleStyle } from "./globalNodeStyle";
+import NodeToolbarSelected from "./nodeToolbarSelected";
 
 export default memo(({ data, id, selected }) => {
   const dispatch = useDispatch();
@@ -13,8 +14,6 @@ export default memo(({ data, id, selected }) => {
     (evt) => dispatch(updateNodeLabel(id, evt.target.value)),
     [dispatch, id]
   );
-
-  resizeLabel();
 
   return (
     <div className="text-updater-node">
@@ -25,8 +24,9 @@ export default memo(({ data, id, selected }) => {
         minHeight={100}
         handleStyle={handleStyle}
       />
+      <NodeToolbarSelected id={id} />
       <Handle type="target" position={Position.Top} />
-      <div class="text-area-wrapper">
+      <div className="text-area-wrapper">
         <textarea
           value={data.label}
           onChange={onChange}
