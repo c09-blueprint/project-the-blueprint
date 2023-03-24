@@ -250,50 +250,6 @@ const WhiteboardReactFlow = () => {
 
   return (
     <div style={{ height: "100%" }} className="container-fluid overflow-auto">
-      <div>
-        {/* referenced from https://getbootstrap.com/docs/4.0/components/navbar/*/}
-        <nav className="navbar navbar-expand-lg navbar-light bg-primary">
-          <p>User: {userId} &emsp;</p>
-
-          <a className="navbar-brand" href="#">
-            Blueprint
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto">
-              <li className="nav-item active">
-                <a className="nav-link" href="#">
-                  Home
-                </a>
-              </li>
-            </ul>
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Share
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Login
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-        {/* end */}
-      </div>
       <div
         className="row no-padding-margin"
         style={{ height: "95%", width: "100%" }}
