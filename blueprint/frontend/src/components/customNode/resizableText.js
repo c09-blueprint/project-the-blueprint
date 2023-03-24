@@ -26,7 +26,7 @@ export default memo(({ data, id, selected }) => {
         handleStyle={handleStyle}
       />
       <NodeToolbarSelected id={id} />
-      <div class="text-area-wrapper">
+      <div className="text-area-wrapper">
         <textarea
           value={data.label}
           onChange={onChange}

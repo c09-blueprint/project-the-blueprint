@@ -252,14 +252,14 @@ const WhiteboardReactFlow = () => {
     <div style={{ height: "100%" }} className="container-fluid overflow-auto">
       <div>
         {/* referenced from https://getbootstrap.com/docs/4.0/components/navbar/*/}
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <nav className="navbar navbar-expand-lg navbar-light bg-primary">
           <p>User: {userId} &emsp;</p>
 
-          <a class="navbar-brand" href="#">
+          <a className="navbar-brand" href="#">
             Blueprint
           </a>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
@@ -267,25 +267,25 @@ const WhiteboardReactFlow = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item active">
+                <a className="nav-link" href="#">
                   Home
                 </a>
               </li>
             </ul>
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="#">
                   Share
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+              <li className="nav-item">
+                <a className="nav-link" href="#">
                   Login
                 </a>
               </li>

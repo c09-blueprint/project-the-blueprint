@@ -26,7 +26,7 @@ export default memo(({ data, id, selected }) => {
       />
       <NodeToolbarSelected id={id} />
       <Handle type="target" position={Position.Top} />
-      <div class="text-area-wrapper">
+      <div className="text-area-wrapper">
         <textarea
           value={data.label}
           onChange={onChange}

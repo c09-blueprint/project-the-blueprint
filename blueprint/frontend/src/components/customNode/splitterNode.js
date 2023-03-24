@@ -30,7 +30,7 @@ export default memo(({ data, id, isConnectable, selected }) => {
         position={Position.Top}
         isConnectable={isConnectable}
       />
-      <div class="text-area-wrapper">
+      <div className="text-area-wrapper">
         <textarea
           value={data.label}
           onChange={onChange}
