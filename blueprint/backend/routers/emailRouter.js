@@ -18,9 +18,11 @@ emailRouter.post("/", async (req, res) => {
   const msg = {
     to: "christina_cm16@hotmail.com",
     from: "christina.bt.ma@gmail.com",
-    subject: "Blueprint Email Test",
-    text: "testing stuff...",
-    html: "<strong>and easy to do anywhere, even with Node.js</strong>",
+    templateId: "d-dbfa4d068370421caeada96a3451fbbe", // ID of your dynamic template in SendGrid
+    dynamicTemplateData: {
+      name: "Chris",
+      URL: "http://localhost:3000/home",
+    },
   };
   sendgrid
     .send(msg)
