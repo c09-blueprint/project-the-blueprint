@@ -9,3 +9,7 @@ export const DASHBOARD = {
 export const SENDGRID = {
   pagePath: "/SENDGRID",
 };
+
+export const HOME = {
+  pagePath: "/HOME",
+};
