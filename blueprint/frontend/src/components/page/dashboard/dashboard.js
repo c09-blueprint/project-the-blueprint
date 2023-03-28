@@ -1,6 +1,9 @@
 import "./dashboard.css";
 import React from "react";
 import "../styles/cols.css";
+import Navbar from "../navbar/navbar";
+
+import { useAuth0 } from "@auth0/auth0-react";
 
 function DocCard() {
   return (
@@ -54,8 +57,15 @@ const WorkspaceCard = () => {
 };
 
 const Dashbord = () => {
+  const { user } = useAuth0();
+
+  if (!user) {
+    return null;
+  }
+
   return (
     <div>
+      <Navbar></Navbar>
       <div className="card-deck cards-spacing">
         <DocCard></DocCard>
         <DocCard></DocCard>

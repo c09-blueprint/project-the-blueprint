@@ -99,6 +99,11 @@ const WhiteboardReactFlow = () => {
       ydoc
     );
 
+    // log connection status
+    websockerProvider.on("status", (event) => {
+      console.log(event.status);
+    });
+
     // set up observer
     elementMap.observe((event) => {
       console.log("observed");

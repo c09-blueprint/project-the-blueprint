@@ -1,6 +1,13 @@
 import "./navbar.css";
+import { useAuth0 } from "@auth0/auth0-react";
+import { LogoutButton } from "../../buttons/logoutButton";
+import { LoginButton } from "../../buttons/loginButton";
+import { SignupButton } from "../../buttons/signupButton";
 
 const Navbar = () => {
+  /* Conditionally rendering signin/login/logout button */
+  const { isAuthenticated } = useAuth0();
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark menubar">
       <a className="navbar-brand mb-0 h1 bp-logo" href="#">
@@ -21,7 +28,7 @@ const Navbar = () => {
         <ul className="navbar-nav menu-item-padding">
           <li className="nav-item active">
             <a className="nav-link" href="#">
-              All Workspaces <span class="sr-only">(current)</span>
+              All Workspaces <span className="sr-only">(current)</span>
             </a>
           </li>
           <li className="nav-item">
@@ -61,13 +68,27 @@ const Navbar = () => {
             </div>
           </li>
         </ul>
-        <ul class="navbar-nav ms-auto menu-item-padding">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Login
-            </a>
-          </li>
-        </ul>
+        {!isAuthenticated && (
+          <>
+            <ul className="navbar-nav ms-auto menu-item-padding">
+              <li className="nav-item">
+                <SignupButton />
+              </li>
+            </ul>
+            <ul className="navbar-nav ms-auto menu-item-padding">
+              <li className="nav-item">
+                <LoginButton />
+              </li>
+            </ul>
+          </>
+        )}
+        {isAuthenticated && (
+          <ul className="navbar-nav ms-auto menu-item-padding">
+            <li className="nav-item">
+              <LogoutButton />
+            </li>
+          </ul>
+        )}
       </div>
     </nav>
   );

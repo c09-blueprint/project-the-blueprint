@@ -2,6 +2,7 @@ import { sequelize } from "./datasource.js";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import logger from "./utils/logger.js"
 
 import { usersRouter } from "./routers/usersRouter.js";
 import { emailRouter } from "./routers/emailRouter.js";
@@ -14,15 +15,15 @@ app.use(cors());
 try {
   await sequelize.authenticate();
   await sequelize.sync({ alter: { drop: false } });
-  console.log("Connection has been established successfully.");
+  logger.info("Database connection has been established successfully.");
 } catch (error) {
-  console.error("Unable to connect to the database:", error);
+  logger.error("Unable to connect to the database:", error);
 }
 
 app.use(express.json());
 
 app.use(function (req, res, next) {
-  console.log("HTTP request", req.method, req.url, req.body);
+  logger.info("HTTP request", req.method, req.url, req.body);
   next();
 });
 
@@ -30,6 +31,6 @@ app.use("/api/users", usersRouter);
 app.use("/api/emails", emailRouter);
 
 app.listen(PORT, (err) => {
-  if (err) console.log(err);
-  else console.log("HTTP server on http://localhost:%s", PORT);
+  if (err) logger.error(err);
+  else logger.info("HTTP server on http://localhost:%s", PORT);
 });

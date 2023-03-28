@@ -1,9 +1,8 @@
 export const PAGES = {
+  homePath: "/home",
   pagePath: "/page/:userId/:roomId",
-};
-
-export const DASHBOARD = {
-  pagePath: "/DASHBOARD",
+  dashboardPath: "/dashboard",
+  auth0CallbackPath: "/auth0callback",
 };
 
 export const SENDGRID = {

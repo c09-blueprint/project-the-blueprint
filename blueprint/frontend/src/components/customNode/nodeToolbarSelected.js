@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { NodeToolbar } from "reactflow";
 import {
@@ -25,7 +25,7 @@ const NodeToolbarSelected = ({ id, type }) => {
       console.log("change node color: ", event.target.value);
       dispatch(changeBackgroundColor(id, type, event.target.value));
     },
-    [dispatch, id]
+    [dispatch, id, type]
   );
 
   return (
