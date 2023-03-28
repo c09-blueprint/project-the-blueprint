@@ -2,7 +2,7 @@ import { sequelize } from "./datasource.js";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import logger from "./utils/logger.js"
+import logger from "./utils/logger.js";
 
 import { usersRouter } from "./routers/usersRouter.js";
 import { emailRouter } from "./routers/emailRouter.js";

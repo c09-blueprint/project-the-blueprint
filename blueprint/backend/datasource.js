@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import { config } from 'dotenv';
+import { config } from "dotenv";
 
 config();
 
@@ -9,7 +9,7 @@ const dbConfig = {
   password: process.env.DB_PASSWORD,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
-  dialect: 'postgres'
-}
+  dialect: "postgres",
+};
 
 export const sequelize = new Sequelize(dbConfig);
