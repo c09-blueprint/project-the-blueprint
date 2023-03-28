@@ -1,11 +1,12 @@
 import "./landingPage.css";
 import React from "react";
 import "../styles/cols.css";
-import "./images/reactflow-example.png";
+import NavbarHome from "../navbar/navbarHome";
 
 const LandingPage = () => {
   return (
     <div className="landing-page">
+      <NavbarHome />
       <header className="masthead">
         <div className="container px-5">
           <div className="row align-items-center">
@@ -108,11 +109,6 @@ const LandingPage = () => {
         <div class="row">
           <div class="col-lg-4">
             <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-              <img
-                class="img-fluid rounded-circle mb-3"
-                src="assets/img/testimonials-1.jpg"
-                alt="..."
-              />
               <h4>Samantha L.</h4>
               <p class="font-weight-light mb-0">
                 "This is fantastic! I'm able to present my ideas to my team in a
@@ -122,11 +118,6 @@ const LandingPage = () => {
           </div>
           <div class="col-lg-4">
             <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-              <img
-                class="img-fluid rounded-circle mb-3"
-                src="assets/img/testimonials-2.jpg"
-                alt="..."
-              />
               <h4>Carl K.</h4>
               <p class="font-weight-light mb-0">
                 "Blueprint is amazing! I've been using it to create all of my
@@ -136,11 +127,6 @@ const LandingPage = () => {
           </div>
           <div class="col-lg-4">
             <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-              <img
-                class="img-fluid rounded-circle mb-3"
-                src="assets/img/testimonials-3.jpg"
-                alt="..."
-              />
               <h4>Katie Q.</h4>
               <p class="font-weight-light mb-0">
                 "I love the audio call feature! It make it so easy to brainstorm
