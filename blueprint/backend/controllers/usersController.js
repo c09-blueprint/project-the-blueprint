@@ -6,7 +6,7 @@ const createUser = async (req, res, next) => {
     res.json(await userService.createUser(req.body));
   } catch (err) {
     console.log(err);
-    throw Error(errors.GET);
+    res.status(503).json("Internal Error.");
   }
 };
 
@@ -15,7 +15,7 @@ const getUserById = async (req, res, next) => {
     res.json(await userService.getUserById(req.params.id));
   } catch (err) {
     console.log(err);
-    throw Error(errors.GET);
+    res.status(503).json("Internal Error.");
   }
 };
 

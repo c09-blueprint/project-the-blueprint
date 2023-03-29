@@ -1,5 +1,5 @@
 // interact with /models
-import { User } from "../models/users.js";
+import { User } from "../models/user.js";
 
 // create user
 const createUser = async (user) => {

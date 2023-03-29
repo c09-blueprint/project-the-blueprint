@@ -1,4 +1,4 @@
-import { User } from "../models/users.js";
+import { User } from "../models/user.js";
 import { Router } from "express";
 
 import { userController } from "../controllers/usersController.js";
