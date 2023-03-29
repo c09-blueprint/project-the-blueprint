@@ -19,19 +19,14 @@ const Navbar = () => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
         <ul className="navbar-nav menu-item-padding">
-          <li className="nav-item active">
+          <li className="nav-item">
             <a className="nav-link" href="#">
-              All Workspaces <span class="sr-only">(current)</span>
+              My Workspace
             </a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#">
-              Your Workspaces
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Shared With You
+              Shared With Me
             </a>
           </li>
           <li className="nav-item dropdown">
@@ -50,13 +45,10 @@ const Navbar = () => {
               aria-labelledby="navbarDropdownMenuLink"
             >
               <a className="dropdown-item" href="#">
-                Blank Workspace
+                Workspace
               </a>
               <a className="dropdown-item" href="#">
-                Example Workspace
-              </a>
-              <a className="dropdown-item" href="#">
-                Something else here
+                Board
               </a>
             </div>
           </li>
@@ -64,7 +56,7 @@ const Navbar = () => {
         <ul class="navbar-nav ms-auto menu-item-padding">
           <li class="nav-item">
             <a class="nav-link" href="#">
-              Login
+              Logout
             </a>
           </li>
         </ul>

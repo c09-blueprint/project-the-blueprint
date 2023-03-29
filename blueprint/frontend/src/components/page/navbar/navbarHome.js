@@ -21,6 +21,11 @@ const NavbarHome = () => {
         <ul class="navbar-nav ms-auto menu-item-padding">
           <li class="nav-item">
             <a class="nav-link" href="#">
+              Sign Up
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
               Login
             </a>
           </li>

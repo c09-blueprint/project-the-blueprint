@@ -1,6 +1,7 @@
 import "./dashboard.css";
 import React from "react";
 import "../styles/cols.css";
+import Navbar from "../navbar/navbar.js";
 
 function DocCard() {
   return (
@@ -56,6 +57,7 @@ const WorkspaceCard = () => {
 const Dashbord = () => {
   return (
     <div>
+      <Navbar></Navbar>
       <div className="card-deck cards-spacing">
         <DocCard></DocCard>
         <DocCard></DocCard>
