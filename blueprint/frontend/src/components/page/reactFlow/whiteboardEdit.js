@@ -42,6 +42,8 @@ import straightEdge from "../../customEdge/straightEdge";
 import stepEdge from "../../customEdge/stepEdge";
 import { useAuth0 } from "@auth0/auth0-react";
 import { boardServices } from "../../../services/boardService";
+import { getAuthHeader } from "../../../utils/authService";
+import axios from "axios";
 
 /* Custom Node Types */
 const customNodeTypes = {
@@ -268,8 +270,28 @@ const WhiteboardReactFlow = () => {
     console.log("share clicked");
     console.log("email: ", emailInput);
     const accessToken = await getAccessTokenSilently();
-    await boardServices.addCollaborator(user.email, accessToken, roomId, emailInput);
+    await boardServices.addCollaborator(
+      user.email,
+      accessToken,
+      roomId,
+      emailInput
+    );
     setEmailInput("");
+  };
+
+  const sendEmail = async () => {
+    console.log("Sending email via SendGrid");
+    const accessToken = await getAccessTokenSilently();
+    const res = await axios.post(
+      "http://localhost:3001/api/invite/",
+      {
+        email: emailInput,
+        url: "http://localhost:3000/page/1",
+      },
+      getAuthHeader(user.email, accessToken)
+    );
+    setEmailInput("");
+    console.log(res.data);
   };
 
   const [emailInput, setEmailInput] = useState("");

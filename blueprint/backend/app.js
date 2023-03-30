@@ -45,9 +45,7 @@ app.use(userExtractor);
 
 app.use(ENDPOINTS.USER_ENDPOINT, usersRouter);
 app.use(ENDPOINTS.BOARD_ENDPOINT, boardsRouter);
-
-/* TODO: modify below */
-app.use("/api/emails", emailRouter);
+app.use(ENDPOINTS.INVITE_ENDPOINT, emailRouter);
 
 app.listen(PORT, (err) => {
   if (err) logger.error(err);
