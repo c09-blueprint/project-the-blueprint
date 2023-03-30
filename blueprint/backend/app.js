@@ -6,6 +6,7 @@ import { sequelize } from "./datasource.js";
 import { userExtractor } from "./utils/authorization.js";
 import { usersRouter } from "./routers/usersRouter.js";
 import { emailRouter } from "./routers/emailRouter.js";
+import ENDPOINTS from "./utils/endpoints.js";
 
 /* DO NOT DELETE THESE */
 import { User } from "./models/user.js";
@@ -15,7 +16,7 @@ import { BoardUser } from "./models/boardUser.js";
 import { WorkspaceUser } from "./models/workspaceUser.js";
 /* DO NOT DELETE THESE */
 
-/* Try connect and sync database. */
+/* Connect and sync with database. */
 try {
   await sequelize.authenticate();
   await sequelize.sync({ alter: { drop: false } });
@@ -41,13 +42,10 @@ app.use(function (req, res, next) {
 /* Enforce authentication on all endpoints. */
 app.use(userExtractor);
 
-/* TODO: remove
-test authentication. */
-app.get("/authorized", function (req, res) {
-  res.send("Secured Resource");
-});
+app.use(ENDPOINTS.USER_ENDPOINT, usersRouter);
+app.use(ENDPOINTS.BOARD_ENDPOINT, usersRouter);
 
-app.use("/api/users", usersRouter);
+/* TODO: modify below */
 app.use("/api/emails", emailRouter);
 
 app.listen(PORT, (err) => {

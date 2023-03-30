@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { LogoutButton } from "../../buttons/logoutButton";
 import { LoginButton } from "../../buttons/loginButton";
 import { SignupButton } from "../../buttons/signupButton";
-import { getAuthHeader } from "../../../utils/authService";
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { createBoard } from "../../../reducers/boardReducer";
@@ -14,16 +13,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   /* Conditionally rendering signin/login/logout button */
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-
-  const handleTestAuthorize = async () => {
-    const accessToken = await getAccessTokenSilently();
-    const res = await axios.get(
-      "http://localhost:3001/authorized",
-      getAuthHeader(user.email, accessToken)
-    );
-    console.log(res.data);
-  };
+  const { isAuthenticated } = useAuth0();
 
   const onBoardCreate = useCallback(() => {
     console.log("add board");
@@ -103,9 +93,6 @@ const Navbar = () => {
             </li>
           </ul>
         )}
-        <ul className="navbar-nav ms-auto menu-item-padding">
-          <button onClick={handleTestAuthorize}>Test authorize</button>
-        </ul>
       </div>
     </nav>
   );

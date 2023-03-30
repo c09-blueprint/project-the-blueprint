@@ -3,7 +3,7 @@ const USER_ENDPOINT = `${BASE_URL}users/`;
 const BOARD_ENDPOINT = `${BASE_URL}boards/`;
 const WORKSPACE_ENDPOINT = `${BASE_URL}workspaces/`;
 
-module.exports = {
+export default {
   BASE_URL,
   USER_ENDPOINT,
   BOARD_ENDPOINT,

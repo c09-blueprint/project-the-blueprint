@@ -1,21 +1,19 @@
+import axios from "axios";
 import { ENDPOINTS } from "./endpoints";
 import GenericService from "./service";
+import { getAuthHeader } from "../utils/authService";
 
 const userService = new GenericService(ENDPOINTS.BASE_USER_URL);
 
-// create new user
-const create = async (user) => {
-  return userService.create(user);
-};
-
 // get logged in user
-const me = async () => {
-  // TODO: hardcode it for now to get the first uesr
-  // remove after implementing authentication
-  return userService.retrieveSingle(1);
+const me = async (email, token) => {
+  const res = await axios.get(
+    `${ENDPOINTS.BASE_USER_URL}me`,
+    getAuthHeader(email, token)
+  );
+  return res.data;
 };
 
 export const userServices = {
-  create,
   me,
 };

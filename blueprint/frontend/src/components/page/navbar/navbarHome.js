@@ -4,23 +4,10 @@ import { LogoutButton } from "../../buttons/logoutButton";
 import { LoginButton } from "../../buttons/loginButton";
 import { SignupButton } from "../../buttons/signupButton";
 
-import axios from "axios";
-
 const NavbarHome = () => {
   /* Conditionally rendering signin/login/logout button */
   const { isAuthenticated } = useAuth0();
-  const { getAccessTokenSilently } = useAuth0();
 
-  const handleTestAuthorize = async () => {
-    const accessToken = await getAccessTokenSilently();
-    console.log(accessToken);
-    const res = await axios.get("http://localhost:3001/authorized", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    console.log(res.data);
-  };
   return (
     <nav className="navbar navbar-expand-lg navbar-dark menubar">
       <a className="navbar-brand mb-0 h1 bp-logo" href="#">
@@ -59,9 +46,6 @@ const NavbarHome = () => {
             </li>
           </ul>
         )}
-        <ul className="navbar-nav ms-auto menu-item-padding">
-          <button onClick={handleTestAuthorize}>Test authorize</button>
-        </ul>
       </div>
     </nav>
   );

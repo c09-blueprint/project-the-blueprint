@@ -3,7 +3,7 @@ export const getAuthHeader = (email, token) => {
   return {
     headers: {
       Authorization: `Bearer ${token}`,
-      userEmail: email,
+      UserEmail: email,
     },
   };
 };

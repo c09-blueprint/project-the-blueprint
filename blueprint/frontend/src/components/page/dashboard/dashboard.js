@@ -1,11 +1,11 @@
 import "./dashboard.css";
-import React, { useEffect } from "react";
 import "../styles/cols.css";
-import Navbar from "../navbar/navbar";
-
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { getMe } from "../../../reducers/userReducer";
+import Navbar from "../navbar/navbar";
 
 function DocCard() {
   return (
@@ -83,13 +83,21 @@ function BoardCard(props) {
 }
 
 const Dashbord = () => {
-  const { user } = useAuth0();
+  const dispatch = useDispatch();
 
-  console.log(user);
+  const { user, getAccessTokenSilently } = useAuth0();
 
-  let dispatch = useDispatch();
-  let board = useSelector((state) => state.board);
+  const board = useSelector((state) => state.board);
   console.log("board: ", board);
+
+  /* On initial, get me */
+  useEffect(() => {
+    const dispatchGetMe = async () => {
+      const accessToken = await getAccessTokenSilently();
+      dispatch(getMe(user.email, accessToken));
+    };
+    dispatchGetMe();
+  }, [dispatch]);
 
   useEffect(() => {
     var boardCardWrapper = document.getElementById("board-card-wrapper");
@@ -98,10 +106,6 @@ const Dashbord = () => {
       console.log(board.name);
     });
   }, [board]);
-
-  if (!user) {
-    return null;
-  }
 
   return (
     <div>

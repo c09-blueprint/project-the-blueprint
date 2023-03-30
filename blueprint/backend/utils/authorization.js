@@ -1,16 +1,19 @@
 import { auth } from "express-oauth2-jwt-bearer";
 import { User } from "../models/user.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const userExtractor = async (req, res, next) => {
   /* Verify token. */
   auth({
-    audience: "http://localhost:3001",
-    issuerBaseURL: "https://dev-jcol6i3ol3vahmwd.us.auth0.com/",
-    tokenSigningAlg: "RS256",
+    audience: process.env.AUTH0_AUDIENCE,
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+    tokenSigningAlg: process.env.AUTH0_TOKEN_SIGNING_ALG,
   });
 
-  /* Create a user for new user. */
-  const userEmail = req.get("userEmail");
+  /* Create a user in database for new user. */
+  const userEmail = req.get("UserEmail");
   const findUser = await User.findOne({
     where: {
       email: userEmail,
@@ -25,6 +28,9 @@ export const userExtractor = async (req, res, next) => {
     } catch {
       return res.status(500).json({ error: "User creation failed." });
     }
+    req.user = user;
+  } else {
+    req.user = findUser;
   }
 
   next();
