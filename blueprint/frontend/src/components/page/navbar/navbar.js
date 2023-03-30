@@ -1,6 +1,51 @@
 import "./navbar.css";
+import { useAuth0 } from "@auth0/auth0-react";
+import { LogoutButton } from "../../buttons/logoutButton";
+import { LoginButton } from "../../buttons/loginButton";
+import { SignupButton } from "../../buttons/signupButton";
+import React, { useCallback } from "react";
+
+import axios from "axios";
+import { getAuthHeader } from "../../../utils/authService";
 
 const Navbar = () => {
+  /* Conditionally rendering signin/login/logout button */
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+
+  /* 
+  const handleTestEndpoint = async () => {
+    const accessToken = await getAccessTokenSilently();
+    const res = await axios.post(
+      "http://localhost:3001/api/boards",
+      { name: "test1" },
+      getAuthHeader(user.email, accessToken)
+    );
+    console.log(res.data);
+  };*/
+
+  /*
+  const handleTestEndpoint = async () => {
+    const accessToken = await getAccessTokenSilently();
+    const res = await axios.post(
+      "http://localhost:3001/api/boards/addCollaborator",
+      { 
+        email: "man.ho@mail.utoronto.ca",
+        boardId: 1
+      },
+      getAuthHeader(user.email, accessToken)
+    );
+    console.log(res.data);
+  };*/
+
+  const handleTestEndpoint = async () => {
+    const accessToken = await getAccessTokenSilently();
+    const res = await axios.get(
+      "http://localhost:3001/api/boards/getShared",
+      getAuthHeader(user.email, accessToken)
+    );
+    console.log(res.data);
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark menubar">
       <a className="navbar-brand mb-0 h1 bp-logo" href="#">
@@ -21,17 +66,12 @@ const Navbar = () => {
         <ul className="navbar-nav menu-item-padding">
           <li className="nav-item active">
             <a className="nav-link" href="#">
-              All Workspaces <span class="sr-only">(current)</span>
+              My Workspace
             </a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#">
-              Your Workspaces
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Shared With You
+              Shared With Me
             </a>
           </li>
           <li className="nav-item dropdown">
@@ -50,23 +90,43 @@ const Navbar = () => {
               aria-labelledby="navbarDropdownMenuLink"
             >
               <a className="dropdown-item" href="#">
-                Blank Workspace
+                Workspace
               </a>
-              <a className="dropdown-item" href="#">
-                Example Workspace
-              </a>
-              <a className="dropdown-item" href="#">
-                Something else here
-              </a>
+              <button
+                type="button"
+                data-toggle="modal"
+                data-target="#exampleModal"
+                className="dropdown-item"
+              >
+                Board
+              </button>
             </div>
           </li>
         </ul>
-        <ul class="navbar-nav ms-auto menu-item-padding">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Login
-            </a>
-          </li>
+        {!isAuthenticated && (
+          <>
+            <ul className="navbar-nav ms-auto menu-item-padding">
+              <li className="nav-item">
+                <SignupButton />
+              </li>
+            </ul>
+            <ul className="navbar-nav ms-auto menu-item-padding">
+              <li className="nav-item">
+                <LoginButton />
+              </li>
+            </ul>
+          </>
+        )}
+
+        <ul className="navbar-nav ms-auto menu-item-padding">
+          {isAuthenticated && (
+            <ul className="navbar-nav ms-auto menu-item-padding">
+              <li className="nav-item">
+                <LogoutButton />
+              </li>
+            </ul>
+          )}
+          <button onClick={handleTestEndpoint}>Test endpoint</button>
         </ul>
       </div>
     </nav>

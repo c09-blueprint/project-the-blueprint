@@ -6,6 +6,7 @@ import userReducer from "./reducers/userReducer";
 import userStateReducer from "./reducers/userStateReducer";
 import nodeReducer from "./reducers/nodeReducer";
 import edgeReducer from "./reducers/edgeReducer";
+import boardReducer from "./reducers/boardReducer";
 
 // create store for redux
 const store = configureStore({
@@ -15,6 +16,7 @@ const store = configureStore({
     userState: userStateReducer,
     nodes: nodeReducer,
     edges: edgeReducer,
+    board: boardReducer,
   },
 });
 

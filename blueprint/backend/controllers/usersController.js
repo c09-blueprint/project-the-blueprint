@@ -1,25 +1,10 @@
-// interact with /services
 import { userService } from "../services/usersService.js";
 
-const createUser = async (req, res, next) => {
-  try {
-    res.json(await userService.createUser(req.body));
-  } catch (err) {
-    console.log(err);
-    throw Error(errors.GET);
-  }
-};
-
-const getUserById = async (req, res, next) => {
-  try {
-    res.json(await userService.getUserById(req.params.id));
-  } catch (err) {
-    console.log(err);
-    throw Error(errors.GET);
-  }
+const getMe = async (req, res, next) => {
+  if (req.user) res.json(req.user);
+  else res.status(503).json("Internal Error.");
 };
 
 export const userController = {
-  createUser,
-  getUserById,
+  getMe,
 };

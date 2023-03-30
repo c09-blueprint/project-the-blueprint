@@ -4,7 +4,12 @@ import "./whiteboardEdit.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import ReactFlow, { Controls, Background, useReactFlow } from "reactflow";
+import ReactFlow, {
+  Controls,
+  Background,
+  useReactFlow,
+  MiniMap,
+} from "reactflow";
 
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
@@ -318,6 +323,11 @@ const WhiteboardReactFlow = () => {
       ydoc
     );
 
+    // log connection status
+    websockerProvider.on("status", (event) => {
+      console.log(event.status);
+    });
+
     // set up observer
     elementMap.observe((event) => {
       console.log("observed");
@@ -622,6 +632,7 @@ const WhiteboardReactFlow = () => {
           >
             <Background />
             <Controls />
+            <MiniMap zoomable pannable />
           </ReactFlow>
         </div>
         <div className="col-xl-2 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">

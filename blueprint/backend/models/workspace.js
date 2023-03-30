@@ -1,11 +1,9 @@
 import { sequelize } from "../datasource.js";
 import { DataTypes } from "sequelize";
 
-export const Document = sequelize.define("Document", {
-  nodes: {
+export const Workspace = sequelize.define("Workspace", {
+  name: {
     type: DataTypes.STRING,
-  },
-  edges: {
-    type: DataTypes.STRING,
+    allowNull: false,
   },
 });

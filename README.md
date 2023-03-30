@@ -58,8 +58,7 @@ Blueprint allows users to work on their project offline, and sync their changes 
   - Might use tools like Boostrap or Material UI
 - **Backend**
   - Node.js with Express.js
-  - SQLite with Sequelize
-- TypeScript
+  - PostgreSQL with Sequelize
 
 ## Complexity Points
 
