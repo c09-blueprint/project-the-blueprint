@@ -7,6 +7,11 @@ button {
   padding: 0 !important;
 }
 
+video {
+  /* fit parent container  */
+  width: 100%;
+}
+
 #input-node {
   background-image: url("../../../../public/inputNode.svg");
 }
