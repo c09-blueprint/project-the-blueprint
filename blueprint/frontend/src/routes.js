@@ -2,7 +2,7 @@ export const PAGES = {
   homePath: "/home",
   pagePath: "/page/:roomId",
   dashboardPath: "/dashboard",
-  auth0CallbackPath: "auth0callback",
+  auth0CallbackPath: "/auth0callback",
 };
 
 export const SENDGRID = {

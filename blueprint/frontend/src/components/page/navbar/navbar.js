@@ -8,12 +8,23 @@ import { useDispatch } from "react-redux";
 import { createBoard } from "../../../reducers/boardReducer";
 
 import axios from "axios";
+import { getAuthHeader } from "../../../utils/authService";
 
 const Navbar = () => {
   const dispatch = useDispatch();
 
   /* Conditionally rendering signin/login/logout button */
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+
+  const handleTestAuthorize = async () => {
+    const accessToken = await getAccessTokenSilently();
+    const res = await axios.post(
+      "http://localhost:3001/api/boards",
+      { name: "test1" },
+      getAuthHeader(user.email, accessToken)
+    );
+    console.log(res.data);
+  };
 
   const onBoardCreate = useCallback(() => {
     console.log("add board");
@@ -93,6 +104,9 @@ const Navbar = () => {
             </li>
           </ul>
         )}
+        <ul className="navbar-nav ms-auto menu-item-padding">
+          <button onClick={handleTestAuthorize}>Test authorize</button>
+        </ul>
       </div>
     </nav>
   );
