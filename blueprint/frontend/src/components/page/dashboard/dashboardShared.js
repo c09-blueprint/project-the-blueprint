@@ -151,7 +151,7 @@ function BoardCard(props) {
   );
 }
 
-const Dashbord = () => {
+const DashbordShared = () => {
   const dispatch = useDispatch();
 
   const { user, getAccessTokenSilently } = useAuth0();
@@ -172,12 +172,17 @@ const Dashbord = () => {
       <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
       <div id="board-card-wrapper" className="card-deck cards-spacing">
-        {board && board.owned.map((board) => (
-          <BoardCard key={board.id} id={board.id} name={board.name}></BoardCard>
-        ))}
+        {board &&
+          board.shared.map((board) => (
+            <BoardCard
+              key={board.id}
+              id={board.id}
+              name={board.name}
+            ></BoardCard>
+          ))}
       </div>
     </div>
   );
 };
 
-export default Dashbord;
+export default DashbordShared;

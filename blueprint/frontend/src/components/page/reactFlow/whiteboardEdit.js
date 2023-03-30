@@ -40,11 +40,8 @@ import triangleNode from "../../customNode/triangleNode";
 import defaultEdge from "../../customEdge/defaultEdge";
 import straightEdge from "../../customEdge/straightEdge";
 import stepEdge from "../../customEdge/stepEdge";
-import { addCollaborator } from "../../../reducers/boardReducer";
-import { getMe } from "../../../reducers/userReducer";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getAuthHeader } from "../../../utils/authService";
-import axios from "axios";
+import { boardServices } from "../../../services/boardService";
 
 /* Custom Node Types */
 const customNodeTypes = {
@@ -271,16 +268,8 @@ const WhiteboardReactFlow = () => {
     console.log("share clicked");
     console.log("email: ", emailInput);
     const accessToken = await getAccessTokenSilently();
-    const response = await axios.post(
-      "http://localhost:3001/api/boards/addCollaborator",
-      {
-        email: emailInput,
-        boardId: 2,
-      },
-      getAuthHeader(user.email, accessToken)
-    );
+    await boardServices.addCollaborator(user.email, accessToken, roomId, emailInput);
     setEmailInput("");
-    console.log(response.data);
   };
 
   const [emailInput, setEmailInput] = useState("");

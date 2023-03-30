@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { boardServices } from "../services/boardService";
 
-const initialState = [];
+const initialState = {
+  owned:[],
+  shared:[]
+};
 
 const boardSlice = createSlice({
   name: "board",
@@ -9,44 +12,46 @@ const boardSlice = createSlice({
   reducers: {
     /* 
       Resets the entire board list. 
-      Most likely only used when observed new changes from server.
     */
-    setBoards(state, action) {
-      return action.payload;
+    setBoardsOwned(state, action) {
+      state.owned = action.payload;
     },
-
+    setBoardsShared(state, action) {
+      state.shared = action.payload;
+    },
     /*
       Add a new edge using react-flow helper function.
     */
-    appendBoard(state, action) {
-      return [...state, action.payload];
+    appendBoardsOwned(state, action) {
+      state.owned = [...state.owned, action.payload]
+    },
+    appendBoardsShared(state, action) {
+      state.shared = [...state.shared, action.payload]
     },
   },
 });
 
 // create actions for a redux store
-export const { setBoards, appendBoard } = boardSlice.actions;
+export const { setBoardsOwned, setBoardsShared, appendBoardsOwned } = boardSlice.actions;
 export default boardSlice.reducer;
-
-/*
-  User added a new board.
-*/
-export const addNewBoard = (board) => {
-  return async (dispatch) => {
-    dispatch(appendBoard(board));
-  };
-};
 
 export const getAllOwnedBoard = (email, token) => {
   return async (dispatch) => {
     const boards = await boardServices.getAllOwned(email, token);
-    dispatch(setBoards(boards));
+    dispatch(setBoardsOwned(boards));
+  };
+};
+
+export const getAllSharedBoard = (email, token) => {
+  return async (dispatch) => {
+    const boards = await boardServices.getAllShared(email, token);
+    dispatch(setBoardsShared(boards));
   };
 };
 
 export const createBoard = (email, token, name) => {
   return async (dispatch) => {
     const createdBoard = await boardServices.create(email, token, name);
-    dispatch(appendBoard(createdBoard));
+    dispatch(appendBoardsOwned(createdBoard));
   };
 };

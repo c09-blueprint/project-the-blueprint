@@ -25,7 +25,29 @@ const getAllOwned = async (email, token) => {
   return res.data;
 };
 
+const getAllShared = async (email, token) => {
+  const res = await axios.get(
+    `${ENDPOINTS.BASE_BOARD_URL}getShared`,
+    getAuthHeader(email, token)
+  );
+  return res.data;
+};
+
+const addCollaborator = async (email, token, boardId, userEmail) => {
+  const res = await axios.post(
+    `${ENDPOINTS.BASE_BOARD_URL}addCollaborator`,
+    {
+      boardId: boardId,
+      email: userEmail
+    },
+    getAuthHeader(email, token)
+  );
+  return res.data;
+};
+
 export const boardServices = {
   create,
   getAllOwned,
+  getAllShared,
+  addCollaborator
 };

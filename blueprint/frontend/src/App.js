@@ -10,6 +10,7 @@ import Dashboard from "./components/page/dashboard/dashboard";
 import ReactFlowPage from "./components/page/reactFlow/ReactFlowPage";
 import SGTest from "./SendGrid/sendGridTest.js";
 import LandingPage from "./components/page/landingPage/landingPage.js";
+import DashbordShared from "./components/page/dashboard/dashboardShared";
 
 function App() {
   const { isLoading } = useAuth0();
@@ -33,6 +34,10 @@ function App() {
         <Route
           path={PAGES.dashboardPath}
           element={<AuthGuard component={Dashboard} />}
+        />
+        <Route
+          path={PAGES.dashboardSharedPath}
+          element={<AuthGuard component={DashbordShared} />}
         />
         <Route
           path={PAGES.pagePath}

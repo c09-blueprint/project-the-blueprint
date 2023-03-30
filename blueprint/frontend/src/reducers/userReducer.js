@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { userServices } from "../services/userService";
 
-import { getAllOwnedBoard } from "./boardReducer";
+import { getAllOwnedBoard, getAllSharedBoard } from "./boardReducer";
 
 const initialState = null;
 
@@ -24,6 +24,7 @@ export const getMe = (email, token) => {
     const loggedinUser = await userServices.me(email, token);
     dispatch(setUser(loggedinUser));
     dispatch(getAllOwnedBoard(email, token));
+    dispatch(getAllSharedBoard(email, token));
   };
 };
 
