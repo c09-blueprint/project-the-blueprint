@@ -252,6 +252,18 @@ const WhiteboardReactFlow = () => {
     }
   };
 
+  const onShareClick = (event) => {
+    console.log("share clicked");
+    console.log("email: ", emailInput);
+    setEmailInput("");
+  };
+
+  const handleEmailChange = (event) => {
+    setEmailInput(event.target.value);
+  };
+
+  const [emailInput, setEmailInput] = useState("");
+
   const resizableStyle =
     '{ "background": "#fff", "border": "1px solid black", "borderRadius": 3, "fontSize": 12}';
 
@@ -389,8 +401,31 @@ const WhiteboardReactFlow = () => {
               className="drop-icon"
             ></button>
           </div>
-        </div>
 
+          <div class="input-group mb-3 email-input">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">
+                Email
+              </span>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Default"
+              aria-describedby="inputGroup-sizing-default"
+              value={emailInput}
+              onChange={handleEmailChange}
+            ></input>
+          </div>
+          <button
+            onClick={onShareClick}
+            style={{ marginBottom: "10px" }}
+            id="invite-btn"
+            className="share-button"
+          >
+            Share Your Board
+          </button>
+        </div>
         <div
           className="col-xl-9 col-12 col-md-9 no-padding-margin"
           style={{ height: "100%" }}

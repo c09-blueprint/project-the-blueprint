@@ -5,7 +5,7 @@ import { getAuthHeader } from "../utils/authService";
 
 const boardService = new GenericService(ENDPOINTS.BASE_BOARD_URL);
 
-// create new user
+// create new board
 const create = async (email, token, name) => {
   const res = await axios.post(
     `${ENDPOINTS.BASE_BOARD_URL}`,

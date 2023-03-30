@@ -49,12 +49,12 @@ export const addNewBoard = (board) => {
 // example of a reducer to add an example to the store
 export const createBoard = (email, token, name) => {
   return async (dispatch) => {
-    const createdUser = await boardServices.create(email, token, name);
+    const createdBoard = await boardServices.create(email, token, name);
     // // remove this when backend is ready
     // let createdUser = {
     //   id: "3",
     //   name: "Board 3",
     // };
-    dispatch(appendBoard(createdUser));
+    dispatch(appendBoard(createdBoard));
   };
 };
