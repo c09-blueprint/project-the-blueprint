@@ -1,9 +1,11 @@
 import "./dashboard.css";
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/cols.css";
 import Navbar from "../navbar/navbar";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function DocCard() {
   return (
@@ -56,10 +58,46 @@ const WorkspaceCard = () => {
   );
 };
 
+function BoardCard(props) {
+  const navigate = useNavigate();
+  const name = props.name;
+  const id = props.id;
+
+  // add event listener to the button
+  // when button is clicked, redirect to the board page
+  const handleClick = () => {
+    console.log("button clicked");
+  };
+
+  return (
+    <div className="card text-white bg-info mb-3">
+      <div className="card-header">id: {id}</div>
+      <div className="card-body">
+        <h5 className="card-title">{name}</h5>
+        <button onClick={() => navigate(`/page/${id}`)}>
+          Go to work space Button should be whole card but whatever
+        </button>
+      </div>
+    </div>
+  );
+}
+
 const Dashbord = () => {
   const { user } = useAuth0();
 
   console.log(user);
+
+  let dispatch = useDispatch();
+  let board = useSelector((state) => state.board);
+  console.log("board: ", board);
+
+  useEffect(() => {
+    var boardCardWrapper = document.getElementById("board-card-wrapper");
+    // map new board cards to the board card wrapper
+    board.map((board) => {
+      console.log(board.name);
+    });
+  }, [board]);
 
   if (!user) {
     return null;
@@ -68,10 +106,13 @@ const Dashbord = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="card-deck cards-spacing">
+      <div id="board-card-wrapper" className="card-deck cards-spacing">
         <DocCard></DocCard>
         <DocCard></DocCard>
-        <WorkspaceCard></WorkspaceCard>
+        {/* <WorkspaceCard></WorkspaceCard> */}
+        {board.map((board) => (
+          <BoardCard id={board.id} name={board.name}></BoardCard>
+        ))}
       </div>
     </div>
   );

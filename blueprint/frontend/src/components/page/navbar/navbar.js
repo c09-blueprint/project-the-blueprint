@@ -4,10 +4,15 @@ import { LogoutButton } from "../../buttons/logoutButton";
 import { LoginButton } from "../../buttons/loginButton";
 import { SignupButton } from "../../buttons/signupButton";
 import { getAuthHeader } from "../../../utils/authService";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { createBoard } from "../../../reducers/boardReducer";
 
 import axios from "axios";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+
   /* Conditionally rendering signin/login/logout button */
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
@@ -19,6 +24,11 @@ const Navbar = () => {
     );
     console.log(res.data);
   };
+
+  const onBoardCreate = useCallback(() => {
+    console.log("add board");
+    dispatch(createBoard());
+  }, [dispatch]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark menubar">
@@ -66,9 +76,9 @@ const Navbar = () => {
               <a className="dropdown-item" href="#">
                 Workspace
               </a>
-              <a className="dropdown-item" href="#">
+              <button className="dropdown-item" onClick={onBoardCreate}>
                 Board
-              </a>
+              </button>
             </div>
           </li>
         </ul>
