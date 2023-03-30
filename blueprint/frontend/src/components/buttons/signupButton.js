@@ -17,5 +17,9 @@ export const SignupButton = () => {
     });
   };
 
-  return <button onClick={handleSignUp}>Sign Up</button>;
+  return (
+    <button type="button" class="btn btn-primary mr-3" onClick={handleSignUp}>
+      Sign Up
+    </button>
+  );
 };

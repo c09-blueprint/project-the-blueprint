@@ -28,12 +28,12 @@ const NavbarHome = () => {
         {!isAuthenticated && (
           <>
             <ul className="navbar-nav ms-auto menu-item-padding">
-              <li className="nav-item">
-                <SignupButton />
-              </li>
+              <li className="nav-item"></li>
             </ul>
             <ul className="navbar-nav ms-auto menu-item-padding">
               <li className="nav-item">
+                <SignupButton />
+
                 <LoginButton />
               </li>
             </ul>

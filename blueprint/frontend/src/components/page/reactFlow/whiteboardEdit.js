@@ -40,6 +40,11 @@ import triangleNode from "../../customNode/triangleNode";
 import defaultEdge from "../../customEdge/defaultEdge";
 import straightEdge from "../../customEdge/straightEdge";
 import stepEdge from "../../customEdge/stepEdge";
+import { addCollaborator } from "../../../reducers/boardReducer";
+import { getMe } from "../../../reducers/userReducer";
+import { useAuth0 } from "@auth0/auth0-react";
+import { getAuthHeader } from "../../../utils/authService";
+import axios from "axios";
 
 /* Custom Node Types */
 const customNodeTypes = {
@@ -252,14 +257,21 @@ const WhiteboardReactFlow = () => {
     }
   };
 
-  const onShareClick = (event) => {
+  const { user, getAccessTokenSilently } = useAuth0();
+  const addUser = async () => {
     console.log("share clicked");
     console.log("email: ", emailInput);
+    const accessToken = await getAccessTokenSilently();
+    const response = await axios.post(
+      "http://localhost:3001/api/boards/addCollaborator",
+      {
+        email: emailInput,
+        boardId: 2,
+      },
+      getAuthHeader(user.email, accessToken)
+    );
     setEmailInput("");
-  };
-
-  const handleEmailChange = (event) => {
-    setEmailInput(event.target.value);
+    console.log(response.data);
   };
 
   const [emailInput, setEmailInput] = useState("");
@@ -414,11 +426,13 @@ const WhiteboardReactFlow = () => {
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
               value={emailInput}
-              onChange={handleEmailChange}
+              onChange={(e) => {
+                setEmailInput(e.target.value);
+              }}
             ></input>
           </div>
           <button
-            onClick={onShareClick}
+            onClick={addUser}
             style={{ marginBottom: "10px" }}
             id="invite-btn"
             className="share-button"
