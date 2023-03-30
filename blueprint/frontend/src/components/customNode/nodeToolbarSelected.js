@@ -6,6 +6,7 @@ import {
   duplicateNodeById,
   changeBackgroundColor,
 } from "../../reducers/nodeReducer";
+import "./globalNode.css";
 
 const NodeToolbarSelected = ({ id, type }) => {
   const dispatch = useDispatch();
@@ -30,10 +31,48 @@ const NodeToolbarSelected = ({ id, type }) => {
 
   return (
     <NodeToolbar>
-      <div className="toolbar-wrapper bg-dark">
-        <button onClick={onNodeDelete}>delete</button>
-        <button onClick={onNodeDuplicate}>duplicate</button>
-        <input onChange={onBackgroundColorChange} type="color" />
+      <div
+        class="btn-group"
+        role="group"
+        aria-label="Button group with nested dropdown"
+      >
+        <button className="btn  btn-danger" onClick={onNodeDelete}>
+          Delete
+        </button>
+        <button className="btn btn-secondary" onClick={onNodeDuplicate}>
+          Duplicate
+        </button>
+
+        <div class="btn-group" role="group">
+          <button
+            id="btnGroupDrop1"
+            type="button"
+            class="btn btn-secondary dropdown-toggle"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Colour Change
+          </button>
+          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a class="dropdown-item" href="#">
+              <input
+                className="btn-margins"
+                onChange={onBackgroundColorChange}
+                type="color"
+              />
+              Background
+            </a>
+            <a class="dropdown-item" href="#">
+              <input
+                className="btn-margins"
+                onChange={onBackgroundColorChange}
+                type="color"
+              />
+              Text
+            </a>
+          </div>
+        </div>
       </div>
     </NodeToolbar>
   );

@@ -4,7 +4,12 @@ import "./whiteboardEdit.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import ReactFlow, { Controls, Background, useReactFlow } from "reactflow";
+import ReactFlow, {
+  Controls,
+  Background,
+  useReactFlow,
+  MiniMap,
+} from "reactflow";
 
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
@@ -406,6 +411,7 @@ const WhiteboardReactFlow = () => {
           >
             <Background />
             <Controls />
+            <MiniMap zoomable pannable />
           </ReactFlow>
         </div>
       </div>

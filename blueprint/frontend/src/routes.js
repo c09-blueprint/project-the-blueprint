@@ -8,3 +8,7 @@ export const PAGES = {
 export const SENDGRID = {
   pagePath: "/SENDGRID",
 };
+
+export const HOME = {
+  pagePath: "/HOME",
+};
