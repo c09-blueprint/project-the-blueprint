@@ -7,9 +7,21 @@ button {
   padding: 0 !important;
 }
 
+.hidden {
+  display: none !important;
+}
+
+.display {
+  display: block;
+}
+
 video {
   /* fit parent container  */
   width: 100%;
+}
+
+#remote-user-videos {
+  margin: 40px 0 0 0;
 }
 
 #input-node {
