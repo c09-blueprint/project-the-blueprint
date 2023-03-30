@@ -3,22 +3,20 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { LogoutButton } from "../../buttons/logoutButton";
 import { LoginButton } from "../../buttons/loginButton";
 import { SignupButton } from "../../buttons/signupButton";
+import { getAuthHeader } from "../../../utils/authService";
 
 import axios from "axios";
 
 const Navbar = () => {
   /* Conditionally rendering signin/login/logout button */
-  const { isAuthenticated } = useAuth0();
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const handleTestAuthorize = async () => {
     const accessToken = await getAccessTokenSilently();
-    console.log(accessToken);
-    const res = await axios.get("http://localhost:3001/authorized", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await axios.get(
+      "http://localhost:3001/authorized",
+      getAuthHeader(user.email, accessToken)
+    );
     console.log(res.data);
   };
 

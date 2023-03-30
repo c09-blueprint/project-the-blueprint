@@ -32,7 +32,7 @@ const NodeToolbarSelected = ({ id, type }) => {
   return (
     <NodeToolbar>
       <div
-        class="btn-group"
+        className="btn-group"
         role="group"
         aria-label="Button group with nested dropdown"
       >
@@ -43,19 +43,19 @@ const NodeToolbarSelected = ({ id, type }) => {
           Duplicate
         </button>
 
-        <div class="btn-group" role="group">
+        <div className="btn-group" role="group">
           <button
             id="btnGroupDrop1"
             type="button"
-            class="btn btn-secondary dropdown-toggle"
+            className="btn btn-secondary dropdown-toggle"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
           >
             Colour Change
           </button>
-          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="#">
+          <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <a className="dropdown-item" href="#">
               <input
                 className="btn-margins"
                 onChange={onBackgroundColorChange}
@@ -63,7 +63,7 @@ const NodeToolbarSelected = ({ id, type }) => {
               />
               Background
             </a>
-            <a class="dropdown-item" href="#">
+            <a className="dropdown-item" href="#">
               <input
                 className="btn-margins"
                 onChange={onBackgroundColorChange}
