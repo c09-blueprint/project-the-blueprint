@@ -276,7 +276,8 @@ const WhiteboardReactFlow = () => {
       roomId,
       emailInput
     );
-    setEmailInput("");
+    // setEmailInput("");
+    sendEmail();
   };
 
   const sendEmail = async () => {
@@ -286,7 +287,7 @@ const WhiteboardReactFlow = () => {
       "http://localhost:3001/api/invite/",
       {
         email: emailInput,
-        url: "http://localhost:3000/page/1",
+        url: "http://localhost:3000/page/" + roomId,
       },
       getAuthHeader(user.email, accessToken)
     );

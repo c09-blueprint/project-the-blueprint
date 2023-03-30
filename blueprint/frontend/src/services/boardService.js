@@ -38,7 +38,7 @@ const addCollaborator = async (email, token, boardId, userEmail) => {
     `${ENDPOINTS.BASE_BOARD_URL}addCollaborator`,
     {
       boardId: boardId,
-      email: userEmail
+      email: userEmail,
     },
     getAuthHeader(email, token)
   );
@@ -49,5 +49,5 @@ export const boardServices = {
   create,
   getAllOwned,
   getAllShared,
-  addCollaborator
+  addCollaborator,
 };
