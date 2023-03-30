@@ -4,6 +4,7 @@ import { LogoutButton } from "../../buttons/logoutButton";
 import { LoginButton } from "../../buttons/loginButton";
 import { SignupButton } from "../../buttons/signupButton";
 import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { getAuthHeader } from "../../../utils/authService";
@@ -11,6 +12,7 @@ import { getAuthHeader } from "../../../utils/authService";
 const Navbar = () => {
   /* Conditionally rendering signin/login/logout button */
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const navigate = useNavigate();
 
   /* 
   const handleTestEndpoint = async () => {
@@ -46,9 +48,13 @@ const Navbar = () => {
     console.log(res.data);
   };
 
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark menubar">
-      <a className="navbar-brand mb-0 h1 bp-logo" href="#">
+      <a className="navbar-brand mb-0 h1 bp-logo" href="\dashboard">
         Blueprint
       </a>
       <button
@@ -65,12 +71,12 @@ const Navbar = () => {
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
         <ul className="navbar-nav menu-item-padding">
           <li className="nav-item active">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="\dashboard">
               My Workspace
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/dashboard/shared">
               Shared With Me
             </a>
           </li>

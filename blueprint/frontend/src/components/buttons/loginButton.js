@@ -14,7 +14,7 @@ export const LoginButton = () => {
   };
 
   return (
-    <button type="button" class="btn btn-light" onClick={handleLogin}>
+    <button type="button" className="btn btn-light" onClick={handleLogin}>
       Log In
     </button>
   );

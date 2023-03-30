@@ -5,7 +5,7 @@ import { getAuthHeader } from "../utils/authService";
 
 const boardService = new GenericService(ENDPOINTS.BASE_BOARD_URL);
 
-// create new user
+// create new board
 const create = async (email, token, name) => {
   const res = await axios.post(
     `${ENDPOINTS.BASE_BOARD_URL}`,
@@ -16,6 +16,38 @@ const create = async (email, token, name) => {
   return res.data;
 };
 
+// create new board
+const getAllOwned = async (email, token) => {
+  const res = await axios.get(
+    `${ENDPOINTS.BASE_BOARD_URL}getOwned`,
+    getAuthHeader(email, token)
+  );
+  return res.data;
+};
+
+const getAllShared = async (email, token) => {
+  const res = await axios.get(
+    `${ENDPOINTS.BASE_BOARD_URL}getShared`,
+    getAuthHeader(email, token)
+  );
+  return res.data;
+};
+
+const addCollaborator = async (email, token, boardId, userEmail) => {
+  const res = await axios.post(
+    `${ENDPOINTS.BASE_BOARD_URL}addCollaborator`,
+    {
+      boardId: boardId,
+      email: userEmail
+    },
+    getAuthHeader(email, token)
+  );
+  return res.data;
+};
+
 export const boardServices = {
   create,
+  getAllOwned,
+  getAllShared,
+  addCollaborator
 };

@@ -3,17 +3,7 @@ import { addEdge, applyEdgeChanges } from "reactflow";
 
 import { setUserModifiedEdges } from "./userStateReducer";
 
-const initialState = [
-  {
-    id: "e1-2",
-    source: "1",
-    target: "2",
-    data: {
-      label: "edge label",
-    },
-    type: "defaultEdge",
-  },
-];
+const initialState = [];
 
 const edgeSlice = createSlice({
   name: "edges",
