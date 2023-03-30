@@ -1,11 +1,12 @@
 import "./dashboard.css";
 import "../styles/cols.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getMe } from "../../../reducers/userReducer";
 import Navbar from "../navbar/navbar";
+import { createBoard } from "../../../reducers/boardReducer";
 
 function DocCard() {
   return (
@@ -53,6 +54,77 @@ const WorkspaceCard = () => {
       <div className="card-body">
         <h5 className="card-title">Workspace Name</h5>
         <p className="card-text">Description here</p>
+      </div>
+    </div>
+  );
+};
+
+const CreateBoardForm = () => {
+  const dispatch = useDispatch();
+  const { user, getAccessTokenSilently } = useAuth0();
+  const [boardName, setBoardName] = useState("");
+
+  const submitCreateBoard = (e) => {
+    e.preventDefault();
+    const dispatchGetBoard = async () => {
+      const accessToken = await getAccessTokenSilently();
+      dispatch(createBoard(user.email, accessToken, boardName));
+    };
+    dispatchGetBoard();
+  };
+
+  return (
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Create Board
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="create-board-form">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">
+                  Board Name
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="input-board-name"
+                  aria-describedby="emailHelp"
+                  value={boardName}
+                  onChange={(e) => {
+                    setBoardName(e.target.value);
+                  }}
+                />
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                data-dismiss="modal"
+                onClick={submitCreateBoard}
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -109,6 +181,7 @@ const Dashbord = () => {
 
   return (
     <div>
+      <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
       <div id="board-card-wrapper" className="card-deck cards-spacing">
         <DocCard></DocCard>

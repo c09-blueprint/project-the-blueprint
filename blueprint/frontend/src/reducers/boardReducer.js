@@ -47,20 +47,14 @@ export const addNewBoard = (board) => {
 };
 
 // example of a reducer to add an example to the store
-export const createBoard = (user) => {
+export const createBoard = (email, token, name) => {
   return async (dispatch) => {
-    // const createdUser = await boardServices.create(user);
-    let createdUser = {
-      id: "3",
-      name: "Board 3",
-    };
+    const createdUser = await boardServices.create(email, token, name);
+    // // remove this when backend is ready
+    // let createdUser = {
+    //   id: "3",
+    //   name: "Board 3",
+    // };
     dispatch(appendBoard(createdUser));
   };
 };
-
-// export const getBoards = () => {
-//     return async (dispatch) => {
-//         // get something from db and update redux store
-//         // dispatch(setExample(example))
-//     };
-// };
