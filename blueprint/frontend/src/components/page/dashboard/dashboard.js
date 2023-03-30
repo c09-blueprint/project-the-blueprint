@@ -105,7 +105,7 @@ const CreateBoardForm = () => {
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  class="form-control form-input"
                   id="input-board-name"
                   aria-describedby="emailHelp"
                   value={boardName}
@@ -146,8 +146,12 @@ function BoardCard(props) {
       <div className="card-header">id: {id}</div>
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
-        <button onClick={() => navigate(`/page/${id}`)}>
-          Go to work space Button should be whole card but whatever
+        <button
+          type="button"
+          class="btn btn-success"
+          onClick={() => navigate(`/page/${id}`)}
+        >
+          Go to whiteboard
         </button>
       </div>
     </div>
@@ -184,8 +188,8 @@ const Dashbord = () => {
       <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
       <div id="board-card-wrapper" className="card-deck cards-spacing">
-        <DocCard></DocCard>
-        <DocCard></DocCard>
+        {/* <DocCard></DocCard>
+        <DocCard></DocCard> */}
         {/* <WorkspaceCard></WorkspaceCard> */}
         {board.map((board) => (
           <BoardCard id={board.id} name={board.name}></BoardCard>

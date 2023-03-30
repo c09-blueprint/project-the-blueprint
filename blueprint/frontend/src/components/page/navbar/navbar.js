@@ -117,14 +117,15 @@ const Navbar = () => {
             </ul>
           </>
         )}
-        {isAuthenticated && (
-          <ul className="navbar-nav ms-auto menu-item-padding">
-            <li className="nav-item">
-              <LogoutButton />
-            </li>
-          </ul>
-        )}
+
         <ul className="navbar-nav ms-auto menu-item-padding">
+          {isAuthenticated && (
+            <ul className="navbar-nav ms-auto menu-item-padding">
+              <li className="nav-item">
+                <LogoutButton />
+              </li>
+            </ul>
+          )}
           <button onClick={handleTestEndpoint}>Test endpoint</button>
         </ul>
       </div>
