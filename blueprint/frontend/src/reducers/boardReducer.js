@@ -1,16 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { boardServices } from "../services/boardService";
 
-const initialState = [
-  {
-    id: "1",
-    name: "Board 1",
-  },
-  {
-    id: "2",
-    name: "Board 2",
-  },
-];
+const initialState = [];
 
 const boardSlice = createSlice({
   name: "board",
@@ -46,15 +37,16 @@ export const addNewBoard = (board) => {
   };
 };
 
-// example of a reducer to add an example to the store
+export const getAllOwnedBoard = (email, token) => {
+  return async (dispatch) => {
+    const boards = await boardServices.getAllOwned(email, token);
+    dispatch(setBoards(boards));
+  };
+};
+
 export const createBoard = (email, token, name) => {
   return async (dispatch) => {
     const createdBoard = await boardServices.create(email, token, name);
-    // // remove this when backend is ready
-    // let createdUser = {
-    //   id: "3",
-    //   name: "Board 3",
-    // };
     dispatch(appendBoard(createdBoard));
   };
 };

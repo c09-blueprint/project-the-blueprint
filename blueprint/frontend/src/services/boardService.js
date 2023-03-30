@@ -16,6 +16,16 @@ const create = async (email, token, name) => {
   return res.data;
 };
 
+// create new board
+const getAllOwned = async (email, token) => {
+  const res = await axios.get(
+    `${ENDPOINTS.BASE_BOARD_URL}getOwned`,
+    getAuthHeader(email, token)
+  );
+  return res.data;
+};
+
 export const boardServices = {
   create,
+  getAllOwned,
 };

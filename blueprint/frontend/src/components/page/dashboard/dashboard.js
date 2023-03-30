@@ -75,37 +75,37 @@ const CreateBoardForm = () => {
 
   return (
     <div
-      class="modal fade"
+      className="modal fade"
       id="exampleModal"
-      tabindex="-1"
+      tabIndex="-1"
       role="dialog"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="exampleModalLabel">
               Create Board
             </h5>
             <button
               type="button"
-              class="close"
+              className="close"
               data-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div className="modal-body">
             <form id="create-board-form">
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">
+              <div className="mb-3">
+                <label for="exampleInputEmail1" className="form-label">
                   Board Name
                 </label>
                 <input
                   type="text"
-                  class="form-control form-input"
+                  className="form-control form-input"
                   id="input-board-name"
                   aria-describedby="emailHelp"
                   value={boardName}
@@ -116,7 +116,7 @@ const CreateBoardForm = () => {
               </div>
               <button
                 type="submit"
-                class="btn btn-primary"
+                className="btn btn-primary"
                 data-dismiss="modal"
                 onClick={submitCreateBoard}
               >
@@ -138,21 +138,14 @@ function BoardCard(props) {
   // add event listener to the button
   // when button is clicked, redirect to the board page
   const handleClick = () => {
-    console.log("button clicked");
+    navigate(`/page/${id}`);
   };
 
   return (
-    <div className="card text-white bg-info mb-3">
+    <div onClick={handleClick} className="card text-white bg-info mb-3">
       <div className="card-header">id: {id}</div>
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
-        <button
-          type="button"
-          class="btn btn-success"
-          onClick={() => navigate(`/page/${id}`)}
-        >
-          Go to whiteboard
-        </button>
       </div>
     </div>
   );
@@ -164,7 +157,6 @@ const Dashbord = () => {
   const { user, getAccessTokenSilently } = useAuth0();
 
   const board = useSelector((state) => state.board);
-  console.log("board: ", board);
 
   /* On initial, get me */
   useEffect(() => {
@@ -175,24 +167,13 @@ const Dashbord = () => {
     dispatchGetMe();
   }, [dispatch]);
 
-  useEffect(() => {
-    var boardCardWrapper = document.getElementById("board-card-wrapper");
-    // map new board cards to the board card wrapper
-    board.map((board) => {
-      console.log(board.name);
-    });
-  }, [board]);
-
   return (
     <div>
       <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
       <div id="board-card-wrapper" className="card-deck cards-spacing">
-        {/* <DocCard></DocCard>
-        <DocCard></DocCard> */}
-        {/* <WorkspaceCard></WorkspaceCard> */}
         {board.map((board) => (
-          <BoardCard id={board.id} name={board.name}></BoardCard>
+          <BoardCard key={board.id} id={board.id} name={board.name}></BoardCard>
         ))}
       </div>
     </div>

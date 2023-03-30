@@ -70,13 +70,15 @@ const PORT = "3002";
 const WEBSOCKET_URL = "ws://" + HOST + ":" + PORT;
 
 // initial document
-const ydoc = new Y.Doc();
+// const ydoc = new Y.Doc();
 
 // ymap
-const elementMap = ydoc.getMap("element-map");
+// const elementMap = ydoc.getMap("element-map");
 
 const WhiteboardReactFlow = () => {
-  const { userId, roomId } = useParams();
+  const { roomId } = useParams();
+
+  const [elementMap, setElementMap] = useState(null);
 
   const [edgeType, setEdgeType] = useState("defaultEdge");
   const [edgeTypeStyle, setEdgeTypeStyle] = useState("default");
@@ -102,6 +104,7 @@ const WhiteboardReactFlow = () => {
     Set up observer
   */
   useEffect(() => {
+    const ydoc = new Y.Doc();
     // make websocket server connection on mount
     const websockerProvider = new WebsocketProvider(
       WEBSOCKET_URL,
@@ -114,11 +117,17 @@ const WhiteboardReactFlow = () => {
       console.log(event.status);
     });
 
+    const elMap = ydoc.getMap("element-map");
+    setElementMap(elMap);
+    console.log("here");
+    console.log(elMap.get("nodes"));
+    console.log(elMap.get("edges"));
+
     // set up observer
-    elementMap.observe((event) => {
+    elMap.observe((event) => {
       console.log("observed");
-      dispatch(setNodes(elementMap.get("nodes")));
-      dispatch(setEdges(elementMap.get("edges")));
+      dispatch(setNodes(elMap.get("nodes")));
+      dispatch(setEdges(elMap.get("edges")));
     });
 
     // cleanup function to disconnect from websocket when unmount
@@ -133,21 +142,21 @@ const WhiteboardReactFlow = () => {
   */
   useEffect(() => {
     // todo
-    if (userModifiedNodes) {
+    if (userModifiedNodes && elementMap) {
       console.log("user changed nodes");
       elementMap.set("nodes", nodes);
       dispatch(setUserModifiedNodes(false));
     }
-  }, [dispatch, nodes, userModifiedNodes]);
+  }, [dispatch, nodes, userModifiedNodes, elementMap]);
 
   useEffect(() => {
     // todo
-    if (userModifiedEdges) {
+    if (userModifiedEdges && elementMap) {
       console.log("user changed edges");
       elementMap.set("edges", edges);
       dispatch(setUserModifiedEdges(false));
     }
-  }, [dispatch, edges, userModifiedEdges]);
+  }, [dispatch, edges, userModifiedEdges, elementMap]);
 
   /* Callback functions to handle user-made changes. */
   const onNodesChange = useCallback(
@@ -414,15 +423,15 @@ const WhiteboardReactFlow = () => {
             ></button>
           </div>
 
-          <div class="input-group mb-3 email-input">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-default">
+          <div className="input-group mb-3 email-input">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroup-sizing-default">
                 Email
               </span>
             </div>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
               value={emailInput}

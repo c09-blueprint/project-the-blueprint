@@ -15,7 +15,7 @@ export const LogoutButton = () => {
   };
 
   return (
-    <button type="button" class="btn btn-danger" onClick={handleLogout}>
+    <button type="button" className="btn btn-danger" onClick={handleLogout}>
       Log Out
     </button>
   );
