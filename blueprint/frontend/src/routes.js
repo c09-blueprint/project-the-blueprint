@@ -1,6 +1,6 @@
 export const PAGES = {
   homePath: "/home",
-  pagePath: "/page/:userId/:roomId",
+  pagePath: "/page/:roomId",
   dashboardPath: "/dashboard",
   auth0CallbackPath: "auth0callback",
 };
