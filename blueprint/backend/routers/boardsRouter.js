@@ -4,5 +4,5 @@ import { boardController } from "../controllers/boardsController.js";
 
 export const boardsRouter = Router();
 
-usersRouter.post("/", boardController.createBoard);
-usersRouter.post("/addCollaborator", boardController.addUserToBoard);
+boardsRouter.post("/", boardController.createBoard);
+boardsRouter.post("/addCollaborator", boardController.addUserToBoard);

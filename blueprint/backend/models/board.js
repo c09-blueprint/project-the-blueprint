@@ -7,11 +7,6 @@ export const Board = sequelize.define("Board", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  roomId: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
 });
 
 /* 

@@ -5,6 +5,7 @@ import logger from "./utils/logger.js";
 import { sequelize } from "./datasource.js";
 import { userExtractor } from "./utils/authorization.js";
 import { usersRouter } from "./routers/usersRouter.js";
+import { boardsRouter } from "./routers/boardsRouter.js";
 import { emailRouter } from "./routers/emailRouter.js";
 import ENDPOINTS from "./utils/endpoints.js";
 
@@ -43,7 +44,7 @@ app.use(function (req, res, next) {
 app.use(userExtractor);
 
 app.use(ENDPOINTS.USER_ENDPOINT, usersRouter);
-app.use(ENDPOINTS.BOARD_ENDPOINT, usersRouter);
+app.use(ENDPOINTS.BOARD_ENDPOINT, boardsRouter);
 
 /* TODO: modify below */
 app.use("/api/emails", emailRouter);
