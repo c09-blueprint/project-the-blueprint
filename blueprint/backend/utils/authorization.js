@@ -1,10 +1,11 @@
 import { auth } from "express-oauth2-jwt-bearer";
 import { User } from "../models/user.js";
+import { BoardUser } from "../models/boardUser.js";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-export const userExtractor = async (req, res, next) => {
+const userExtractor = async (req, res, next) => {
   /* Verify token. */
   auth({
     audience: process.env.AUTH0_AUDIENCE,
@@ -34,4 +35,25 @@ export const userExtractor = async (req, res, next) => {
   }
 
   next();
+};
+
+const isBoardOwner = async (req, res, next) => {
+  const boardUser = await BoardUser.findOne({
+    where: {
+      UserId: req.user.id,
+      BoardId: req.params.id,
+      permission: "owner",
+    },
+  });
+
+  if (!boardUser) {
+    return res.status(403).json({ error: "Permission Denied." });
+  }
+
+  next();
+};
+
+export default {
+  userExtractor,
+  isBoardOwner,
 };

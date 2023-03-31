@@ -274,9 +274,9 @@ const WhiteboardReactFlow = () => {
       user.email,
       accessToken,
       roomId,
-      emailInput
+      emailInput,
+      "collaborator" // hardcode for now
     );
-    // setEmailInput("");
     sendEmail();
   };
 

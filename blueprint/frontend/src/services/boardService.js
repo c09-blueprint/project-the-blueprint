@@ -33,12 +33,18 @@ const getAllShared = async (email, token) => {
   return res.data;
 };
 
-const addCollaborator = async (email, token, boardId, userEmail) => {
+const addCollaborator = async (
+  email,
+  token,
+  boardId,
+  userEmail,
+  permission
+) => {
   const res = await axios.post(
-    `${ENDPOINTS.BASE_BOARD_URL}addCollaborator`,
+    `${ENDPOINTS.BASE_BOARD_URL}addCollaborator/${boardId}`,
     {
-      boardId: boardId,
       email: userEmail,
+      permission: permission,
     },
     getAuthHeader(email, token)
   );

@@ -1,6 +1,6 @@
 import React from "react";
-import NavbarHome from "../page/navbar/navbarHome.js";
+import Navbar from "../page/navbar/navbar.js";
 
 export const CallbackPage = () => {
-  return <NavbarHome />;
+  return <Navbar />;
 };

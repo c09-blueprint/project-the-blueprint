@@ -100,7 +100,7 @@ const CreateBoardForm = () => {
           <div className="modal-body">
             <form id="create-board-form">
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">
+                <label htmlFor="exampleInputEmail1" className="form-label">
                   Board Name
                 </label>
                 <input
@@ -172,9 +172,14 @@ const Dashbord = () => {
       <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
       <div id="board-card-wrapper" className="card-deck cards-spacing">
-        {board && board.owned.map((board) => (
-          <BoardCard key={board.id} id={board.id} name={board.name}></BoardCard>
-        ))}
+        {board &&
+          board.owned.map((board) => (
+            <BoardCard
+              key={board.id}
+              id={board.id}
+              name={board.name}
+            ></BoardCard>
+          ))}
       </div>
     </div>
   );

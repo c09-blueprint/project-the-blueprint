@@ -100,7 +100,7 @@ const CreateBoardForm = () => {
           <div className="modal-body">
             <form id="create-board-form">
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">
+                <label htmlFor="exampleInputEmail1" className="form-label">
                   Board Name
                 </label>
                 <input
