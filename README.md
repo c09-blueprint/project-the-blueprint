@@ -4,6 +4,8 @@
 
 **Team Name**: The Blueprint
 
+**DEMO LINK**: https://youtu.be/NJDPoNPXiMQ
+
 ## To run the app locally
 
 - on first install, run `npm install` in `/blueprint/frontend` and `/blueprint/backend`
