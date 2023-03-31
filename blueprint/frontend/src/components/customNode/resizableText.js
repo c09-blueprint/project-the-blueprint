@@ -1,5 +1,4 @@
 import React, { memo, useCallback } from "react";
-import { Handle, Position } from "reactflow";
 import { useDispatch } from "react-redux";
 import { NodeResizer } from "@reactflow/node-resizer";
 import { updateNodeLabel } from "../../reducers/nodeReducer";

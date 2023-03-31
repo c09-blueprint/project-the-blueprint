@@ -4,6 +4,8 @@
 
 **Team Name**: The Blueprint
 
+**DEMO LINK**: https://youtu.be/NJDPoNPXiMQ
+
 ## To run the app locally
 
 - on first install, run `npm install` in `/blueprint/frontend` and `/blueprint/backend`
@@ -58,8 +60,7 @@ Blueprint allows users to work on their project offline, and sync their changes 
   - Might use tools like Boostrap or Material UI
 - **Backend**
   - Node.js with Express.js
-  - SQLite with Sequelize
-- TypeScript
+  - PostgreSQL with Sequelize
 
 ## Complexity Points
 
@@ -84,7 +85,6 @@ We aim to have the following core features implemented:
 
 - Users can create a page and collaborate real-time with other users
 - Users can add shapes and lines to create charts
-- Users can draw and add text
 - Users can invite other users to collaborate
 - **Complexity points**: Yjs, React Flow, SendGrid
 

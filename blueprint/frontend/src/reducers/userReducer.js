@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { userServices } from "../services/userService";
 
+import { getAllOwnedBoard, getAllSharedBoard } from "./boardReducer";
+
 const initialState = null;
 
 const userSlice = createSlice({
@@ -16,19 +18,13 @@ const userSlice = createSlice({
 
 export const { setUser } = userSlice.actions;
 
-// example of a reducer to add an example to the store
-export const createUser = (user) => {
-  return async (dispatch) => {
-    const createdUser = await userServices.create(user);
-    dispatch(setUser(createdUser));
-  };
-};
-
 // get logged in user
-export const getMe = () => {
+export const getMe = (email, token) => {
   return async (dispatch) => {
-    const loggedinUser = await userServices.me();
+    const loggedinUser = await userServices.me(email, token);
     dispatch(setUser(loggedinUser));
+    dispatch(getAllOwnedBoard(email, token));
+    dispatch(getAllSharedBoard(email, token));
   };
 };
 

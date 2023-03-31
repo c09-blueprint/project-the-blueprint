@@ -4,7 +4,12 @@ import "./whiteboardEdit.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import ReactFlow, { Controls, Background, useReactFlow } from "reactflow";
+import ReactFlow, {
+  Controls,
+  Background,
+  useReactFlow,
+  MiniMap,
+} from "reactflow";
 
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
@@ -35,6 +40,10 @@ import triangleNode from "../../customNode/triangleNode";
 import defaultEdge from "../../customEdge/defaultEdge";
 import straightEdge from "../../customEdge/straightEdge";
 import stepEdge from "../../customEdge/stepEdge";
+import { useAuth0 } from "@auth0/auth0-react";
+import { boardServices } from "../../../services/boardService";
+import { getAuthHeader } from "../../../utils/authService";
+import axios from "axios";
 
 /* Custom Node Types */
 const customNodeTypes = {
@@ -60,13 +69,15 @@ const PORT = "3002";
 const WEBSOCKET_URL = "ws://" + HOST + ":" + PORT;
 
 // initial document
-const ydoc = new Y.Doc();
+// const ydoc = new Y.Doc();
 
 // ymap
-const elementMap = ydoc.getMap("element-map");
+// const elementMap = ydoc.getMap("element-map");
 
 const WhiteboardReactFlow = () => {
-  const { userId, roomId } = useParams();
+  const { roomId } = useParams();
+
+  const [elementMap, setElementMap] = useState(null);
 
   const [edgeType, setEdgeType] = useState("defaultEdge");
   const [edgeTypeStyle, setEdgeTypeStyle] = useState("default");
@@ -92,6 +103,7 @@ const WhiteboardReactFlow = () => {
     Set up observer
   */
   useEffect(() => {
+    const ydoc = new Y.Doc();
     // make websocket server connection on mount
     const websockerProvider = new WebsocketProvider(
       WEBSOCKET_URL,
@@ -99,11 +111,22 @@ const WhiteboardReactFlow = () => {
       ydoc
     );
 
+    // log connection status
+    websockerProvider.on("status", (event) => {
+      console.log(event.status);
+    });
+
+    const elMap = ydoc.getMap("element-map");
+    setElementMap(elMap);
+    console.log("here");
+    console.log(elMap.get("nodes"));
+    console.log(elMap.get("edges"));
+
     // set up observer
-    elementMap.observe((event) => {
+    elMap.observe((event) => {
       console.log("observed");
-      dispatch(setNodes(elementMap.get("nodes")));
-      dispatch(setEdges(elementMap.get("edges")));
+      dispatch(setNodes(elMap.get("nodes")));
+      dispatch(setEdges(elMap.get("edges")));
     });
 
     // cleanup function to disconnect from websocket when unmount
@@ -118,21 +141,21 @@ const WhiteboardReactFlow = () => {
   */
   useEffect(() => {
     // todo
-    if (userModifiedNodes) {
+    if (userModifiedNodes && elementMap) {
       console.log("user changed nodes");
       elementMap.set("nodes", nodes);
       dispatch(setUserModifiedNodes(false));
     }
-  }, [dispatch, nodes, userModifiedNodes]);
+  }, [dispatch, nodes, userModifiedNodes, elementMap]);
 
   useEffect(() => {
     // todo
-    if (userModifiedEdges) {
+    if (userModifiedEdges && elementMap) {
       console.log("user changed edges");
       elementMap.set("edges", edges);
       dispatch(setUserModifiedEdges(false));
     }
-  }, [dispatch, edges, userModifiedEdges]);
+  }, [dispatch, edges, userModifiedEdges, elementMap]);
 
   /* Callback functions to handle user-made changes. */
   const onNodesChange = useCallback(
@@ -242,6 +265,38 @@ const WhiteboardReactFlow = () => {
     }
   };
 
+  const { user, getAccessTokenSilently } = useAuth0();
+  const addUser = async () => {
+    console.log("share clicked");
+    console.log("email: ", emailInput);
+    const accessToken = await getAccessTokenSilently();
+    await boardServices.addCollaborator(
+      user.email,
+      accessToken,
+      roomId,
+      emailInput,
+      "collaborator" // hardcode for now
+    );
+    sendEmail();
+  };
+
+  const sendEmail = async () => {
+    console.log("Sending email via SendGrid");
+    const accessToken = await getAccessTokenSilently();
+    const res = await axios.post(
+      "http://localhost:3001/api/invite/",
+      {
+        email: emailInput,
+        url: "http://localhost:3000/page/" + roomId,
+      },
+      getAuthHeader(user.email, accessToken)
+    );
+    setEmailInput("");
+    console.log(res.data);
+  };
+
+  const [emailInput, setEmailInput] = useState("");
+
   const resizableStyle =
     '{ "background": "#fff", "border": "1px solid black", "borderRadius": 3, "fontSize": 12}';
 
@@ -250,50 +305,6 @@ const WhiteboardReactFlow = () => {
 
   return (
     <div style={{ height: "100%" }} className="container-fluid overflow-auto">
-      <div>
-        {/* referenced from https://getbootstrap.com/docs/4.0/components/navbar/*/}
-        <nav className="navbar navbar-expand-lg navbar-light bg-primary">
-          <p>User: {userId} &emsp;</p>
-
-          <a className="navbar-brand" href="#">
-            Blueprint
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto">
-              <li className="nav-item active">
-                <a className="nav-link" href="#">
-                  Home
-                </a>
-              </li>
-            </ul>
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Share
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Login
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-        {/* end */}
-      </div>
       <div
         className="row no-padding-margin"
         style={{ height: "95%", width: "100%" }}
@@ -423,8 +434,33 @@ const WhiteboardReactFlow = () => {
               className="drop-icon"
             ></button>
           </div>
-        </div>
 
+          <div className="input-group mb-3 email-input">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="inputGroup-sizing-default">
+                Email
+              </span>
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              aria-label="Default"
+              aria-describedby="inputGroup-sizing-default"
+              value={emailInput}
+              onChange={(e) => {
+                setEmailInput(e.target.value);
+              }}
+            ></input>
+          </div>
+          <button
+            onClick={addUser}
+            style={{ marginBottom: "10px" }}
+            id="invite-btn"
+            className="share-button"
+          >
+            Share Your Board
+          </button>
+        </div>
         <div
           className="col-xl-9 col-12 col-md-9 no-padding-margin"
           style={{ height: "100%" }}
@@ -445,6 +481,7 @@ const WhiteboardReactFlow = () => {
           >
             <Background />
             <Controls />
+            <MiniMap zoomable pannable />
           </ReactFlow>
         </div>
       </div>
