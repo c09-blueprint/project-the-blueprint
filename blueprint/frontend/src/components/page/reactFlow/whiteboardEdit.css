@@ -51,3 +51,12 @@ button {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+.share-button {
+  margin-top: 5px;
+  background-color: aqua;
+}
+
+.email-input {
+  margin-top: 50px;
+}
