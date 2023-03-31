@@ -43,6 +43,8 @@ import straightEdge from "../../customEdge/straightEdge";
 import stepEdge from "../../customEdge/stepEdge";
 import { useAuth0 } from "@auth0/auth0-react";
 import { boardServices } from "../../../services/boardService";
+import { getAuthHeader } from "../../../utils/authService";
+import axios from "axios";
 
 import UserVideo from "../userVideo/userVideo";
 
@@ -535,9 +537,25 @@ const WhiteboardReactFlow = () => {
       user.email,
       accessToken,
       roomId,
-      emailInput
+      emailInput,
+      "collaborator" // hardcode for now
+    );
+    sendEmail();
+  };
+
+  const sendEmail = async () => {
+    console.log("Sending email via SendGrid");
+    const accessToken = await getAccessTokenSilently();
+    const res = await axios.post(
+      "http://localhost:3001/api/invite/",
+      {
+        email: emailInput,
+        url: "http://localhost:3000/page/" + roomId,
+      },
+      getAuthHeader(user.email, accessToken)
     );
     setEmailInput("");
+    console.log(res.data);
   };
 
   const [emailInput, setEmailInput] = useState("");

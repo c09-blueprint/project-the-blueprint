@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { boardServices } from "../services/boardService";
 
 const initialState = {
-  owned:[],
-  shared:[]
+  owned: [],
+  shared: [],
 };
 
 const boardSlice = createSlice({
@@ -23,16 +23,17 @@ const boardSlice = createSlice({
       Add a new edge using react-flow helper function.
     */
     appendBoardsOwned(state, action) {
-      state.owned = [...state.owned, action.payload]
+      state.owned = [...state.owned, action.payload];
     },
     appendBoardsShared(state, action) {
-      state.shared = [...state.shared, action.payload]
+      state.shared = [...state.shared, action.payload];
     },
   },
 });
 
 // create actions for a redux store
-export const { setBoardsOwned, setBoardsShared, appendBoardsOwned } = boardSlice.actions;
+export const { setBoardsOwned, setBoardsShared, appendBoardsOwned } =
+  boardSlice.actions;
 export default boardSlice.reducer;
 
 export const getAllOwnedBoard = (email, token) => {

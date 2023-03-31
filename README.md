@@ -83,7 +83,6 @@ We aim to have the following core features implemented:
 
 - Users can create a page and collaborate real-time with other users
 - Users can add shapes and lines to create charts
-- Users can draw and add text
 - Users can invite other users to collaborate
 - **Complexity points**: Yjs, React Flow, SendGrid
 

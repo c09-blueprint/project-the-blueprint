@@ -3,11 +3,11 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import logger from "./utils/logger.js";
 import { sequelize } from "./datasource.js";
-import { userExtractor } from "./utils/authorization.js";
 import { usersRouter } from "./routers/usersRouter.js";
 import { boardsRouter } from "./routers/boardsRouter.js";
 import { emailRouter } from "./routers/emailRouter.js";
 import ENDPOINTS from "./utils/endpoints.js";
+import auth from "./utils/authorization.js";
 
 /* DO NOT DELETE THESE */
 import { User } from "./models/user.js";
@@ -41,13 +41,11 @@ app.use(function (req, res, next) {
 });
 
 /* Enforce authentication on all endpoints. */
-app.use(userExtractor);
+app.use(auth.userExtractor);
 
 app.use(ENDPOINTS.USER_ENDPOINT, usersRouter);
 app.use(ENDPOINTS.BOARD_ENDPOINT, boardsRouter);
-
-/* TODO: modify below */
-app.use("/api/emails", emailRouter);
+app.use(ENDPOINTS.INVITE_ENDPOINT, emailRouter);
 
 app.listen(PORT, (err) => {
   if (err) logger.error(err);

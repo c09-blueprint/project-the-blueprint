@@ -1,12 +1,12 @@
 import "./landingPage.css";
 import React from "react";
 import "../styles/cols.css";
-import NavbarHome from "../navbar/navbarHome";
+import Navbar from "../navbar/navbar";
 
 const LandingPage = () => {
   return (
     <div className="landing-page">
-      <NavbarHome />
+      <Navbar />
       <header className="masthead">
         <div className="container px-5">
           <div className="row align-items-center">
