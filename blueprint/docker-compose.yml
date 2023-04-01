@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3000:3000
+    networks:
+      - test-network
     environment:
       - REACT_APP_BASE_URL=http://localhost:3000
       - REACT_APP_AUTH0_DOMAIN=dev-jcol6i3ol3vahmwd.us.auth0.com
@@ -19,7 +21,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3001:3001
-      - 3002:3002
     depends_on:
       - postgres
     environment:
@@ -28,6 +29,15 @@ services:
       - AUTH0_ISSUER_BASE_URL=https://dev-jcol6i3ol3vahmwd.us.auth0.com/
       - AUTH0_TOKEN_SIGNING_ALG=RS256
       - SENDGRID_API_KEY=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
+  yjswebsocket:
+    container_name: yjswebsocket
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.ywebsocket
+    ports:
+      - 1234:1234
+    networks:
+      - test-network
   postgres:
     container_name: postgres
     restart: always
@@ -41,5 +51,7 @@ services:
     volumes:
       - postgres-volume:/var/lib/postgresql/data
       - ./postgres12/:/docker-entrypoint-initdb.d/
+networks:
+  test-network:
 volumes:
   postgres-volume:
