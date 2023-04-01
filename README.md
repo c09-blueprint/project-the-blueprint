@@ -6,13 +6,6 @@
 
 **DEMO LINK**: https://youtu.be/NJDPoNPXiMQ
 
-## To run the app locally
-
-- on first install, run `npm install` in `/blueprint/frontend` and `/blueprint/backend`
-- run frontend on port 3000: in `/blueprint/frontend` run `npm start`
-- rund backend: in `/blueprint/backend` run `npm run start`
-  - This runs the Blurprint server on port 3001 and a websocket server on port 3002.
-
 ## Team Information
 
 | Name         | Student Number | UTORid   | Email                           |
@@ -57,7 +50,6 @@ Blueprint allows users to work on their project offline, and sync their changes 
 - **Frontend**
   - React
   - Redux
-  - Might use tools like Boostrap or Material UI
 - **Backend**
   - Node.js with Express.js
   - PostgreSQL with Sequelize
@@ -71,12 +63,6 @@ Blueprint allows users to work on their project offline, and sync their changes 
 - PeerJS (1 point) - for users to video or audio call while collaborating
 
 **Total**: 9 points
-
-**Might attempt as bonus**
-
-- Cloudfare (1 point) - CAPTCHA replacement for additional user authentication
-- Socket.IO (2 points) - for users to chat (through message) while collaborating
-- Stripe (2 points) - for payment processing (eg. purchase memberships for additional features)
 
 ## Project Aim
 
