@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+  backend:
+    container_name: backend
+    build: 
+        context: ./backend
+        dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://blueprint:blueprint@postgres:5432/blueprint
+  yjsWebsocket:
+    container_name: yjsWebsocket
+    build: 
+        context: ./backend
+        dockerfile: Dockerfile
+    ports:
+      - 3002:3002
+  postgres:
+    container_name: postgres
+    restart: always
+    image: postgres:12
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD: blueprint
+      - POSTGRES_USER: blueprint
+      - POSTGRES_DB: blueprint
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+      - ./postgres12/:/docker-entrypoint-initdb.d/
+volumes:
+  postgres-volume:
