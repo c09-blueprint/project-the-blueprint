@@ -64,7 +64,7 @@ const customEdgeTypes = {
 };
 
 /* For setting up yjs connection */
-const WEBSOCKET_URL = "ws://yjswebsocket:1234";
+const WEBSOCKET_URL = "ws://localhost:1234";
 
 // initial document
 // const ydoc = new Y.Doc();
