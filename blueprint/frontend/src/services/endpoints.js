@@ -1,5 +1,3 @@
-// ! This file will contain the server endpoints
-
 // The base url for all apis
 const BASE_URL = "http://localhost:3001/api/";
 

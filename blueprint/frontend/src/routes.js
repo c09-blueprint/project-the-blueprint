@@ -5,11 +5,3 @@ export const PAGES = {
   dashboardSharedPath: "/dashboard/shared",
   auth0CallbackPath: "/auth0callback",
 };
-
-export const SENDGRID = {
-  pagePath: "/SENDGRID",
-};
-
-export const HOME = {
-  pagePath: "/HOME",
-};
