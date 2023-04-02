@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - 3000:80
     environment:
       - REACT_APP_BASE_URL=http://localhost:3000
       - REACT_APP_AUTH0_DOMAIN=dev-jcol6i3ol3vahmwd.us.auth0.com
