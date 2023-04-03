@@ -28,7 +28,7 @@ function App() {
     <div>
       <Routes>
         <Route path="*" element={<NotFound />} />
-        <Route path={PAGES.homePath} element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path={PAGES.auth0CallbackPath} element={<CallbackPage />} />
         <Route
           path={PAGES.dashboardPath}

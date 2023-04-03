@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:16 as build
 
 WORKDIR /frontend
 
@@ -8,6 +8,15 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3000
+RUN npm run build
 
-CMD ["npm", "start"]
+# Serve these static files with NGINX.
+FROM nginx:1.21.6-alpine
+
+COPY --from=build /frontend/build /usr/share/nginx/html
+
+COPY --from=build /frontend/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
