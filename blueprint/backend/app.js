@@ -30,9 +30,8 @@ try {
 const PORT = 3001;
 export const app = express();
 app.use(bodyParser.json());
-app.use(cors());
-// app.use(express.static('build'))   to be added when prod build is ready
 app.use(express.json());
+app.use(cors());
 
 /* Request logger */
 app.use(function (req, res, next) {

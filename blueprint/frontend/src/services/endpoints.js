@@ -1,5 +1,5 @@
 // The base url for all apis
-const BASE_URL = "http://localhost:3001/api/";
+const BASE_URL = process.env.REACT_APP_BASE_URL + "/api/";
 
 export const ENDPOINTS = {
   // The base url for user api
