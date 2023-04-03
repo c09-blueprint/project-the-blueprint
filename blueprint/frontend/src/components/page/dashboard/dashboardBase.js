@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getMe } from "../../../reducers/userReducer";
 import Navbar from "../navbar/navbar";
 import { createBoard } from "../../../reducers/boardReducer";
+import { useLocation } from "react-router-dom";
 
 const CreateBoardForm = () => {
   const dispatch = useDispatch();
@@ -90,11 +91,21 @@ function BoardCard(props) {
     navigate(`/page/${id}`);
   };
 
+  const location = useLocation();
+
   return (
     <div onClick={handleClick} className="card text-white bg-info mb-3">
-      <div className="card-header">id: {id}</div>
+      <div className="card-header">Board ID: {id}</div>
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
+        <button
+          type="button"
+          className={`btn btn-danger ${
+            location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
+          }`}
+        >
+          Delete
+        </button>
       </div>
     </div>
   );

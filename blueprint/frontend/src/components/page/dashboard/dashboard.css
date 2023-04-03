@@ -5,3 +5,7 @@
 .form-input {
   text-align: left;
 }
+
+.hidden-btn {
+  display: none !important;
+}
