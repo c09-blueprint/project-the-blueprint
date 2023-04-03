@@ -17,7 +17,7 @@ import { BoardUser } from "./models/boardUser.js";
 import { WorkspaceUser } from "./models/workspaceUser.js";
 /* DO NOT DELETE THESE */
 
-// test workflow
+// test workflows
 
 /* Connect and sync with database. */
 try {

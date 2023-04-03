@@ -10,7 +10,7 @@ on:
       - blueprint/backend/**
 
 env:
-  IMAGE_NAME: yjswebsocket-blueprint
+  IMAGE_NAME: yjswebsocket-hmxxxx
 
 jobs:
   # Push image to GitHub Packages.

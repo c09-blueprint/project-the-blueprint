@@ -10,7 +10,7 @@ on:
       - blueprint/backend/**
 
 env:
-  IMAGE_NAME: backend-blueprint
+  IMAGE_NAME: backend-hmxxxx
 
 jobs:
   # Push image to GitHub Packages.
