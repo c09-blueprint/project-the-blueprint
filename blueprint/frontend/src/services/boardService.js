@@ -1,9 +1,6 @@
 import axios from "axios";
 import { ENDPOINTS } from "./endpoints";
-import GenericService from "./service";
 import { getAuthHeader } from "../utils/authService";
-
-const boardService = new GenericService(ENDPOINTS.BASE_BOARD_URL);
 
 // create new board
 const create = async (email, token, name) => {

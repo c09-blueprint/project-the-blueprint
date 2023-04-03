@@ -17,6 +17,8 @@ import { BoardUser } from "./models/boardUser.js";
 import { WorkspaceUser } from "./models/workspaceUser.js";
 /* DO NOT DELETE THESE */
 
+// test workflowsss
+
 /* Connect and sync with database. */
 try {
   await sequelize.authenticate();
@@ -30,9 +32,8 @@ try {
 const PORT = 3001;
 export const app = express();
 app.use(bodyParser.json());
-app.use(cors());
-// app.use(express.static('build'))   to be added when prod build is ready
 app.use(express.json());
+app.use(cors());
 
 /* Request logger */
 app.use(function (req, res, next) {

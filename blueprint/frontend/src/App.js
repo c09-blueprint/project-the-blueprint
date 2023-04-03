@@ -1,16 +1,19 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Routes, Route, useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { CallbackPage } from "./components/auth0/emptyCallback";
 import { AuthGuard } from "./components/auth0/authGuard";
-
-import { PAGES, SENDGRID } from "./routes";
+import { PAGES } from "./routes";
+import { getMe } from "./reducers/userReducer";
 import NotFound from "./components/page/NotFoundPage";
 import Dashboard from "./components/page/dashboard/dashboard";
-import ReactFlowPage from "./components/page/reactFlow/ReactFlowPage";
-import SGTest from "./SendGrid/sendGridTest.js";
-import LandingPage from "./components/page/landingPage/landingPage.js";
 import DashbordShared from "./components/page/dashboard/dashboardShared";
+import ReactFlowPage from "./components/page/reactFlow/ReactFlowPage";
+import LandingPage from "./components/page/landingPage/landingPage";
+
+// test workflow
 
 function App() {
   const { isLoading } = useAuth0();
@@ -27,10 +30,8 @@ function App() {
     <div>
       <Routes>
         <Route path="*" element={<NotFound />} />
-        <Route path={PAGES.homePath} element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path={PAGES.auth0CallbackPath} element={<CallbackPage />} />
-        <Route path={SENDGRID.pagePath} element={<SGTest />} />
-
         <Route
           path={PAGES.dashboardPath}
           element={<AuthGuard component={Dashboard} />}
@@ -41,11 +42,48 @@ function App() {
         />
         <Route
           path={PAGES.pagePath}
-          element={<AuthGuard component={ReactFlowPage} />}
+          element={<AuthGuard component={VerifyCollaborator} />}
         />
       </Routes>
     </div>
   );
 }
+
+const VerifyCollaborator = () => {
+  const dispatch = useDispatch();
+
+  const { roomId } = useParams();
+  const boards = useSelector((state) => state.board);
+
+  /* On refresh, on redirect on page, get me */
+  const { user, getAccessTokenSilently } = useAuth0();
+  useEffect(() => {
+    const dispatchGetMe = async () => {
+      const accessToken = await getAccessTokenSilently();
+      dispatch(getMe(user.email, accessToken));
+    };
+    dispatchGetMe();
+  }, [dispatch]);
+
+  const boardExists = (boards, boardId) => {
+    for (let i = 0; i < boards.length; i++) {
+      if (boards[i].id === parseInt(boardId)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  /* Check if user has access to the baord. */
+  const isCollaborator =
+    boards &&
+    (boardExists(boards.owned, roomId) || boardExists(boards.shared, roomId));
+
+  if (isCollaborator) {
+    return <ReactFlowPage />;
+  }
+
+  return <NotFound />;
+};
 
 export default App;

@@ -4,21 +4,10 @@ import { LogoutButton } from "../../buttons/logoutButton";
 import { LoginButton } from "../../buttons/loginButton";
 import { SignupButton } from "../../buttons/signupButton";
 import React from "react";
-import axios from "axios";
-import { getAuthHeader } from "../../../utils/authService";
 
 const Navbar = () => {
   /* Conditionally rendering signin/login/logout button */
-  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-
-  const handleTestEndpoint = async () => {
-    const accessToken = await getAccessTokenSilently();
-    const res = await axios.delete(
-      "http://localhost:3001/api/boards/2",
-      getAuthHeader(user.email, accessToken)
-    );
-    console.log(res.data);
-  };
+  const { isAuthenticated } = useAuth0();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark menubar">
@@ -101,7 +90,6 @@ const Navbar = () => {
               </li>
             </ul>
           )}
-          <button onClick={handleTestEndpoint}>Test endpoint</button>
         </ul>
       </div>
     </nav>

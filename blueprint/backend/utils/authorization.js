@@ -15,6 +15,7 @@ const userExtractor = async (req, res, next) => {
 
   /* Create a user in database for new user. */
   const userEmail = req.get("UserEmail");
+  if (!userEmail) return res.status(404).json({ error: "Email missing." });
   const findUser = await User.findOne({
     where: {
       email: userEmail,

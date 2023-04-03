@@ -67,9 +67,7 @@ const customEdgeTypes = {
 };
 
 /* For setting up yjs connection */
-const HOST = "localhost";
-const PORT = "3002";
-const WEBSOCKET_URL = "ws://" + HOST + ":" + PORT;
+const WEBSOCKET_URL = process.env.REACT_APP_WEBSOCKET_URL;
 
 // initial document
 // const ydoc = new Y.Doc();
@@ -547,10 +545,10 @@ const WhiteboardReactFlow = () => {
     console.log("Sending email via SendGrid");
     const accessToken = await getAccessTokenSilently();
     const res = await axios.post(
-      "http://localhost:3001/api/invite/",
+      process.env.REACT_APP_BASE_URL + "/api/invite/",
       {
         email: emailInput,
-        url: "http://localhost:3000/page/" + roomId,
+        url: process.env.REACT_APP_BASE_URL + "/page/" + roomId,
       },
       getAuthHeader(user.email, accessToken)
     );
