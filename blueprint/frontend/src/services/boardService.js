@@ -22,6 +22,15 @@ const getAllOwned = async (email, token) => {
   return res.data;
 };
 
+//delete a board
+const deleteBoard = async (email, token, boardId) => {
+  const res = await axios.delete(
+    `${ENDPOINTS.BASE_BOARD_URL}${boardId}`,
+    getAuthHeader(email, token)
+  );
+  return res.data;
+};
+
 const getAllShared = async (email, token) => {
   const res = await axios.get(
     `${ENDPOINTS.BASE_BOARD_URL}getShared`,
@@ -53,4 +62,5 @@ export const boardServices = {
   getAllOwned,
   getAllShared,
   addCollaborator,
+  deleteBoard,
 };

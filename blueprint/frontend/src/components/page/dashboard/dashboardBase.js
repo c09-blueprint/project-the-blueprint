@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getMe } from "../../../reducers/userReducer";
 import Navbar from "../navbar/navbar";
-import { createBoard } from "../../../reducers/boardReducer";
+import { createBoard, deleteBoard } from "../../../reducers/boardReducer";
 import { useLocation } from "react-router-dom";
 
 const CreateBoardForm = () => {
@@ -93,19 +93,52 @@ function BoardCard(props) {
 
   const location = useLocation();
 
+  const { user, getAccessTokenSilently } = useAuth0();
+  const dispatch = useDispatch();
+
+  const handleDeleteBoard = async () => {
+    console.log("delete board");
+    const accessToken = await getAccessTokenSilently();
+    dispatch(deleteBoard(user.email, id, accessToken));
+    // navigate(`/`);
+  };
+
   return (
-    <div onClick={handleClick} className="card text-white bg-info mb-3">
-      <div className="card-header">Board ID: {id}</div>
+    <div className="card doc-card cols-1">
+      <div className="card-header bg-info">Board ID: {id}</div>
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
         <button
           type="button"
-          className={`btn btn-danger ${
-            location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
-          }`}
+          className="btn btn-info edit-btn algin-right"
+          onClick={handleClick}
         >
-          Delete
+          Enter Board
         </button>
+        <div className="btn-group edit-btn algin-right">
+          <button
+            type="button"
+            className="btn  dropdown-toggle btn-outline-secondary"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Edit
+          </button>
+          <div
+            className={`dropdown-menu dropdown-menu-right ${
+              location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
+            }`}
+          >
+            <button
+              type="button"
+              className="dropdown-item"
+              onClick={handleDeleteBoard}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
