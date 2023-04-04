@@ -110,8 +110,7 @@ const WhiteboardReactFlow = () => {
     );
 
     // log connection status
-    websockerProvider.on("status", (event) => {
-    });
+    websockerProvider.on("status", (event) => {});
 
     const elMap = ydoc.getMap("element-map");
     setElementMap(elMap);
@@ -235,8 +234,7 @@ const WhiteboardReactFlow = () => {
     event.dataTransfer.effectAllowed = "move";
   };
 
-  const logCurrentState = useCallback(() => {
-  }, [reactFlowInstance]);
+  const logCurrentState = useCallback(() => {}, [reactFlowInstance]);
 
   const changeEdgeType = (edge) => {
     setEdgeType(edge);
