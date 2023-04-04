@@ -35,6 +35,18 @@ button {
   background-image: url("../../../../public/stepEdge.svg");
 }
 
+#circle-node {
+  background-image: url("../../../../public/circle.svg");
+}
+
+#diamond-node {
+  background-image: url("../../../../public/diamondNode.svg");
+}
+
+#triangle-node {
+  background-image: url("../../../../public/triangleNode.svg");
+}
+
 .drop-icon {
   height: 40px;
   width: 80px;
@@ -54,9 +66,22 @@ button {
 
 .share-button {
   margin-top: 5px;
-  background-color: aqua;
+  background-color: #0dcaf0;
 }
 
-.email-input {
+/* .email-input {
   margin-top: 50px;
+} */
+
+.text-color {
+  color: #0dcaf0;
+  margin-bottom: 10px;
+}
+
+.spacer {
+  margin-top: 40px;
+}
+
+.hidden {
+  display: none !important;
 }

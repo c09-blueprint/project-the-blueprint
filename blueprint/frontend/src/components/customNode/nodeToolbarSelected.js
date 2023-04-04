@@ -63,14 +63,14 @@ const NodeToolbarSelected = ({ id, type }) => {
               />
               Background
             </a>
-            <a className="dropdown-item" href="#">
+            {/* <a className="dropdown-item" href="#">
               <input
                 className="btn-margins"
                 onChange={onBackgroundColorChange}
                 type="color"
               />
               Text
-            </a>
+            </a> */}
           </div>
         </div>
       </div>

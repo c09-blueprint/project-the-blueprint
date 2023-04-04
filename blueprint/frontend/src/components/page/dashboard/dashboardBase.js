@@ -108,7 +108,7 @@ function BoardCard(props) {
   };
 
   return (
-    <div className="card doc-card">
+    <div className="card doc-card card-spacing col-3">
       <div className="card-header bg-info">Board ID: {id}</div>
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
@@ -149,12 +149,33 @@ function BoardCard(props) {
 }
 
 const DashbordBase = (props) => {
+  const location = useLocation();
   return (
     <div>
       <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
-      <div id="board-card-wrapper" className="card-deck cards-spacing">
+      <h3
+        className={`display-4 header-spacing ${
+          location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
+        }`}
+      >
+        My Workspace
+      </h3>
+      <h3
+        className={`display-4 header-spacing ${
+          location.pathname === "/dashboard" ? "hidden-btn" : ""
+        }`}
+      >
+        Shared With Me
+      </h3>
+      <div id="board-card-wrapper" className="row deck-spacing">
+        {Array.isArray(props.boards) && props.boards.length === 0 && (
+          <div className="col-12">
+            <p class="h5">There are no boards.</p>
+          </div>
+        )}
         {Array.isArray(props.boards) &&
+          props.boards.length > 0 &&
           props.boards.map((board) => (
             <BoardCard
               key={board.id}

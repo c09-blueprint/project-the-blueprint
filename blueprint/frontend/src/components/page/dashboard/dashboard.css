@@ -1,5 +1,5 @@
-.cards-spacing {
-  margin: 20px;
+.deck-spacing {
+  margin: 15px !important;
 }
 
 .form-input {
@@ -13,3 +13,12 @@
 .btn-spacing {
   margin-right: 10px;
 }
+
+.card-spacing {
+  margin: 10px !important;
+}
+
+.header-spacing {
+  margin: 10px !important;
+}
+
