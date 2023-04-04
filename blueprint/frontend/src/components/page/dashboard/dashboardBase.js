@@ -108,13 +108,13 @@ function BoardCard(props) {
   };
 
   return (
-    <div className="card doc-card card-spacing col-3">
-      <div className="card-header bg-info">Board ID: {id}</div>
+    <div className="card doc-card card-spacing text-white bg-info col-3">
+      <div className="card-header">Board ID: {id}</div>
       <div className="card-body">
-        <h5 className="card-title">{name}</h5>
+        <h5 className="card-title title-spacing">{name}</h5>
         <button
           type="button"
-          className="btn btn-info text-white btn-spacing"
+          className="btn btn-warning btn-spacing"
           onClick={handleClick}
         >
           Enter Board
@@ -126,7 +126,7 @@ function BoardCard(props) {
         >
           <button
             type="button"
-            className="btn dropdown-toggle btn-outline-secondary"
+            className="btn dropdown-toggle btn-secondary"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
@@ -136,7 +136,7 @@ function BoardCard(props) {
           <div className="dropdown-menu dropdown-menu-right">
             <button
               type="button"
-              className="dropdown-item"
+              className="dropdown-item btn-danger"
               onClick={handleDeleteBoard}
             >
               Delete
@@ -155,14 +155,14 @@ const DashbordBase = (props) => {
       <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
       <h3
-        className={`display-4 header-spacing ${
+        className={` header-spacing ${
           location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
         }`}
       >
         My Workspace
       </h3>
       <h3
-        className={`display-4 header-spacing ${
+        className={` header-spacing ${
           location.pathname === "/dashboard" ? "hidden-btn" : ""
         }`}
       >

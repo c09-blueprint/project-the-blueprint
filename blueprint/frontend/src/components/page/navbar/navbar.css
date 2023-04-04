@@ -24,12 +24,14 @@
   text-align: right !important;
 }
 
-/* .container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-} */
-
+.header-spacing {
+  margin: 20px !important;
+  margin-left: 40px !important;
+}
 .doc-card {
   width: 350px;
+}
+
+.title-spacing {
+  margin-bottom: 20px !important;
 }
