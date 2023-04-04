@@ -54,7 +54,14 @@ const Navbar = () => {
                 Shared With Me
               </a>
             </li>
-            <li className="nav-item dropdown">
+            <li
+              className={`nav-item dropdown ${
+                location.pathname === "/dashboard" ||
+                location.pathname === "/dashboard/shared"
+                  ? ""
+                  : "hidden"
+              }`}
+            >
               <a
                 className="nav-link dropdown-toggle"
                 href="#"

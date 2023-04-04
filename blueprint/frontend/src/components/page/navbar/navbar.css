@@ -35,3 +35,7 @@
 .title-spacing {
   margin-bottom: 20px !important;
 }
+
+.hidden {
+  display: none !important;
+}

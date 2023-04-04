@@ -2,7 +2,7 @@ import "./dashboard.css";
 import "../styles/cols.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getMe } from "../../../reducers/userReducer";
 import Navbar from "../navbar/navbar";
@@ -13,6 +13,8 @@ const CreateBoardForm = () => {
   const dispatch = useDispatch();
   const { user, getAccessTokenSilently } = useAuth0();
   const [boardName, setBoardName] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const submitCreateBoard = (e) => {
     e.preventDefault();
@@ -22,6 +24,9 @@ const CreateBoardForm = () => {
     };
     dispatchGetBoard();
     setBoardName("");
+    if (location.pathname !== "/dashboard") {
+      navigate("/dashboard");
+    }
   };
 
   return (
