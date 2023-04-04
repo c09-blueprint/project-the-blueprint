@@ -60,7 +60,8 @@ export const createBoard = (email, token, name) => {
 //delete a board
 export const deleteBoard = (email, token, boardId) => {
   return async (dispatch) => {
-    const deletedBoard = await boardServices.deleteBoard(email, token, boardId);
-    dispatch(setBoardsOwned(deletedBoard));
+    await boardServices.deleteBoard(email, token, boardId);
+    const boards = await boardServices.getAllOwned(email, token);
+    dispatch(setBoardsOwned(boards));
   };
 };

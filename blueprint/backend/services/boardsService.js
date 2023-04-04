@@ -20,7 +20,7 @@ const createBoard = async (name, userId) => {
 };
 
 const deleteBoard = async (boardId) => {
-  const boardUser = await BoardUser.destroy({
+  await BoardUser.destroy({
     where: {
       BoardId: boardId,
     },
@@ -39,7 +39,16 @@ const createUserBoardAssociation = async (boardId, email, permission) => {
       email: email,
     },
   });
-  if (!user) throw new Error("Cannot find user.");
+  if (!user) {
+    const user = User.build({
+      email: email,
+    });
+    try {
+      await user.save();
+    } catch {
+      return res.status(500).json({ error: "User creation failed." });
+    }
+  }
 
   const findBoardUser = await BoardUser.findOne({
     where: {
@@ -50,6 +59,7 @@ const createUserBoardAssociation = async (boardId, email, permission) => {
   if (findBoardUser) throw new Error("User is already a collaborator.");
 
   const board = await Board.findByPk(boardId);
+  if (!board) throw new Error("Bad requset.");
 
   /* Create an association */
   const boardUser = await BoardUser.create({

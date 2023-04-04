@@ -1,10 +1,9 @@
 import "./dashboard.css";
 // import "../styles/cols.css";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { redirect, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getMe } from "../../../reducers/userReducer";
 import Navbar from "../navbar/navbar";
 import { createBoard, deleteBoard } from "../../../reducers/boardReducer";
 import { useLocation } from "react-router-dom";
@@ -108,11 +107,6 @@ function BoardCard(props) {
   const handleDeleteBoard = async () => {
     const accessToken = await getAccessTokenSilently();
     dispatch(deleteBoard(user.email, accessToken, id));
-    // get all boards again
-    const dispatchGetMe = async () => {
-      dispatch(getMe(user.email, accessToken));
-    };
-    dispatchGetMe();
   };
 
   return (
