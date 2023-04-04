@@ -424,6 +424,70 @@ const WhiteboardReactFlow = () => {
 
     const elMap = ydoc.getMap("element-map");
     setElementMap(elMap);
+    const peerMap = ydoc.getMap("peer-to-remove");
+    setPeerToRemove(peerMap);
+    const peerVideoDisabledMap = ydoc.getMap("peer-video-disabled");
+    setPeerVideoToDisable(peerVideoDisabledMap);
+
+    peerMap.observe((event) => {
+      console.log("peer to remove observed");
+      let peersInMap = peerMap.get("peers");
+
+      console.log("peer to remove: ", peersInMap);
+      if (peersInMap === undefined) {
+        peersInMap = [];
+      }
+
+      for (let i = 0; i < peersInMap.length; i++) {
+        let peer = peersInMap[i];
+        let remoteUserVideoWrapper = document.getElementById(peer);
+        if (remoteUserVideoWrapper === null) {
+          continue;
+        }
+        remoteUserVideoWrapper.remove();
+        let remoteUserText = document.getElementById(peer + "-text");
+        if (remoteUserText === null) {
+          continue;
+        }
+        remoteUserText.remove();
+      }
+    });
+
+    peerVideoDisabledMap.observe((event) => {
+      console.log("peer to disable observed");
+      console.log("video map: ", videoMap);
+      let remoteUserVideoWrapper =
+        document.getElementById("remote-user-videos");
+      for (const child of remoteUserVideoWrapper.children) {
+        console.log("child: ", child);
+        for (let [key, value] of videoMap) {
+          let remoteUserVideo = child.querySelector(".remote-video");
+          if (child.id === key && remoteUserVideo.srcObject === null) {
+            console.log("remoteUserVideo VALUE: ", value);
+            remoteUserVideo.srcObject = value;
+            remoteUserVideo.play();
+          }
+        }
+      }
+
+      let peerMapVideoDisabled = peerVideoDisabledMap.get("peersVideoDisabled");
+      if (peerMapVideoDisabled === undefined) {
+        peerMapVideoDisabled = [];
+      }
+      for (let i = 0; i < peerMapVideoDisabled.length; i++) {
+        let peer = peerMapVideoDisabled[i];
+        let remoteUserVideoWrapper = document.getElementById(peer);
+        if (remoteUserVideoWrapper === null) {
+          continue;
+        }
+        console.log("remoteUserVideoWrapper: ", remoteUserVideoWrapper);
+        let remoteUserVideo =
+          remoteUserVideoWrapper.querySelector(".remote-video");
+        console.log("remoteUserVideo: ", remoteUserVideo);
+        remoteUserVideo.pause();
+        remoteUserVideo.srcObject = null;
+      }
+    });
 
     // set up observer
     elMap.observe((event) => {
