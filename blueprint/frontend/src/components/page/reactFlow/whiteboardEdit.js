@@ -76,9 +76,13 @@ const WEBSOCKET_URL = process.env.REACT_APP_WEBSOCKET_URL;
 // const elementMap = ydoc.getMap("element-map");
 
 const WhiteboardReactFlow = () => {
+  const { user, getAccessTokenSilently } = useAuth0();
+
   const { roomId } = useParams();
 
   const [elementMap, setElementMap] = useState(null);
+  const [peerToRemove, setPeerToRemove] = useState(null);
+  const [peerVideoToDisable, setPeerVideoToDisable] = useState(null);
 
   const [edgeType, setEdgeType] = useState("defaultEdge");
   const [edgeTypeStyle, setEdgeTypeStyle] = useState("default");
@@ -106,8 +110,33 @@ const WhiteboardReactFlow = () => {
 
   const [remakePeer, setRemakePeer] = useState(false);
   const [dataConnection, setDataConnection] = useState(null);
-  // const remoteVideoRef = useRef(null);
-  const allConnections = [];
+
+  let callList = [];
+  const [videoMap, setVideoMap] = useState(new Map());
+  const createVideoPlayer = (stream, call) => {
+    var remoteUserVideoWrapper = document.getElementById("remote-user-videos");
+    var singleVideoWrapper = document.createElement("div");
+    singleVideoWrapper.setAttribute("id", call.peer);
+
+    var remoteVideo = document.createElement("video");
+    remoteVideo.setAttribute("class", "remote-video mb-4");
+    remoteVideo.setAttribute("autoplay", "true");
+    remoteVideo.setAttribute("muted", "true");
+    remoteVideo.srcObject = stream;
+
+    var remoteIdText = document.createElement("p");
+    remoteIdText.setAttribute("class", "remote-id-text");
+    remoteIdText.innerHTML = call.peer;
+    remoteIdText.setAttribute("id", call.peer + "-text");
+    singleVideoWrapper.appendChild(remoteIdText);
+    singleVideoWrapper.appendChild(remoteVideo);
+    remoteUserVideoWrapper.appendChild(singleVideoWrapper);
+    callList.push(call.peer);
+
+    console.log("CREATE VIDEO WORKS: ", call.peer);
+    setVideoMap((videoMap) => videoMap.set(call.peer, stream));
+  };
+
   useEffect(() => {
     const peer = new Peer();
 
@@ -116,60 +145,29 @@ const WhiteboardReactFlow = () => {
       console.log("My peer ID is: " + id);
     });
 
+    // When a remote peer connects to this peer
     peer.on("connection", (connection) => {
       setDataConnection(connection);
-      allConnections.push(connection);
-      console.log("connection", allConnections);
       console.log(
         "!!!!!!@@@@@@@@@@@@@@@@@@@@@ connection id" + connection.peer
       );
-      connection.on("close", () => {
-        // Clear the video element of the remote user
-        // const remoteVideo = document.getElementById('remote-video');
-        // remoteVideo.srcObject = null;
-        console.log(
-          "HELLOOOOOOOOOOO @@@@@@@@@@@@@@@@@@@@@ connection id" +
-            connection.peer
-        );
-        console.log(
-          "WORLD              @@@@@@@@@@@@@@@@@@@@@@@@@@@ connection" +
-            connection
-        );
-
-        let remoteUserVideoWrapper = document.getElementById(connection.peer);
-        remoteUserVideoWrapper.remove();
-      });
     });
 
+    // When a remote peer calls this peer
     peer.on("call", (call) => {
       var getUserMedia =
         navigator.getUserMedia ||
         navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia;
 
-      getUserMedia({ video: true }, (mediaStream) => {
-        // currentUserVideoRef.current.srcObject = mediaStream;
-        // currentUserVideoRef.current.play();
+      getUserMedia({ video: true, audio: true }, (mediaStream) => {
         call.answer(mediaStream);
         call.on("stream", (remoteStream) => {
-          var remoteUserVideoWrapper =
-            document.getElementById("remote-user-videos");
-          var singleVideoWrapper = document.createElement("div");
-          singleVideoWrapper.setAttribute("id", call.peer);
-
-          var remoteVideo = document.createElement("video");
-          remoteVideo.setAttribute("class", "remote-video mb-4");
-          remoteVideo.setAttribute("autoplay", "true");
-          remoteVideo.setAttribute("muted", "true");
-          remoteVideo.srcObject = remoteStream;
-
-          var remoteIdText = document.createElement("p");
-          remoteIdText.setAttribute("class", "remote-id-text");
-          remoteIdText.innerHTML = call.peer;
-          remoteIdText.setAttribute("id", call.peer + "-text");
-          singleVideoWrapper.appendChild(remoteIdText);
-          singleVideoWrapper.appendChild(remoteVideo);
-          remoteUserVideoWrapper.appendChild(singleVideoWrapper);
+          if (callList.includes(call.peer)) {
+            return;
+          } else {
+            createVideoPlayer(remoteStream, call);
+          }
         });
       });
     });
@@ -202,69 +200,30 @@ const WhiteboardReactFlow = () => {
       navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
       navigator.mozGetUserMedia;
-    console.log("remotePeerIds!!!!!!!!!!!!!!!!!!!: ", remotePeerIds);
     getUserMedia(
-      { video: true },
+      { video: true, audio: true },
       function (stream) {
-        // currentUserVideoRef.current.srcObject = stream;
-        // currentUserVideoRef.current.play();
-
         var remoteUserVideoWrapper =
           document.getElementById("remote-user-videos");
 
         //clear
         remoteUserVideoWrapper.innerHTML = "";
-        console.log(
-          "remotePeerIds!!!!!!!!!!!!!!!!!!@@@@@@@@@@@!: ",
-          remotePeerIds
-        );
 
         for (let i = 0; i < remotePeerIds.length; i++) {
           if (remotePeerIds[i] === peerId) {
-            console.log("same peer id");
             continue;
           }
-          var call = peerInstance.current.call(remotePeerIds[i], stream);
+          let call = peerInstance.current.call(remotePeerIds[i], stream);
           var connect = peerInstance.current.connect(remotePeerIds[i]);
-          allConnections.push(connect);
           setDataConnection(connect);
           call.on("stream", (remoteStream) => {
-            var remoteVideo = document.createElement("video");
-            remoteVideo.setAttribute("id", remotePeerIds[i]);
-            remoteVideo.setAttribute("class", "remote-video mb-4");
-            remoteVideo.setAttribute("autoplay", "true");
-            remoteVideo.setAttribute("muted", "true");
-            remoteVideo.srcObject = remoteStream;
-
-            var remoteIdText = document.createElement("p");
-            remoteIdText.setAttribute("id", call.peer + "-text");
-            remoteIdText.setAttribute("class", "remote-id-text");
-            remoteIdText.innerHTML = remotePeerIds[i];
-            remoteUserVideoWrapper.appendChild(remoteIdText);
-            remoteUserVideoWrapper.appendChild(remoteVideo);
-
-            console.log("remote stream *****************:", remoteStream);
-            console.log("remote video ref:", remotePeerIds[i]);
+            if (callList.includes(call.peer)) {
+              return;
+            } else {
+              createVideoPlayer(remoteStream, call);
+            }
           });
         }
-
-        connect.on("close", () => {
-          console.log(
-            "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& current user just connection closed"
-          );
-          var remoteUserVideoWrapper = document.getElementById(connect.peer);
-          remoteUserVideoWrapper.remove();
-
-          let remoteUserText = document.getElementById(connect.peer + "-text");
-          console.log(
-            "*********************************** remoteUserText",
-            remoteUserText
-          );
-          if (remoteUserText === null) {
-            return;
-          }
-          remoteUserText.remove();
-        });
       },
       function (err) {
         console.log("Failed to get local stream", err);
@@ -273,6 +232,21 @@ const WhiteboardReactFlow = () => {
   };
 
   const hangUp = () => {
+    //START
+    let peers = peerToRemove.get("peers");
+    if (peers === undefined) {
+      peers = [];
+    }
+    console.log("peers TO REMOVE: ", peers);
+    if (!peers.includes(peerId)) {
+      peers.push(peerId);
+    }
+    peerToRemove.set("peers", peers);
+
+    console.log("peerToRemove: AFTER", peerToRemove.get("peers"));
+    console.log("peerInstance.current: ", peerInstance.current);
+    //END
+
     // disconnect call button disappear using css hidden
     let disconnectCallButton = document.getElementById(
       "disconnect-call-button"
@@ -308,20 +282,24 @@ const WhiteboardReactFlow = () => {
       peerInstance.current
     );
     dataConnection.close();
-    for (let i = 0; i < allConnections.length; i++) {
-      allConnections[i].close();
-    }
     setRemakePeer(!remakePeer);
   };
 
   const turnOnCamera = () => {
+    // disconnect call button appear using css hidden
+    let offCamera = document.getElementById("off-camera-button");
+    offCamera.classList.remove("hidden");
+    // make call button disappear using css hidden
+    let onCamera = document.getElementById("on-camera-button");
+    onCamera.classList.add("hidden");
+
     var getUserMedia =
       navigator.getUserMedia ||
       navigator.webkitGetUserMedia ||
       navigator.mozGetUserMedia;
 
     getUserMedia(
-      { video: true },
+      { video: true, audio: true },
       function (stream) {
         currentUserVideoRef.current.srcObject = stream;
         currentUserVideoRef.current.play();
@@ -330,17 +308,46 @@ const WhiteboardReactFlow = () => {
         console.log("Failed to get local stream", err);
       }
     );
+
+    let peersVideoDisabled = peerVideoToDisable.get("peersVideoDisabled");
+    if (peersVideoDisabled === undefined) {
+      peersVideoDisabled = [];
+    }
+    const index = peersVideoDisabled.indexOf(peerId);
+    if (index > -1) {
+      peersVideoDisabled.splice(index, 1);
+    }
+    peerVideoToDisable.set("peersVideoDisabled", peersVideoDisabled);
   };
 
   const turnOffCamera = () => {
+    let offCamera = document.getElementById("off-camera-button");
+    offCamera.classList.add("hidden");
+    let onCamera = document.getElementById("on-camera-button");
+    onCamera.classList.remove("hidden");
+
     currentUserVideoRef.current.pause();
     currentUserVideoRef.current.srcObject = null;
+
+    //START
+    let peersVideoDisabled = peerVideoToDisable.get("peersVideoDisabled");
+    if (peersVideoDisabled === undefined) {
+      peersVideoDisabled = [];
+    }
+    if (!peersVideoDisabled.includes(peerId)) {
+      peersVideoDisabled.push(peerId);
+    }
+    peerVideoToDisable.set("peersVideoDisabled", peersVideoDisabled);
+
+    console.log(
+      "peerToDISABLE VIDEO: AFTER",
+      peerVideoToDisable.get("peersVideoDisabled")
+    );
+    //END
   };
 
   const logCallState = () => {
-    console.log("ALL CONNECTIONS: ", allConnections);
-
-    console.log("peerInstance.current: ", peerInstance.current);
+    console.log("Element Map: ", elementMap);
     console.log(
       "peerInstance.current.connections: ",
       peerInstance.current.connections
@@ -359,6 +366,15 @@ const WhiteboardReactFlow = () => {
       peerInstance.current.reliable
     );
   };
+
+  useEffect(() => {
+    console.log("CHANGED peerToRemove: ", peerToRemove);
+  }, [peerToRemove]);
+
+  const testHello = () => {
+    console.log("hello WORK");
+  };
+
   /* 
     Connect to y-websocket provider with YJS document and unique room id.
     Set up observer
@@ -379,9 +395,71 @@ const WhiteboardReactFlow = () => {
 
     const elMap = ydoc.getMap("element-map");
     setElementMap(elMap);
-    console.log("here");
-    console.log(elMap.get("nodes"));
-    console.log(elMap.get("edges"));
+    const peerMap = ydoc.getMap("peer-to-remove");
+    setPeerToRemove(peerMap);
+    const peerVideoDisabledMap = ydoc.getMap("peer-video-disabled");
+    setPeerVideoToDisable(peerVideoDisabledMap);
+
+    peerMap.observe((event) => {
+      console.log("peer to remove observed");
+      let peersInMap = peerMap.get("peers");
+
+      console.log("peer to remove: ", peersInMap);
+      testHello();
+      if (peersInMap === undefined) {
+        peersInMap = [];
+      }
+
+      for (let i = 0; i < peersInMap.length; i++) {
+        let peer = peersInMap[i];
+        let remoteUserVideoWrapper = document.getElementById(peer);
+        if (remoteUserVideoWrapper === null) {
+          continue;
+        }
+        remoteUserVideoWrapper.remove();
+        let remoteUserText = document.getElementById(peer + "-text");
+        if (remoteUserText === null) {
+          continue;
+        }
+        remoteUserText.remove();
+      }
+    });
+
+    peerVideoDisabledMap.observe((event) => {
+      console.log("peer to disable observed");
+      console.log("video map: ", videoMap);
+      let remoteUserVideoWrapper =
+        document.getElementById("remote-user-videos");
+      for (const child of remoteUserVideoWrapper.children) {
+        console.log("child: ", child);
+        for (let [key, value] of videoMap) {
+          if (child.id === key) {
+            let remoteUserVideo = child.querySelector(".remote-video");
+            console.log("remoteUserVideo VALUE: ", value);
+            remoteUserVideo.srcObject = value;
+            remoteUserVideo.play();
+          }
+        }
+      }
+
+      let peerMapVideoDisabled = peerVideoDisabledMap.get("peersVideoDisabled");
+      if (peerMapVideoDisabled === undefined) {
+        peerMapVideoDisabled = [];
+      }
+      for (let i = 0; i < peerMapVideoDisabled.length; i++) {
+        let peer = peerMapVideoDisabled[i];
+        let remoteUserVideoWrapper = document.getElementById(peer);
+        if (remoteUserVideoWrapper === null) {
+          continue;
+        }
+        console.log("remoteUserVideoWrapper: ", remoteUserVideoWrapper);
+        let remoteUserVideo =
+          remoteUserVideoWrapper.querySelector(".remote-video");
+        console.log("remoteUserVideo: ", remoteUserVideo);
+        remoteUserVideo.pause();
+        remoteUserVideo.srcObject = null;
+      }
+    });
 
     // set up observer
     elMap.observe((event) => {
@@ -526,7 +604,6 @@ const WhiteboardReactFlow = () => {
     }
   };
 
-  const { user, getAccessTokenSilently } = useAuth0();
   const addUser = async () => {
     console.log("share clicked");
     console.log("email: ", emailInput);
@@ -755,10 +832,20 @@ const WhiteboardReactFlow = () => {
             log call state
           </button>
 
-          <button class="mb-2" onClick={turnOnCamera}>
+          <button
+            id="on-camera-button"
+            class="btn btn-light mb-2"
+            onClick={turnOnCamera}
+          >
             turn on camera
           </button>
-          <button onClick={turnOffCamera}>turn off camera</button>
+          <button
+            id="off-camera-button"
+            class="hidden btn btn-danger"
+            onClick={turnOffCamera}
+          >
+            turn off camera
+          </button>
           <input
             type="text"
             value={remotePeerId}
@@ -767,7 +854,7 @@ const WhiteboardReactFlow = () => {
           <button
             id="call-button"
             onClick={() => call(elementMap.get("users"))}
-            class="btn btn-light mb-2"
+            class="btn btn-success mb-2"
           >
             Call
           </button>
