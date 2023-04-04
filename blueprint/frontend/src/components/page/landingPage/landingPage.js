@@ -57,11 +57,11 @@ const LandingPage = () => {
                   className="features-icons"
                 />
               </div>
-              <h3>Audio Call Simultaneously</h3>
+              <h3>Video & Audio Call Simultaneously</h3>
 
               <p className="lead mb-0">
                 Hop on a call with your team and brainstorm together with our
-                integrated audio call feature!
+                integrated video / audio call feature!
               </p>
               <a
                 className="flaticon"

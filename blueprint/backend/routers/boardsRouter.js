@@ -9,7 +9,7 @@ boardsRouter.post("/", boardController.createBoard);
 boardsRouter.delete("/:id", auth.isBoardOwner, boardController.deleteBoard);
 boardsRouter.post(
   "/addCollaborator/:id",
-  auth.isBoardOwner,
+  auth.isBoardCollaborator,
   boardController.addUserToBoard
 );
 boardsRouter.get("/getOwned", boardController.getAllOwed);

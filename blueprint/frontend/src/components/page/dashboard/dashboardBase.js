@@ -122,7 +122,7 @@ function BoardCard(props) {
           Enter Board
         </button>
         <div
-          className={`btn-group btn-spacing${
+          className={`btn-group btn-spacing ${
             location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
           }`}
         >
