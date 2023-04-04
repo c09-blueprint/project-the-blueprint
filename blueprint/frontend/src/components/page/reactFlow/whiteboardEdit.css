@@ -7,23 +7,6 @@ button {
   padding: 0 !important;
 }
 
-.hidden {
-  display: none !important;
-}
-
-.display {
-  display: block;
-}
-
-video {
-  /* fit parent container  */
-  width: 100%;
-}
-
-#remote-user-videos {
-  margin: 40px 0 0 0;
-}
-
 #input-node {
   background-image: url("../../../../public/inputNode.svg");
 }
@@ -93,15 +76,4 @@ video {
 
 .form-input {
   text-align: left;
-}
-
-.mute-text {
-  margin-left: auto;
-  margin-right: 10px;
-  color: #ff4d4d;
-}
-
-.mute-wrapper {
-  display: flex;
-  margin-bottom: 10px;
 }
