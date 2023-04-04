@@ -54,7 +54,22 @@ const isBoardOwner = async (req, res, next) => {
   next();
 };
 
+const isBoardCollaborator = async (req, res, next) => {
+  const boardUser = await BoardUser.findOne({
+    where: {
+      UserId: req.user.id,
+      BoardId: req.params.id,
+    },
+  });
+  if (!boardUser) {
+    return res.status(403).json({ error: "Permission Denied." });
+  }
+
+  next();
+};
+
 export default {
   userExtractor,
   isBoardOwner,
+  isBoardCollaborator,
 };
