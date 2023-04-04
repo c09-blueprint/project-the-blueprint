@@ -247,17 +247,29 @@ const WhiteboardReactFlow = () => {
     }
   };
 
+  const isEmailValid = (email) => {
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    return emailRegex.test(email);
+  };
+
   const { user, getAccessTokenSilently } = useAuth0();
   const addUser = async () => {
-    const accessToken = await getAccessTokenSilently();
-    await boardServices.addCollaborator(
-      user.email,
-      accessToken,
-      roomId,
-      emailInput,
-      "collaborator" // hardcode for now
-    );
-    sendEmail();
+    if (isEmailValid(emailInput)) {
+      const accessToken = await getAccessTokenSilently();
+      await boardServices.addCollaborator(
+        user.email,
+        accessToken,
+        roomId,
+        emailInput,
+        "collaborator" // hardcode for now
+      );
+      sendEmail();
+    } else {
+      setIsVisibleFail(true);
+      setTimeout(() => {
+        setIsVisibleFail(false);
+      }, 3000);
+    }
   };
 
   const sendEmail = async () => {
@@ -274,11 +286,12 @@ const WhiteboardReactFlow = () => {
     setIsVisible(true);
     setTimeout(() => {
       setIsVisible(false);
-    }, 5000);
+    }, 3000);
   };
 
   const [emailInput, setEmailInput] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [isVisibleFail, setIsVisibleFail] = useState(false);
 
   const resizableStyle =
     '{ "background": "#fff", "border": "1px solid black", "borderRadius": 3, "fontSize": 12}';
@@ -431,7 +444,7 @@ const WhiteboardReactFlow = () => {
             </div>
             <input
               type="text"
-              className="form-control"
+              className="form-control form-input"
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
               value={emailInput}
@@ -453,6 +466,12 @@ const WhiteboardReactFlow = () => {
             role="alert"
           >
             Board was shared successfully!
+          </div>
+          <div
+            className={`alert alert-danger ${isVisibleFail ? "" : "hidden"}`}
+            role="alert"
+          >
+            Board was not shared. Please check if email is valid.
           </div>
         </div>
         <div

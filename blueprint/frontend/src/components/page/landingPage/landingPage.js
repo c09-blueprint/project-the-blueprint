@@ -64,6 +64,7 @@ const LandingPage = () => {
                 integrated audio call feature!
               </p>
               <a
+                className="flaticon"
                 href="https://www.flaticon.com/free-icons/voice-mail"
                 title="voice mail icons"
               >
@@ -86,6 +87,7 @@ const LandingPage = () => {
                 and see each other's changes in real-time!
               </p>
               <a
+                className="flaticon"
                 href="https://www.flaticon.com/free-icons/real-time"
                 title="real time icons"
               >
@@ -108,6 +110,7 @@ const LandingPage = () => {
                 create your diagrams!
               </p>
               <a
+                className="flaticon"
                 href="https://www.flaticon.com/free-icons/click-here"
                 title="click here icons"
               >
@@ -143,7 +146,7 @@ const LandingPage = () => {
             <div className="testimonial-item mx-auto mb-5 mb-lg-0">
               <h4>Katie Q.</h4>
               <p className="font-weight-light mb-0">
-                "I love the audio call feature! It make it so easy to brainstorm
+                "I love the audio call feature! Makes it so easy to brainstorm
                 with my team!"
               </p>
             </div>

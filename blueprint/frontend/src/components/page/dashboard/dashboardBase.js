@@ -1,5 +1,5 @@
 import "./dashboard.css";
-import "../styles/cols.css";
+// import "../styles/cols.css";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { redirect, useNavigate } from "react-router-dom";
@@ -24,8 +24,11 @@ const CreateBoardForm = () => {
     };
     dispatchGetBoard();
     setBoardName("");
+
     if (location.pathname !== "/dashboard") {
-      navigate("/dashboard");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
     }
   };
 
@@ -113,8 +116,8 @@ function BoardCard(props) {
   };
 
   return (
-    <div className="card doc-card card-spacing text-white bg-info col-3">
-      <div className="card-header">Board ID: {id}</div>
+    <div className="card doc-card card-spacing text-white bg-info col-lg-3 col-md-5 col-sm-11 mb-11">
+      <div className="card-header header-font">Board ID: {id}</div>
       <div className="card-body">
         <h5 className="card-title title-spacing">{name}</h5>
         <button
@@ -125,7 +128,7 @@ function BoardCard(props) {
           Enter Board
         </button>
         <div
-          className={`btn-group ${
+          className={`btn-group btn-spacing${
             location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
           }`}
         >
@@ -141,7 +144,7 @@ function BoardCard(props) {
           <div className="dropdown-menu dropdown-menu-right">
             <button
               type="button"
-              className="dropdown-item btn-danger"
+              className="dropdown-item highlight"
               onClick={handleDeleteBoard}
             >
               Delete
@@ -159,35 +162,39 @@ const DashbordBase = (props) => {
     <div>
       <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
-      <h3
-        className={` header-spacing ${
-          location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
-        }`}
-      >
-        My Workspace
-      </h3>
-      <h3
-        className={` header-spacing ${
-          location.pathname === "/dashboard" ? "hidden-btn" : ""
-        }`}
-      >
-        Shared With Me
-      </h3>
-      <div id="board-card-wrapper" className="row deck-spacing">
-        {Array.isArray(props.boards) && props.boards.length === 0 && (
-          <div className="col-12">
-            <p class="h5">There are no boards.</p>
+      <div className="container">
+        <h3
+          className={` header-spacing ${
+            location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
+          }`}
+        >
+          My Workspace
+        </h3>
+        <h3
+          className={` header-spacing ${
+            location.pathname === "/dashboard" ? "hidden-btn" : ""
+          }`}
+        >
+          Shared With Me
+        </h3>
+        <div className="deck-spacing">
+          <div id="board-card-wrapper" className="row">
+            {Array.isArray(props.boards) && props.boards.length === 0 && (
+              <div className="col-12">
+                <p class="h5">There are no boards.</p>
+              </div>
+            )}
+            {Array.isArray(props.boards) &&
+              props.boards.length > 0 &&
+              props.boards.map((board) => (
+                <BoardCard
+                  key={board.id}
+                  id={board.id}
+                  name={board.name}
+                ></BoardCard>
+              ))}
           </div>
-        )}
-        {Array.isArray(props.boards) &&
-          props.boards.length > 0 &&
-          props.boards.map((board) => (
-            <BoardCard
-              key={board.id}
-              id={board.id}
-              name={board.name}
-            ></BoardCard>
-          ))}
+        </div>
       </div>
     </div>
   );
