@@ -10,6 +10,7 @@ import ReactFlow, {
   useReactFlow,
   MiniMap,
 } from "reactflow";
+import ReactDOM from "react-dom";
 
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
@@ -113,6 +114,22 @@ const WhiteboardReactFlow = () => {
 
   let callList = [];
   const [videoMap, setVideoMap] = useState(new Map());
+
+  // const PeerVideo = ({ stream, call }) => {
+  //   //attach to element with id "remote-user-videos"
+
+  //   return (
+  //     <div id={call.peer}>
+  //       <p id={call.peer + "-text"}>{call.peer}</p>
+  //       <video
+  //         className="remote-video mb-4"
+  //         autoPlay
+  //         muted
+  //       />
+  //     </div>
+  //   );
+  // };
+
   const createVideoPlayer = (stream, call) => {
     var remoteUserVideoWrapper = document.getElementById("remote-user-videos");
     var singleVideoWrapper = document.createElement("div");
@@ -121,14 +138,35 @@ const WhiteboardReactFlow = () => {
     var remoteVideo = document.createElement("video");
     remoteVideo.setAttribute("class", "remote-video mb-4");
     remoteVideo.setAttribute("autoplay", "true");
-    remoteVideo.setAttribute("muted", "true");
+    remoteVideo.muted = true;
     remoteVideo.srcObject = stream;
 
     var remoteIdText = document.createElement("p");
     remoteIdText.setAttribute("class", "remote-id-text");
     remoteIdText.innerHTML = call.peer;
     remoteIdText.setAttribute("id", call.peer + "-text");
+    let muteWrapper = document.createElement("div");
+    muteWrapper.setAttribute("class", "mute-wrapper");
+    let muteText = document.createElement("p");
+    muteText.setAttribute("class", "mute-text");
+    muteText.innerHTML = "Muted";
+    let muteButton = document.createElement("button");
+    muteButton.setAttribute("class", "mute-button btn btn-light");
+    muteButton.innerHTML = "Toggle Mute";
+    muteButton.addEventListener("click", () => {
+      if (remoteVideo.muted) {
+        remoteVideo.muted = false;
+        muteText.classList.add("hidden");
+      } else {
+        remoteVideo.muted = true;
+        muteText.classList.remove("hidden");
+      }
+    });
+
+    muteWrapper.appendChild(muteButton);
+    muteWrapper.appendChild(muteText);
     singleVideoWrapper.appendChild(remoteIdText);
+    singleVideoWrapper.appendChild(muteWrapper);
     singleVideoWrapper.appendChild(remoteVideo);
     remoteUserVideoWrapper.appendChild(singleVideoWrapper);
     callList.push(call.peer);
@@ -137,9 +175,25 @@ const WhiteboardReactFlow = () => {
     setVideoMap((videoMap) => videoMap.set(call.peer, stream));
   };
 
-  useEffect(() => {
-    const peer = new Peer();
+  function createUUID() {
+    var dt = new Date().getTime();
+    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        var r = (dt + Math.random() * 16) % 16 | 0;
+        dt = Math.floor(dt / 16);
+        return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+      }
+    );
+    return uuid;
+  }
 
+  useEffect(() => {
+    const options = {
+      label: user.nickname,
+    };
+    const peer = new Peer(createUUID(), options);
+    console.log("peer: ", peer);
     peer.on("open", function (id) {
       setPeerId(id);
       console.log("My peer ID is: " + id);
@@ -167,6 +221,10 @@ const WhiteboardReactFlow = () => {
             return;
           } else {
             createVideoPlayer(remoteStream, call);
+            // ReactDOM.render(
+            //   <PeerVideo stream={remoteStream} call={call} />,
+            //   document.getElementById("remote-user-videos")
+            // );
           }
         });
       });
@@ -221,6 +279,10 @@ const WhiteboardReactFlow = () => {
               return;
             } else {
               createVideoPlayer(remoteStream, call);
+              // ReactDOM.render(
+              //   <PeerVideo stream={remoteStream} call={call} />,
+              //   document.getElementById("remote-user-videos")
+              // );
             }
           });
         }
@@ -303,6 +365,7 @@ const WhiteboardReactFlow = () => {
       function (stream) {
         currentUserVideoRef.current.srcObject = stream;
         currentUserVideoRef.current.play();
+        currentUserVideoRef.current.muted = true;
       },
       function (err) {
         console.log("Failed to get local stream", err);
@@ -433,8 +496,8 @@ const WhiteboardReactFlow = () => {
       for (const child of remoteUserVideoWrapper.children) {
         console.log("child: ", child);
         for (let [key, value] of videoMap) {
-          if (child.id === key) {
-            let remoteUserVideo = child.querySelector(".remote-video");
+          let remoteUserVideo = child.querySelector(".remote-video");
+          if (child.id === key && remoteUserVideo.srcObject === null) {
             console.log("remoteUserVideo VALUE: ", value);
             remoteUserVideo.srcObject = value;
             remoteUserVideo.play();

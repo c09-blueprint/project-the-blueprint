@@ -77,3 +77,14 @@ video {
 .email-input {
   margin-top: 50px;
 }
+
+.mute-text {
+  margin-left: auto;
+  margin-right: 10px;
+  color: #ff4d4d;
+}
+
+.mute-wrapper {
+  display: flex;
+  margin-bottom: 10px;
+}
