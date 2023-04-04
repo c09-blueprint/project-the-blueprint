@@ -37,7 +37,6 @@ const edgeSlice = createSlice({
         if (edge.id === id) {
           edge.data = { ...edge.data, label };
         }
-        console.log(edge);
       });
     },
   },

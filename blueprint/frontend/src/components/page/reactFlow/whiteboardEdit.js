@@ -111,18 +111,13 @@ const WhiteboardReactFlow = () => {
 
     // log connection status
     websockerProvider.on("status", (event) => {
-      console.log(event.status);
     });
 
     const elMap = ydoc.getMap("element-map");
     setElementMap(elMap);
-    console.log("here");
-    console.log(elMap.get("nodes"));
-    console.log(elMap.get("edges"));
 
     // set up observer
     elMap.observe((event) => {
-      console.log("observed");
       dispatch(setNodes(elMap.get("nodes")));
       dispatch(setEdges(elMap.get("edges")));
     });
@@ -140,7 +135,6 @@ const WhiteboardReactFlow = () => {
   useEffect(() => {
     // todo
     if (userModifiedNodes && elementMap) {
-      console.log("user changed nodes");
       elementMap.set("nodes", nodes);
       dispatch(setUserModifiedNodes(false));
     }
@@ -149,7 +143,6 @@ const WhiteboardReactFlow = () => {
   useEffect(() => {
     // todo
     if (userModifiedEdges && elementMap) {
-      console.log("user changed edges");
       elementMap.set("edges", edges);
       dispatch(setUserModifiedEdges(false));
     }
@@ -194,7 +187,6 @@ const WhiteboardReactFlow = () => {
       };
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
-        console.log("style: ", newNode.style);
       }
       dispatch(addNewNode(newNode));
     },
@@ -206,12 +198,10 @@ const WhiteboardReactFlow = () => {
       event.preventDefault();
       // get the reactflow bounds so we can calculate the correct position
       const reactFlowBoundry = reactFlowWrapper.current.getBoundingClientRect();
-      console.log("reactFlowBounds: ", reactFlowBoundry);
 
       const type = event.dataTransfer.getData("nodeType");
       const style = event.dataTransfer.getData("style");
       const data = event.dataTransfer.getData("data");
-      console.log("DATA **************: ", data);
       // check if the dropped node is valid
       if (typeof type === "undefined" || !type) {
         return;
@@ -230,7 +220,6 @@ const WhiteboardReactFlow = () => {
       };
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
-        console.log("style: ", newNode.style);
       }
 
       // add node
@@ -247,9 +236,6 @@ const WhiteboardReactFlow = () => {
   };
 
   const logCurrentState = useCallback(() => {
-    console.log(reactFlowInstance);
-    console.log(reactFlowInstance.getNodes());
-    console.log(reactFlowInstance.getEdges());
   }, [reactFlowInstance]);
 
   const changeEdgeType = (edge) => {

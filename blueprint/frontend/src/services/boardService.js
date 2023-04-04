@@ -9,7 +9,6 @@ const create = async (email, token, name) => {
     { name: name },
     getAuthHeader(email, token)
   );
-  console.log("Created BOARD IN DATABASE: ", res.data);
   return res.data;
 };
 
