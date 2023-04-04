@@ -6,6 +6,8 @@
 
 **DEMO LINK**: https://youtu.be/NJDPoNPXiMQ
 
+**Deployed Website Link**: https://theblueprint.cc/
+
 ## Team Information
 
 | Name         | Student Number | UTORid   | Email                           |
