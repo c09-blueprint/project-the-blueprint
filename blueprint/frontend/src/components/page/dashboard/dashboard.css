@@ -9,3 +9,7 @@
 .hidden-btn {
   display: none !important;
 }
+
+.btn-spacing {
+  margin-right: 10px;
+}

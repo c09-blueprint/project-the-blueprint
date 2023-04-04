@@ -20,6 +20,11 @@ const createBoard = async (name, userId) => {
 };
 
 const deleteBoard = async (boardId) => {
+  const boardUser = await BoardUser.destroy({
+    where: {
+      BoardId: boardId,
+    },
+  });
   const board = await Board.destroy({
     where: {
       id: boardId,

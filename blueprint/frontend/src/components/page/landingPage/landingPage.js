@@ -2,8 +2,22 @@ import "./landingPage.css";
 import React from "react";
 import "../styles/cols.css";
 import Navbar from "../navbar/navbar";
+import { useAuth0 } from "@auth0/auth0-react";
+import { PAGES } from "../../../routes";
 
 const LandingPage = () => {
+  const { loginWithRedirect } = useAuth0();
+  const handleSignUp = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: PAGES.dashboardPath,
+      },
+      authorizationParams: {
+        screen_hint: "signup",
+      },
+    });
+  };
+
   return (
     <div className="landing-page">
       <Navbar />
@@ -141,7 +155,11 @@ const LandingPage = () => {
         <div className="row justify-content-center">
           <div className="col-xl-6">
             <h2 className="mb-4 display-3 ">Ready to get started?</h2>
-            <button type="button" className="btn btn-primary btn-lg btn-info">
+            <button
+              type="button"
+              className="btn btn-primary btn-lg btn-info text-white"
+              onClick={handleSignUp}
+            >
               Join Now!
             </button>
           </div>

@@ -21,6 +21,7 @@ const CreateBoardForm = () => {
       dispatch(createBoard(user.email, accessToken, boardName));
     };
     dispatchGetBoard();
+    setBoardName("");
   };
 
   return (
@@ -97,39 +98,42 @@ function BoardCard(props) {
   const dispatch = useDispatch();
 
   const handleDeleteBoard = async () => {
-    console.log("delete board");
     const accessToken = await getAccessTokenSilently();
-    dispatch(deleteBoard(user.email, id, accessToken));
-    // navigate(`/`);
+    dispatch(deleteBoard(user.email, accessToken, id));
+    // get all boards again
+    const dispatchGetMe = async () => {
+      dispatch(getMe(user.email, accessToken));
+    };
+    dispatchGetMe();
   };
 
   return (
-    <div className="card doc-card cols-1">
+    <div className="card doc-card">
       <div className="card-header bg-info">Board ID: {id}</div>
       <div className="card-body">
         <h5 className="card-title">{name}</h5>
         <button
           type="button"
-          className="btn btn-info edit-btn algin-right"
+          className="btn btn-info text-white btn-spacing"
           onClick={handleClick}
         >
           Enter Board
         </button>
-        <div className="btn-group edit-btn algin-right">
+        <div
+          className={`btn-group ${
+            location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
+          }`}
+        >
           <button
             type="button"
-            className="btn  dropdown-toggle btn-outline-secondary"
+            className="btn dropdown-toggle btn-outline-secondary"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
           >
             Edit
           </button>
-          <div
-            className={`dropdown-menu dropdown-menu-right ${
-              location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
-            }`}
-          >
+          <div className="dropdown-menu dropdown-menu-right">
             <button
               type="button"
               className="dropdown-item"
@@ -150,7 +154,7 @@ const DashbordBase = (props) => {
       <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
       <div id="board-card-wrapper" className="card-deck cards-spacing">
-        {props.boards &&
+        {Array.isArray(props.boards) &&
           props.boards.map((board) => (
             <BoardCard
               key={board.id}
