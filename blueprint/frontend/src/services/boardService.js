@@ -9,7 +9,6 @@ const create = async (email, token, name) => {
     { name: name },
     getAuthHeader(email, token)
   );
-  console.log("Created BOARD IN DATABASE: ", res.data);
   return res.data;
 };
 
@@ -17,6 +16,15 @@ const create = async (email, token, name) => {
 const getAllOwned = async (email, token) => {
   const res = await axios.get(
     `${ENDPOINTS.BASE_BOARD_URL}getOwned`,
+    getAuthHeader(email, token)
+  );
+  return res.data;
+};
+
+//delete a board
+const deleteBoard = async (email, token, boardId) => {
+  const res = await axios.delete(
+    `${ENDPOINTS.BASE_BOARD_URL}${boardId}`,
     getAuthHeader(email, token)
   );
   return res.data;
@@ -53,4 +61,5 @@ export const boardServices = {
   getAllOwned,
   getAllShared,
   addCollaborator,
+  deleteBoard,
 };

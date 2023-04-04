@@ -57,7 +57,6 @@ const nodeSlice = createSlice({
     */
     deleteNode(state, action) {
       const { id } = action.payload;
-      console.log("deleting node: " + id);
       let filterNodes = state.nodes.filter((node) => node.id !== id);
       return { ...state, nodes: filterNodes };
     },
@@ -68,8 +67,6 @@ const nodeSlice = createSlice({
     duplicateNode(state, action) {
       const { id } = action.payload;
       let nodeToDuplicate = state.nodes.find((node) => node.id === id);
-      console.log("duplicating node: " + id);
-      console.log(nodeToDuplicate);
       let newNode = {
         ...nodeToDuplicate,
         id: state.currentId.toString(),
@@ -78,7 +75,6 @@ const nodeSlice = createSlice({
           y: nodeToDuplicate.position.y + 100,
         },
       };
-      console.log(newNode);
       return {
         currentId: state.currentId + 1,
         nodes: [...state.nodes, newNode],
@@ -87,7 +83,6 @@ const nodeSlice = createSlice({
 
     changeFillColor(state, action) {
       const { id, type, color } = action.payload;
-      console.log("TYPE ***********", type);
       state.nodes.map((node) => {
         if (node.id === id) {
           if (
@@ -97,9 +92,6 @@ const nodeSlice = createSlice({
           ) {
             node.style = { ...node.style, backgroundColor: color };
           } else {
-            console.log(
-              "changing color of node: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + color
-            );
             node.data = { ...node.data, shapeFill: color };
           }
         }

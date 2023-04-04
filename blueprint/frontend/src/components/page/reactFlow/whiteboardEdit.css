@@ -54,9 +54,26 @@ button {
 
 .share-button {
   margin-top: 5px;
-  background-color: aqua;
+  background-color: #0dcaf0;
 }
 
-.email-input {
+/* .email-input {
   margin-top: 50px;
+} */
+
+.text-color {
+  color: #0dcaf0;
+  margin-bottom: 10px;
+}
+
+.spacer {
+  margin-top: 40px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.form-input {
+  text-align: left;
 }

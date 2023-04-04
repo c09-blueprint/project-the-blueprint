@@ -2,8 +2,22 @@ import "./landingPage.css";
 import React from "react";
 import "../styles/cols.css";
 import Navbar from "../navbar/navbar";
+import { useAuth0 } from "@auth0/auth0-react";
+import { PAGES } from "../../../routes";
 
 const LandingPage = () => {
+  const { loginWithRedirect } = useAuth0();
+  const handleSignUp = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: PAGES.dashboardPath,
+      },
+      authorizationParams: {
+        screen_hint: "signup",
+      },
+    });
+  };
+
   return (
     <div className="landing-page">
       <Navbar />
@@ -43,13 +57,14 @@ const LandingPage = () => {
                   className="features-icons"
                 />
               </div>
-              <h3>Audio Call Simultaneously</h3>
+              <h3>Video & Audio Call Simultaneously</h3>
 
               <p className="lead mb-0">
                 Hop on a call with your team and brainstorm together with our
-                integrated audio call feature!
+                integrated video / audio call feature!
               </p>
               <a
+                className="flaticon"
                 href="https://www.flaticon.com/free-icons/voice-mail"
                 title="voice mail icons"
               >
@@ -72,6 +87,7 @@ const LandingPage = () => {
                 and see each other's changes in real-time!
               </p>
               <a
+                className="flaticon"
                 href="https://www.flaticon.com/free-icons/real-time"
                 title="real time icons"
               >
@@ -94,6 +110,7 @@ const LandingPage = () => {
                 create your diagrams!
               </p>
               <a
+                className="flaticon"
                 href="https://www.flaticon.com/free-icons/click-here"
                 title="click here icons"
               >
@@ -129,7 +146,7 @@ const LandingPage = () => {
             <div className="testimonial-item mx-auto mb-5 mb-lg-0">
               <h4>Katie Q.</h4>
               <p className="font-weight-light mb-0">
-                "I love the audio call feature! It make it so easy to brainstorm
+                "I love the audio call feature! Makes it so easy to brainstorm
                 with my team!"
               </p>
             </div>
@@ -141,7 +158,11 @@ const LandingPage = () => {
         <div className="row justify-content-center">
           <div className="col-xl-6">
             <h2 className="mb-4 display-3 ">Ready to get started?</h2>
-            <button type="button" className="btn btn-primary btn-lg btn-info">
+            <button
+              type="button"
+              className="btn btn-primary btn-lg btn-info text-white"
+              onClick={handleSignUp}
+            >
               Join Now!
             </button>
           </div>

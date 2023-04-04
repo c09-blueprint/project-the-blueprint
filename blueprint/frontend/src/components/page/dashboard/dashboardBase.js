@@ -1,17 +1,19 @@
 import "./dashboard.css";
-import "../styles/cols.css";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import "../styles/cols.css";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getMe } from "../../../reducers/userReducer";
 import Navbar from "../navbar/navbar";
-import { createBoard } from "../../../reducers/boardReducer";
+import { createBoard, deleteBoard } from "../../../reducers/boardReducer";
+import { useLocation } from "react-router-dom";
 
 const CreateBoardForm = () => {
   const dispatch = useDispatch();
   const { user, getAccessTokenSilently } = useAuth0();
   const [boardName, setBoardName] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const submitCreateBoard = (e) => {
     e.preventDefault();
@@ -20,6 +22,13 @@ const CreateBoardForm = () => {
       dispatch(createBoard(user.email, accessToken, boardName));
     };
     dispatchGetBoard();
+    setBoardName("");
+
+    if (location.pathname !== "/dashboard") {
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 500);
+    }
   };
 
   return (
@@ -90,30 +99,96 @@ function BoardCard(props) {
     navigate(`/page/${id}`);
   };
 
+  const location = useLocation();
+
+  const { user, getAccessTokenSilently } = useAuth0();
+  const dispatch = useDispatch();
+
+  const handleDeleteBoard = async () => {
+    const accessToken = await getAccessTokenSilently();
+    dispatch(deleteBoard(user.email, accessToken, id));
+  };
+
   return (
-    <div onClick={handleClick} className="card text-white bg-info mb-3">
-      <div className="card-header">id: {id}</div>
+    <div className="card doc-card card-spacing text-white bg-info col-lg-3 col-md-5 col-sm-11 mb-11">
+      <div className="card-header header-font">Board ID: {id}</div>
       <div className="card-body">
-        <h5 className="card-title">{name}</h5>
+        <h5 className="card-title title-spacing">{name}</h5>
+        <button
+          type="button"
+          className="btn btn-warning btn-spacing"
+          onClick={handleClick}
+        >
+          Enter Board
+        </button>
+        <div
+          className={`btn-group btn-spacing ${
+            location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
+          }`}
+        >
+          <button
+            type="button"
+            className="btn dropdown-toggle btn-secondary"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Edit
+          </button>
+          <div className="dropdown-menu dropdown-menu-right">
+            <button
+              type="button"
+              className="dropdown-item highlight"
+              onClick={handleDeleteBoard}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
 const DashbordBase = (props) => {
+  const location = useLocation();
   return (
     <div>
       <CreateBoardForm></CreateBoardForm>
       <Navbar></Navbar>
-      <div id="board-card-wrapper" className="card-deck cards-spacing">
-        {props.boards &&
-          props.boards.map((board) => (
-            <BoardCard
-              key={board.id}
-              id={board.id}
-              name={board.name}
-            ></BoardCard>
-          ))}
+      <div className="container">
+        <h3
+          className={` header-spacing ${
+            location.pathname === "/dashboard/shared" ? "hidden-btn" : ""
+          }`}
+        >
+          My Workspace
+        </h3>
+        <h3
+          className={` header-spacing ${
+            location.pathname === "/dashboard" ? "hidden-btn" : ""
+          }`}
+        >
+          Shared With Me
+        </h3>
+        <div className="deck-spacing">
+          <div id="board-card-wrapper" className="row">
+            {Array.isArray(props.boards) && props.boards.length === 0 && (
+              <div className="col-12">
+                <p class="h5">There are no boards.</p>
+              </div>
+            )}
+            {Array.isArray(props.boards) &&
+              props.boards.length > 0 &&
+              props.boards.map((board) => (
+                <BoardCard
+                  key={board.id}
+                  id={board.id}
+                  name={board.name}
+                ></BoardCard>
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );

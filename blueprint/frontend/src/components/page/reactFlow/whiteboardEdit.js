@@ -109,20 +109,13 @@ const WhiteboardReactFlow = () => {
       ydoc
     );
 
-    // log connection status
-    websockerProvider.on("status", (event) => {
-      console.log(event.status);
-    });
+    websockerProvider.on("status", (event) => {});
 
     const elMap = ydoc.getMap("element-map");
     setElementMap(elMap);
-    console.log("here");
-    console.log(elMap.get("nodes"));
-    console.log(elMap.get("edges"));
 
     // set up observer
     elMap.observe((event) => {
-      console.log("observed");
       dispatch(setNodes(elMap.get("nodes")));
       dispatch(setEdges(elMap.get("edges")));
     });
@@ -140,7 +133,6 @@ const WhiteboardReactFlow = () => {
   useEffect(() => {
     // todo
     if (userModifiedNodes && elementMap) {
-      console.log("user changed nodes");
       elementMap.set("nodes", nodes);
       dispatch(setUserModifiedNodes(false));
     }
@@ -149,7 +141,6 @@ const WhiteboardReactFlow = () => {
   useEffect(() => {
     // todo
     if (userModifiedEdges && elementMap) {
-      console.log("user changed edges");
       elementMap.set("edges", edges);
       dispatch(setUserModifiedEdges(false));
     }
@@ -194,7 +185,6 @@ const WhiteboardReactFlow = () => {
       };
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
-        console.log("style: ", newNode.style);
       }
       dispatch(addNewNode(newNode));
     },
@@ -206,12 +196,10 @@ const WhiteboardReactFlow = () => {
       event.preventDefault();
       // get the reactflow bounds so we can calculate the correct position
       const reactFlowBoundry = reactFlowWrapper.current.getBoundingClientRect();
-      console.log("reactFlowBounds: ", reactFlowBoundry);
 
       const type = event.dataTransfer.getData("nodeType");
       const style = event.dataTransfer.getData("style");
       const data = event.dataTransfer.getData("data");
-      console.log("DATA **************: ", data);
       // check if the dropped node is valid
       if (typeof type === "undefined" || !type) {
         return;
@@ -230,7 +218,6 @@ const WhiteboardReactFlow = () => {
       };
       if (style !== "undefined") {
         newNode.style = JSON.parse(style);
-        console.log("style: ", newNode.style);
       }
 
       // add node
@@ -246,11 +233,7 @@ const WhiteboardReactFlow = () => {
     event.dataTransfer.effectAllowed = "move";
   };
 
-  const logCurrentState = useCallback(() => {
-    console.log(reactFlowInstance);
-    console.log(reactFlowInstance.getNodes());
-    console.log(reactFlowInstance.getEdges());
-  }, [reactFlowInstance]);
+  const logCurrentState = useCallback(() => {}, [reactFlowInstance]);
 
   const changeEdgeType = (edge) => {
     setEdgeType(edge);
@@ -263,23 +246,32 @@ const WhiteboardReactFlow = () => {
     }
   };
 
+  const isEmailValid = (email) => {
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    return emailRegex.test(email);
+  };
+
   const { user, getAccessTokenSilently } = useAuth0();
   const addUser = async () => {
-    console.log("share clicked");
-    console.log("email: ", emailInput);
-    const accessToken = await getAccessTokenSilently();
-    await boardServices.addCollaborator(
-      user.email,
-      accessToken,
-      roomId,
-      emailInput,
-      "collaborator" // hardcode for now
-    );
-    sendEmail();
+    if (isEmailValid(emailInput)) {
+      const accessToken = await getAccessTokenSilently();
+      await boardServices.addCollaborator(
+        user.email,
+        accessToken,
+        roomId,
+        emailInput,
+        "collaborator" // hardcode for now
+      );
+      sendEmail();
+    } else {
+      setIsVisibleFail(true);
+      setTimeout(() => {
+        setIsVisibleFail(false);
+      }, 3000);
+    }
   };
 
   const sendEmail = async () => {
-    console.log("Sending email via SendGrid");
     const accessToken = await getAccessTokenSilently();
     const res = await axios.post(
       process.env.REACT_APP_BASE_URL + "/api/invite/",
@@ -290,10 +282,15 @@ const WhiteboardReactFlow = () => {
       getAuthHeader(user.email, accessToken)
     );
     setEmailInput("");
-    console.log(res.data);
+    setIsVisible(true);
+    setTimeout(() => {
+      setIsVisible(false);
+    }, 3000);
   };
 
   const [emailInput, setEmailInput] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+  const [isVisibleFail, setIsVisibleFail] = useState(false);
 
   const resizableStyle =
     '{ "background": "#fff", "border": "1px solid black", "borderRadius": 3, "fontSize": 12}';
@@ -307,14 +304,14 @@ const WhiteboardReactFlow = () => {
         className="row no-padding-margin"
         style={{ height: "95%", width: "100%" }}
       >
-        <div className="col-xl-3 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
-          <button
+        <div className="col-xl-3 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-color bg-light">
+          {/* <button
             onClick={logCurrentState}
-            className="btn-add"
+            className="btn-add btn-outline-dark"
             style={{ marginBottom: "20px" }}
           >
             log state
-          </button>
+          </button> */}
           <h4>Add Node</h4>
           <div className="two-grid">
             <button
@@ -326,9 +323,9 @@ const WhiteboardReactFlow = () => {
               }
               draggable
               id="input-node"
-              className="drop-icon"
+              className="drop-icon btn-outline-secondary"
             >
-              input
+              Input
             </button>
             <button
               onClick={() =>
@@ -339,9 +336,9 @@ const WhiteboardReactFlow = () => {
               }
               draggable
               id="output-node"
-              className="drop-icon"
+              className="drop-icon btn-outline-secondary"
             >
-              output
+              Output
             </button>
             <button
               onClick={() => onClickAddNode("splitterNode", resizableStyle)}
@@ -350,9 +347,9 @@ const WhiteboardReactFlow = () => {
               }
               draggable
               id="splitter-node"
-              className="drop-icon"
+              className="drop-icon btn-outline-primary"
             >
-              2-split
+              2-Split
             </button>
             <button
               onClick={() =>
@@ -363,9 +360,9 @@ const WhiteboardReactFlow = () => {
               }
               draggable
               id="default-node"
-              className="drop-icon"
+              className="drop-icon btn-outline-primary"
             >
-              default
+              Default
             </button>
             <button
               onClick={() =>
@@ -375,9 +372,9 @@ const WhiteboardReactFlow = () => {
                 onDragStart(event, "resizableText", resizableTextStyle)
               }
               draggable
-              className="drop-icon"
+              className="drop-icon btn-outline-primary"
             >
-              text
+              Free Text
             </button>
             <button
               onClick={() => onClickAddNode("circleNode", resizableTextStyle)}
@@ -385,9 +382,10 @@ const WhiteboardReactFlow = () => {
                 onDragStart(event, "circleNode", resizableTextStyle)
               }
               draggable
-              className="drop-icon"
+              className="drop-icon btn-outline-warning"
+              id="circle-node"
             >
-              circle
+              Circle
             </button>
             <button
               onClick={() => onClickAddNode("diamondNode", resizableTextStyle)}
@@ -395,9 +393,10 @@ const WhiteboardReactFlow = () => {
                 onDragStart(event, "diamondNode", resizableTextStyle)
               }
               draggable
-              className="drop-icon"
+              className="drop-icon btn-outline-warning"
+              id="diamond-node"
             >
-              diamond
+              Diamond
             </button>
             <button
               onClick={() => onClickAddNode("triangleNode", resizableTextStyle)}
@@ -405,34 +404,37 @@ const WhiteboardReactFlow = () => {
                 onDragStart(event, "triangleNode", resizableTextStyle)
               }
               draggable
-              className="drop-icon"
+              className="drop-icon btn-outline-warning"
+              id="triangle-node"
             >
-              triangle
+              Triangle
             </button>
           </div>
+          <div className="spacer"></div>
           <h4>Change Edge Type</h4>
           <div className="two-grid">
             <button
               onClick={() => changeEdgeType("defaultEdge")}
               style={{ marginBottom: "20px" }}
               id="default-edge"
-              className="drop-icon"
+              className="drop-icon btn-outline-success"
             ></button>
             <button
               onClick={() => changeEdgeType("straightEdge")}
               style={{ marginBottom: "20px" }}
               id="straight-edge"
-              className="drop-icon"
+              className="drop-icon btn-outline-success"
             ></button>
 
             <button
               onClick={() => changeEdgeType("stepEdge")}
               style={{ marginBottom: "20px" }}
               id="step-edge"
-              className="drop-icon"
+              className="drop-icon btn-outline-success"
             ></button>
           </div>
-
+          <div className="spacer"></div>
+          <h4>Share the Board</h4>
           <div className="input-group mb-3 email-input">
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroup-sizing-default">
@@ -441,7 +443,7 @@ const WhiteboardReactFlow = () => {
             </div>
             <input
               type="text"
-              className="form-control"
+              className="form-control form-input"
               aria-label="Default"
               aria-describedby="inputGroup-sizing-default"
               value={emailInput}
@@ -454,10 +456,22 @@ const WhiteboardReactFlow = () => {
             onClick={addUser}
             style={{ marginBottom: "10px" }}
             id="invite-btn"
-            className="share-button"
+            className="share-button text-white"
           >
-            Share Your Board
+            Share
           </button>
+          <div
+            className={`alert alert-success ${isVisible ? "" : "hidden"}`}
+            role="alert"
+          >
+            Board was shared successfully!
+          </div>
+          <div
+            className={`alert alert-danger ${isVisibleFail ? "" : "hidden"}`}
+            role="alert"
+          >
+            Board was not shared. Please check if email is valid.
+          </div>
         </div>
         <div
           className="col-xl-9 col-12 col-md-9 no-padding-margin"

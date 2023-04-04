@@ -12,18 +12,15 @@ const NodeToolbarSelected = ({ id, type }) => {
   const dispatch = useDispatch();
 
   const onNodeDelete = useCallback(() => {
-    console.log("delete node");
     dispatch(removeNode(id));
   }, [dispatch, id]);
 
   const onNodeDuplicate = useCallback(() => {
-    console.log("duplicate node");
     dispatch(duplicateNodeById(id));
   }, [dispatch, id]);
 
   const onBackgroundColorChange = useCallback(
     (event) => {
-      console.log("change node color: ", event.target.value);
       dispatch(changeBackgroundColor(id, type, event.target.value));
     },
     [dispatch, id, type]
@@ -63,14 +60,14 @@ const NodeToolbarSelected = ({ id, type }) => {
               />
               Background
             </a>
-            <a className="dropdown-item" href="#">
+            {/* <a className="dropdown-item" href="#">
               <input
                 className="btn-margins"
                 onChange={onBackgroundColorChange}
                 type="color"
               />
               Text
-            </a>
+            </a> */}
           </div>
         </div>
       </div>

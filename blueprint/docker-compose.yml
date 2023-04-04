@@ -7,12 +7,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 80:80
-    environment:
-      - REACT_APP_WEBSOCKET_URL=ws://localhost/ws
-      - REACT_APP_BASE_URL=http://localhost
-      - REACT_APP_AUTH0_DOMAIN=dev-jcol6i3ol3vahmwd.us.auth0.com
-      - REACT_APP_AUTH0_CLIENT_ID=gLHYBRGSqHfBTelkBBqiFS7O1yuxLGPg
-      - REACT_APP_AUTH0_AUDIENCE=http://localhost:3001
     depends_on:
       - backend
       - yjswebsocket
@@ -23,12 +17,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3001:3001
-    environment:
-      - DATABASE_URL=postgres://blueprint:blueprint@postgres:5432/blueprint
-      - AUTH0_AUDIENCE=http://localhost:3001
-      - AUTH0_ISSUER_BASE_URL=https://dev-jcol6i3ol3vahmwd.us.auth0.com/
-      - AUTH0_TOKEN_SIGNING_ALG=RS256
-      - SENDGRID_API_KEY=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
     depends_on:
       - postgres
   yjswebsocket:
