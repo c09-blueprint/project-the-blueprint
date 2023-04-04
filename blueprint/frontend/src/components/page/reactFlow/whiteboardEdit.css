@@ -35,18 +35,6 @@ button {
   background-image: url("../../../../public/stepEdge.svg");
 }
 
-#circle-node {
-  background-image: url("../../../../public/circle.svg");
-}
-
-#diamond-node {
-  background-image: url("../../../../public/diamondNode.svg");
-}
-
-#triangle-node {
-  background-image: url("../../../../public/triangleNode.svg");
-}
-
 .drop-icon {
   height: 40px;
   width: 80px;

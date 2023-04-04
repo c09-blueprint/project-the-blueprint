@@ -12,9 +12,16 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark menubar">
-      <a className="navbar-brand mb-0 h1 bp-logo" href="\">
-        Blueprint
-      </a>
+      {!isAuthenticated && (
+        <a className="navbar-brand mb-0 h1 bp-logo" href="\">
+          Blueprint
+        </a>
+      )}
+      {isAuthenticated && (
+        <a className="navbar-brand mb-0 h1 bp-logo" href="\dashboard">
+          Blueprint
+        </a>
+      )}
       <button
         className="navbar-toggler"
         type="button"
