@@ -109,7 +109,6 @@ const WhiteboardReactFlow = () => {
       ydoc
     );
 
-    // log connection status
     websockerProvider.on("status", (event) => {});
 
     const elMap = ydoc.getMap("element-map");
