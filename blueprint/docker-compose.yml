@@ -26,18 +26,12 @@ services:
       dockerfile: Dockerfile.ywebsocket
     ports:
       - 1234:1234
-    environment:
-      - HOST=0.0.0.0
   postgres:
     container_name: postgres
     restart: always
     image: postgres:12
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=blueprint
-      - POSTGRES_USER=blueprint
-      - POSTGRES_DB=blueprint
     volumes:
       - postgres-volume:/var/lib/postgresql/data
       - ./postgres12/:/docker-entrypoint-initdb.d/
