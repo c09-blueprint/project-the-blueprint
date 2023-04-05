@@ -231,6 +231,8 @@ const WhiteboardReactFlow = () => {
         //clear
         remoteUserVideoWrapper.innerHTML = "";
 
+        if (!remotePeerIds) remotePeerIds = [];
+
         for (let i = 0; i < remotePeerIds.length; i++) {
           if (remotePeerIds[i] === peerId) {
             continue;
@@ -254,6 +256,15 @@ const WhiteboardReactFlow = () => {
   };
 
   const hangUp = () => {
+    const tracks =
+      currentUserVideoRef.current.srcObject &&
+      currentUserVideoRef.current.srcObject.getTracks();
+    tracks &&
+      tracks.forEach(function (track) {
+        track.stop();
+      });
+    currentUserVideoRef.current.srcObject = null;
+
     turnOffCamera();
     let onCamera = document.getElementById("on-camera-button");
     onCamera.classList.add("hidden");
@@ -296,7 +307,7 @@ const WhiteboardReactFlow = () => {
     }
 
     peerInstance.current.destroy();
-    dataConnection.close();
+    dataConnection && dataConnection.close();
     setRemakePeer(!remakePeer);
   };
 
@@ -342,7 +353,15 @@ const WhiteboardReactFlow = () => {
     let onCamera = document.getElementById("on-camera-button");
     onCamera.classList.remove("hidden");
 
-    currentUserVideoRef.current.pause();
+    const tracks =
+      currentUserVideoRef.current.srcObject &&
+      currentUserVideoRef.current.srcObject.getTracks();
+    tracks &&
+      tracks.forEach(function (track) {
+        if (track.kind === "video") {
+          track.stop();
+        }
+      });
     currentUserVideoRef.current.srcObject = null;
 
     let peersVideoDisabled = peerVideoToDisable.get("peersVideoDisabled");
@@ -424,7 +443,14 @@ const WhiteboardReactFlow = () => {
         }
         let remoteUserVideo =
           remoteUserVideoWrapper.querySelector(".remote-video");
-        remoteUserVideo.pause();
+        const tracks =
+          remoteUserVideo.srcObject && remoteUserVideo.srcObject.getTracks();
+        tracks &&
+          tracks.forEach(function (track) {
+            if (track.kind === "video") {
+              track.stop();
+            }
+          });
         remoteUserVideo.srcObject = null;
       }
     });
