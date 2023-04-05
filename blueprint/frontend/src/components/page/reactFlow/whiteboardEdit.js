@@ -256,15 +256,6 @@ const WhiteboardReactFlow = () => {
   };
 
   const hangUp = () => {
-    const tracks =
-      currentUserVideoRef.current.srcObject &&
-      currentUserVideoRef.current.srcObject.getTracks();
-    tracks &&
-      tracks.forEach(function (track) {
-        track.stop();
-      });
-    currentUserVideoRef.current.srcObject = null;
-
     turnOffCamera();
     let onCamera = document.getElementById("on-camera-button");
     onCamera.classList.add("hidden");
@@ -353,15 +344,7 @@ const WhiteboardReactFlow = () => {
     let onCamera = document.getElementById("on-camera-button");
     onCamera.classList.remove("hidden");
 
-    const tracks =
-      currentUserVideoRef.current.srcObject &&
-      currentUserVideoRef.current.srcObject.getTracks();
-    tracks &&
-      tracks.forEach(function (track) {
-        if (track.kind === "video") {
-          track.stop();
-        }
-      });
+    currentUserVideoRef.current.pause();
     currentUserVideoRef.current.srcObject = null;
 
     let peersVideoDisabled = peerVideoToDisable.get("peersVideoDisabled");
@@ -443,14 +426,7 @@ const WhiteboardReactFlow = () => {
         }
         let remoteUserVideo =
           remoteUserVideoWrapper.querySelector(".remote-video");
-        const tracks =
-          remoteUserVideo.srcObject && remoteUserVideo.srcObject.getTracks();
-        tracks &&
-          tracks.forEach(function (track) {
-            if (track.kind === "video") {
-              track.stop();
-            }
-          });
+        remoteUserVideo.pause();
         remoteUserVideo.srcObject = null;
       }
     });
