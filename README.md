@@ -71,7 +71,7 @@ Here is a list of some feature we've implemented aside from the easily idenfitab
 - SendGrid (2 points) - for sending and managing emails
   - Note: For this project, all emails are sent from a personal email: christina.bt.ma@gmail.com. We did not want to create a new email only for it to be disposed of later. However, if this product were to go into production, it would be sent from a general Blueprint email.
 - Auth0 (1 point) - for user authentication and authorization
-- PeerJS (2 point) - for users to video or audio call while collaborating and can support calling for more than 2 people (group calling)
+- PeerJS (2 points) - for users to video or audio call while collaborating and can support calling for more than 2 people (group calling)
 
 **Total**: 10 points
 
