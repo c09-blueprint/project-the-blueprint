@@ -38,13 +38,13 @@ Users belonging to a page or a team can be assigned one of the following roles:
 
 Blueprints also allows users to collaborate on a project through project link that is shared to their email. However, users will have to create an account in order to access the board shared with them.
 
-**Awareness**
-
-Blueprint allows users to see updates and changes made to the project, and also see who else is working on the project in real-time.
-
-**Offline Editting**
-
-Blueprint allows users to work on their project offline, and sync their changes when they reconnect to the internet.
+## Highlighted Features
+Here is a list of some feature we've implemented aside from the easily idenfitable ones that we did not want to go unnoticed:
+- Nodes can be deleted, duplicated, and can change background color.
+- Text can be added to the edges. Make sure to move the cursor to the center of the edge and you will notice you're able to click and add text.
+- Edges can be deleted by clicking the 'backspace' key when selected.
+- Real-time syncing. Multiple users can be on the same board and see real-time changes.
+- There is a sanity check to ensure the input is a valid email.
 
 ## Tech Stack
 
@@ -65,6 +65,7 @@ Blueprint allows users to work on their project offline, and sync their changes 
 - Yjs (3 points) - CRDT implementation for real-time collaborative editing of shared data
 - React Flow (2 points) - for users to create interactive diagrams and charts
 - SendGrid (2 points) - for sending and managing emails
+  - Note: For this project, all emails are sent from a personal email: christina.bt.ma@gmail.com. We did not want to create a new email only for it to be disposed of later. However, if this product were to go into production, it would be sent from a general Blueprint email.
 - Auth0 (1 point) - for user authentication and authorization
 - PeerJS (2 point) - for users to video or audio call while collaborating and can support calling for more than 2 people (group calling)
 
@@ -88,15 +89,12 @@ We aim to extend and improve the core features:
   - Users have different permission levels:
     - Owner (read/write/delete permission)
     - Collaborator (read/write permission)
-  - Users can collaborate through project link
   - Users can SSO with other third parties (e.g. Google)
 - **Complexity points**: Yjs, React Flow, SendGrid, Auth0, PeerJS
 
 **Final Version** (April 5)  
 We aim to implement additional features and have a fluid and cohesive whiteboarding collaboration tool by the end:
 
-- Implement awareness
-- Implement offline editing
 - Finetune all features
 - Deploy the product to the cloud
 - **Complexity points**: Yjs, React Flow, SendGrid, Auth0, PeerJS
