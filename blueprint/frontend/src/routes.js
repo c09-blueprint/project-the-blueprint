@@ -3,4 +3,5 @@ export const PAGES = {
   dashboardPath: "/dashboard",
   dashboardSharedPath: "/dashboard/shared",
   auth0CallbackPath: "/auth0callback",
+  creditsPath: "/credits",
 };
