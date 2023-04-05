@@ -4,7 +4,7 @@
 
 **Team Name**: The Blueprint
 
-**DEMO LINK**: https://youtu.be/NJDPoNPXiMQ
+**Demo Link**: https://youtu.be/NJDPoNPXiMQ
 
 **Deployed Website Link**: https://theblueprint.cc/
 
@@ -35,17 +35,25 @@ Users belonging to a page or a team can be assigned one of the following roles:
 
 - Owner (read/write/delete permission)
 - Collaborator (read/write permission)
-- Viewer (read-only permission)
 
-Blueprints also allows users to collaborate on a project anonymously through project link.
+Blueprints also allows users to collaborate on a project through project link that is shared to their email. However, users will have to create an account in order to access the board shared with them.
 
-**Awareness**
+## Highlighted Features
 
-Blueprint allows users to see updates and changes made to the project, and also see who else is working on the project in real-time.
+Here is a list of some feature we've implemented aside from the easily idenfitable ones that we did not want to go unnoticed:
 
-**Offline Editting**
-
-Blueprint allows users to work on their project offline, and sync their changes when they reconnect to the internet.
+- Nodes can be resized, deleted, duplicated, and can change background color.
+- Can click on button to add nodes or drag and drop
+- Overall program is screen responsive and mobile friendly
+- Text can be added to the edges. Make sure to move the cursor to the center of the edge and you will notice you're able to click and add text.
+- Edges can be deleted by clicking the 'backspace' key when selected.
+- Real-time syncing. Multiple users can be on the same board and see real-time changes.
+- Sign in using Auth0, where we extract profile info
+- There is a sanity check to ensure the input is a valid email.
+- Users can use the 'back' and 'forward' buttons on their browser to navigate through the pages they've visited. The information on the pages will persist.
+- If users are not logged in, the Blueprint button on the nav bar will redirect them to the landing page. Otherwise, logged in users will be redirected to the 'My Workspace' dashboard.
+- Video call with 2+ people on the same whiteboard project with ability to mute remote users audio and your own video/audio
+- Credits page is on home page
 
 ## Tech Stack
 
@@ -55,23 +63,29 @@ Blueprint allows users to work on their project offline, and sync their changes 
 - **Backend**
   - Node.js with Express.js
   - PostgreSQL with Sequelize
+- **Deployment**
+  - AWS Lightsail
+  - Cloudflare
+  - Nginx
+  - Docker
 
 ## Complexity Points
 
 - Yjs (3 points) - CRDT implementation for real-time collaborative editing of shared data
 - React Flow (2 points) - for users to create interactive diagrams and charts
 - SendGrid (2 points) - for sending and managing emails
+  - Note: For this project, all emails are sent from a personal email: christina.bt.ma@gmail.com. We did not want to create a new email only for it to be disposed of later. However, if this product were to go into production, it would be sent from a general Blueprint email.
 - Auth0 (1 point) - for user authentication and authorization
-- PeerJS (1 point) - for users to video or audio call while collaborating
+- PeerJS (2 points) - for users to video or audio call while collaborating and can support calling for more than 2 people (group calling)
 
-**Total**: 9 points
+**Total**: 10 points
 
 ## Project Aim
 
 **Alpha Version** (March 6)  
 We aim to have the following core features implemented:
 
-- Users can create a page and collaborate real-time with other users
+- Users can create a board and collaborate real-time with other users
 - Users can add shapes and lines to create charts
 - Users can invite other users to collaborate
 - **Complexity points**: Yjs, React Flow, SendGrid
@@ -79,22 +93,17 @@ We aim to have the following core features implemented:
 **Beta Version** (March 20)  
 We aim to extend and improve the core features:
 
-- Users can create and join teams
 - Users can video or audio call other collaborators
 - Implement authentication and authorization
   - Users have different permission levels:
     - Owner (read/write/delete permission)
     - Collaborator (read/write permission)
-    - Viewer (read-only permission)
-  - Users can collaborate anonymously through project link
   - Users can SSO with other third parties (e.g. Google)
 - **Complexity points**: Yjs, React Flow, SendGrid, Auth0, PeerJS
 
-**Final Version** (April 3)  
+**Final Version** (April 5)  
 We aim to implement additional features and have a fluid and cohesive whiteboarding collaboration tool by the end:
 
-- Implement awareness
-- Implement offline editing
 - Finetune all features
 - Deploy the product to the cloud
 - **Complexity points**: Yjs, React Flow, SendGrid, Auth0, PeerJS

@@ -12,6 +12,7 @@ import Dashboard from "./components/page/dashboard/dashboard";
 import DashbordShared from "./components/page/dashboard/dashboardShared";
 import ReactFlowPage from "./components/page/reactFlow/ReactFlowPage";
 import LandingPage from "./components/page/landingPage/landingPage";
+import Credits from "./components/page/credits/credits";
 
 function App() {
   const { isLoading } = useAuth0();
@@ -42,6 +43,7 @@ function App() {
           path={PAGES.pagePath}
           element={<AuthGuard component={VerifyCollaborator} />}
         />
+        <Route path={PAGES.creditsPath} element={<Credits />} />
       </Routes>
     </div>
   );

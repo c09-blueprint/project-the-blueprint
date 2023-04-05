@@ -8,6 +8,9 @@ import Navbar from "../navbar/navbar";
 import { createBoard, deleteBoard } from "../../../reducers/boardReducer";
 import { useLocation } from "react-router-dom";
 
+import { setNodes } from "../../../reducers/nodeReducer";
+import { setEdges } from "../../../reducers/edgeReducer";
+
 const CreateBoardForm = () => {
   const dispatch = useDispatch();
   const { user, getAccessTokenSilently } = useAuth0();
@@ -151,6 +154,19 @@ function BoardCard(props) {
 }
 
 const DashbordBase = (props) => {
+  const dispatch = useDispatch();
+
+  /* Reset redux store on go back and forward */
+  window.onpopstate = function () {
+    dispatch(setEdges([]));
+    dispatch(
+      setNodes({
+        currentId: 1,
+        nodes: [],
+      })
+    );
+  };
+
   const location = useLocation();
   return (
     <div>

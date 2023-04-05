@@ -63,13 +63,6 @@ const LandingPage = () => {
                 Hop on a call with your team and brainstorm together with our
                 integrated video / audio call feature!
               </p>
-              <a
-                className="flaticon"
-                href="https://www.flaticon.com/free-icons/voice-mail"
-                title="voice mail icons"
-              >
-                Voice mail icons created by Eucalyp - Flaticon
-              </a>
             </div>
           </div>
           <div className="col-lg-4">
@@ -86,13 +79,6 @@ const LandingPage = () => {
                 Multiple users can work on the same whiteboard simultaneously
                 and see each other's changes in real-time!
               </p>
-              <a
-                className="flaticon"
-                href="https://www.flaticon.com/free-icons/real-time"
-                title="real time icons"
-              >
-                Real time icons created by afif fudin - Flaticon
-              </a>
             </div>
           </div>
           <div className="col-lg-4">
@@ -109,13 +95,6 @@ const LandingPage = () => {
                 Blueprint is easy to use and intuitive. Simply drag and drop to
                 create your diagrams!
               </p>
-              <a
-                className="flaticon"
-                href="https://www.flaticon.com/free-icons/click-here"
-                title="click here icons"
-              >
-                Click here icons created by kumakamu - Flaticon
-              </a>
             </div>
           </div>
         </div>
@@ -167,6 +146,9 @@ const LandingPage = () => {
             </button>
           </div>
         </div>
+      </div>
+      <div className="text-center">
+        <a href="/credits">Credits</a>
       </div>
     </div>
   );
