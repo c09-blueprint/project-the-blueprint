@@ -39,12 +39,16 @@ Users belonging to a page or a team can be assigned one of the following roles:
 Blueprints also allows users to collaborate on a project through project link that is shared to their email. However, users will have to create an account in order to access the board shared with them.
 
 ## Highlighted Features
+
 Here is a list of some feature we've implemented aside from the easily idenfitable ones that we did not want to go unnoticed:
+
 - Nodes can be deleted, duplicated, and can change background color.
 - Text can be added to the edges. Make sure to move the cursor to the center of the edge and you will notice you're able to click and add text.
 - Edges can be deleted by clicking the 'backspace' key when selected.
 - Real-time syncing. Multiple users can be on the same board and see real-time changes.
 - There is a sanity check to ensure the input is a valid email.
+- Users can use the 'back' and 'forward' buttons on their browser to navigate through the pages they've visited. The information on the pages will persist.
+- If users are not logged in, the Blueprint button on the nav bar will redirect them to the landing page. Otherwise, logged in users will be redirect them to the 'My Workspace' dashboard.
 
 ## Tech Stack
 
