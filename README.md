@@ -50,7 +50,6 @@ Here is a list of some feature we've implemented aside from the easily idenfitab
 - Real-time syncing. Multiple users can be on the same board and see real-time changes.
 - Sign in using Auth0, where we extract profile info
 - There is a sanity check to ensure the input is a valid email.
-- Users can use the 'back' and 'forward' buttons on their browser to navigate through the pages they've visited. The information on the pages will persist.
 - If users are not logged in, the Blueprint button on the nav bar will redirect them to the landing page. Otherwise, logged in users will be redirected to the 'My Workspace' dashboard.
 - Video call with 2+ people on the same whiteboard project with ability to mute remote users audio and your own video/audio
 - Credits page is on home page
