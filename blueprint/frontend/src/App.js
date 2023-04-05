@@ -43,10 +43,7 @@ function App() {
           path={PAGES.pagePath}
           element={<AuthGuard component={VerifyCollaborator} />}
         />
-        <Route
-          path={PAGES.creditsPath}
-          element={<AuthGuard component={Credits} />}
-        />
+        <Route path={PAGES.creditsPath} element={<Credits />} />
       </Routes>
     </div>
   );
