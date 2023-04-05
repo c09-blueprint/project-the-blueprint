@@ -158,9 +158,9 @@ const WhiteboardReactFlow = () => {
     let uuid = crypto.randomUUID();
     let peerId = "";
     if (user.family_name === undefined) {
-      peerId = uuid + "_" + user.name;
+      peerId = uuid + "_" + user.given_name;
     } else {
-      peerId = uuid + "_" + user.name + " " + user.family_name;
+      peerId = uuid + "_" + user.given_name + " " + user.family_name;
     }
     const peer = new Peer(peerId);
     peer.on("open", function (id) {
@@ -800,8 +800,8 @@ const WhiteboardReactFlow = () => {
           <h3>
             Current caller:{" "}
             {user.family_name === undefined
-              ? user.name
-              : user.name + " " + user.family_name}
+              ? user.given_name
+              : user.given_name + " " + user.family_name}
           </h3>
           <button
             id="on-camera-button"
