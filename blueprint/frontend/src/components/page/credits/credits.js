@@ -24,11 +24,12 @@ const Credits = () => {
       </ul>
 
       <h2>Images and Icons</h2>
-      <li>
-        The favicon created for Blueprint was created using this:{" "}
-        <a href="https://favicon.io/favicon-generator/">favicon.io</a>
-      </li>
+
       <ul>
+        <li>
+          The favicon created for Blueprint was created using this:{" "}
+          <a href="https://favicon.io/favicon-generator/">favicon.io</a>
+        </li>
         <li>
           All SVG icons seen on the board tool bar was created using this site:{" "}
           <a href="https://www.svgator.com/">svgator</a>
