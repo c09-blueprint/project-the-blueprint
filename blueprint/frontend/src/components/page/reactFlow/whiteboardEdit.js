@@ -10,7 +10,6 @@ import ReactFlow, {
   useReactFlow,
   MiniMap,
 } from "reactflow";
-import ReactDOM from "react-dom";
 
 import * as Y from "yjs";
 import { WebsocketProvider } from "y-websocket";
@@ -47,8 +46,6 @@ import { boardServices } from "../../../services/boardService";
 import { getAuthHeader } from "../../../utils/authService";
 import axios from "axios";
 
-import UserVideo from "../userVideo/userVideo";
-
 /* Custom Node Types */
 const customNodeTypes = {
   splitterNode,
@@ -69,12 +66,6 @@ const customEdgeTypes = {
 
 /* For setting up yjs connection */
 const WEBSOCKET_URL = process.env.REACT_APP_WEBSOCKET_URL;
-
-// initial document
-// const ydoc = new Y.Doc();
-
-// ymap
-// const elementMap = ydoc.getMap("element-map");
 
 const WhiteboardReactFlow = () => {
   const { user, getAccessTokenSilently } = useAuth0();
@@ -105,7 +96,6 @@ const WhiteboardReactFlow = () => {
   );
 
   const [peerId, setPeerId] = useState("");
-  const [remotePeerId, setRemotePeerId] = useState("");
   const currentUserVideoRef = useRef(null);
   const peerInstance = useRef(null);
 
@@ -350,7 +340,6 @@ const WhiteboardReactFlow = () => {
     currentUserVideoRef.current.pause();
     currentUserVideoRef.current.srcObject = null;
 
-    //START
     let peersVideoDisabled = peerVideoToDisable.get("peersVideoDisabled");
     if (peersVideoDisabled === undefined) {
       peersVideoDisabled = [];
@@ -405,7 +394,7 @@ const WhiteboardReactFlow = () => {
       }
     });
 
-    peerVideoDisabledMap.observe((event) => {
+    peerVideoDisabledMap.observe(() => {
       let remoteUserVideoWrapper =
         document.getElementById("remote-user-videos");
       for (const child of remoteUserVideoWrapper.children) {
@@ -436,7 +425,7 @@ const WhiteboardReactFlow = () => {
     });
 
     // set up observer
-    elMap.observe((event) => {
+    elMap.observe(() => {
       dispatch(setNodes(elMap.get("nodes")));
       dispatch(setEdges(elMap.get("edges")));
     });
@@ -520,7 +509,6 @@ const WhiteboardReactFlow = () => {
 
       const type = event.dataTransfer.getData("nodeType");
       const style = event.dataTransfer.getData("style");
-      const data = event.dataTransfer.getData("data");
       // check if the dropped node is valid
       if (typeof type === "undefined" || !type) {
         return;
@@ -553,8 +541,6 @@ const WhiteboardReactFlow = () => {
     event.dataTransfer.setData("data", data);
     event.dataTransfer.effectAllowed = "move";
   };
-
-  const logCurrentState = useCallback(() => {}, [reactFlowInstance]);
 
   const changeEdgeType = (edge) => {
     setEdgeType(edge);
@@ -846,10 +832,6 @@ const WhiteboardReactFlow = () => {
           >
             disconnect
           </button>
-
-          {/* <UserVideo ref={currentUserVideoRef} />
-          <UserVideo ref={remoteVideoRef} /> */}
-          {/* <video ref={remoteVideoRef} /> */}
           <video ref={currentUserVideoRef} />
           <div id="remote-user-videos"></div>
         </div>
