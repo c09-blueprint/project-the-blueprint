@@ -441,6 +441,10 @@ const WhiteboardReactFlow = () => {
     };
   }, [dispatch, roomId]);
 
+  window.addEventListener("beforeunload", () => {
+    hangUp();
+  });
+
   /*
     Publishers. 
     Only publish if this user made changes.
