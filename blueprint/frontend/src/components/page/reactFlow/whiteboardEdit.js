@@ -105,6 +105,18 @@ const WhiteboardReactFlow = () => {
   let callList = [];
   const [videoMap, setVideoMap] = useState(new Map());
 
+  let uuid = crypto.randomUUID();
+  let peerName = "";
+  let email = user.email.split("@")[0];
+  let name = email.match(/[a-zA-Z0-9]+/g).join("");
+  if (user.given_name === undefined && user.family_name === undefined) {
+    peerName = uuid + "_" + name;
+  } else if (user.family_name === undefined) {
+    peerName = uuid + "_" + user.given_name;
+  } else {
+    peerName = uuid + "_" + user.given_name + " " + user.family_name;
+  }
+
   const createVideoPlayer = (stream, call) => {
     let remoteUserVideoWrapper = document.getElementById("remote-user-videos");
     let singleVideoWrapper = document.createElement("div");
@@ -155,14 +167,7 @@ const WhiteboardReactFlow = () => {
   };
 
   useEffect(() => {
-    let uuid = crypto.randomUUID();
-    let peerId = "";
-    if (user.family_name === undefined) {
-      peerId = uuid + "_" + user.given_name;
-    } else {
-      peerId = uuid + "_" + user.given_name + " " + user.family_name;
-    }
-    const peer = new Peer(peerId);
+    const peer = new Peer(peerName);
     peer.on("open", function (id) {
       setPeerId(id);
     });
@@ -797,12 +802,7 @@ const WhiteboardReactFlow = () => {
           </ReactFlow>
         </div>
         <div className="col-xl-2 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
-          <h3>
-            Current caller:{" "}
-            {user.family_name === undefined
-              ? user.given_name
-              : user.given_name + " " + user.family_name}
-          </h3>
+          <h3>Current caller: {peerName.split("_")[1]}</h3>
           <button
             id="on-camera-button"
             class="hidden btn btn-light mb-2"
