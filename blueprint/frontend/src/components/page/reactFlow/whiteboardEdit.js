@@ -765,7 +765,7 @@ const WhiteboardReactFlow = () => {
             onClick={addUser}
             style={{ marginBottom: "10px" }}
             id="invite-btn"
-            className="share-button text-white"
+            className="btn btn-info share-button text-white"
           >
             Share
           </button>
@@ -805,21 +805,21 @@ const WhiteboardReactFlow = () => {
             <MiniMap zoomable pannable />
           </ReactFlow>
         </div>
-        <div className="col-xl-2 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
-          <h3>Current caller: {peerName.split("_")[1]}</h3>
+        <div className="col-xl-2 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-color bg-light">
+          <h3>Current Caller: {peerName.split("_")[1]}</h3>
           <button
             id="on-camera-button"
             class="hidden btn btn-light mb-2"
             onClick={turnOnCamera}
           >
-            turn on camera
+            Turn On Camera
           </button>
           <button
             id="off-camera-button"
             class="hidden btn btn-danger mb-3"
             onClick={turnOffCamera}
           >
-            turn off camera
+            Turn Off Camera
           </button>
           <button
             id="call-button"
@@ -834,7 +834,7 @@ const WhiteboardReactFlow = () => {
             class="hidden btn btn-danger mb-2"
             onClick={hangUp}
           >
-            disconnect
+            Disconnect
           </button>
           <video ref={currentUserVideoRef} />
           <div id="remote-user-videos"></div>
