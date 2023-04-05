@@ -123,17 +123,22 @@ const WhiteboardReactFlow = () => {
     var remoteVideo = document.createElement("video");
     remoteVideo.setAttribute("class", "remote-video mb-4");
     remoteVideo.setAttribute("autoplay", "true");
-    remoteVideo.muted = true;
+    remoteVideo.muted = false;
     remoteVideo.srcObject = stream;
 
     var remoteIdText = document.createElement("p");
     remoteIdText.setAttribute("class", "remote-id-text");
-    remoteIdText.innerHTML = call.peer;
+    let name = call.peer.split("_");
+    if (name.length > 1) {
+      remoteIdText.innerHTML = name[1];
+    } else {
+      remoteIdText.innerHTML = name[0];
+    }
     remoteIdText.setAttribute("id", call.peer + "-text");
     let muteWrapper = document.createElement("div");
     muteWrapper.setAttribute("class", "mute-wrapper");
     let muteText = document.createElement("p");
-    muteText.setAttribute("class", "mute-text");
+    muteText.setAttribute("class", "mute-text hidden");
     muteText.innerHTML = "Muted";
     let muteButton = document.createElement("button");
     muteButton.setAttribute("class", "mute-button btn btn-light");
@@ -160,24 +165,15 @@ const WhiteboardReactFlow = () => {
     setVideoMap((videoMap) => videoMap.set(call.peer, stream));
   };
 
-  function createUUID() {
-    var dt = new Date().getTime();
-    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-      /[xy]/g,
-      function (c) {
-        var r = (dt + Math.random() * 16) % 16 | 0;
-        dt = Math.floor(dt / 16);
-        return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
-      }
-    );
-    return uuid;
-  }
-
   useEffect(() => {
-    const options = {
-      label: user.nickname,
-    };
-    const peer = new Peer(createUUID(), options);
+    let uuid = crypto.randomUUID();
+    let peerId = "";
+    if (user.family_name === undefined) {
+      peerId = uuid + "_" + user.name;
+    } else {
+      peerId = uuid + "_" + user.name + " " + user.family_name;
+    }
+    const peer = new Peer(peerId);
     console.log("peer: ", peer);
     peer.on("open", function (id) {
       setPeerId(id);
@@ -187,9 +183,6 @@ const WhiteboardReactFlow = () => {
     // When a remote peer connects to this peer
     peer.on("connection", (connection) => {
       setDataConnection(connection);
-      console.log(
-        "!!!!!!@@@@@@@@@@@@@@@@@@@@@ connection id" + connection.peer
-      );
     });
 
     // When a remote peer calls this peer
@@ -872,7 +865,12 @@ const WhiteboardReactFlow = () => {
           </ReactFlow>
         </div>
         <div className="col-xl-2 col-12 col-md-3 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
-          <h3>Current caller id: {peerId}</h3>
+          <h3>
+            Current caller id:{" "}
+            {user.family_name === undefined
+              ? user.name
+              : user.name + " " + user.family_name}
+          </h3>
           <button
             onClick={logCallState}
             className="btn-add"
