@@ -4,7 +4,7 @@
 
 **Team Name**: The Blueprint
 
-**DEMO LINK**: https://youtu.be/NJDPoNPXiMQ
+**Demo Link**: https://youtu.be/NJDPoNPXiMQ
 
 **Deployed Website Link**: https://theblueprint.cc/
 
@@ -35,9 +35,8 @@ Users belonging to a page or a team can be assigned one of the following roles:
 
 - Owner (read/write/delete permission)
 - Collaborator (read/write permission)
-- Viewer (read-only permission)
 
-Blueprints also allows users to collaborate on a project anonymously through project link.
+Blueprints also allows users to collaborate on a project through project link that is shared to their email. However, users will have to create an account in order to access the board shared with them.
 
 **Awareness**
 
@@ -55,6 +54,11 @@ Blueprint allows users to work on their project offline, and sync their changes 
 - **Backend**
   - Node.js with Express.js
   - PostgreSQL with Sequelize
+- **Deployment**
+  - AWS Lightsail
+  - Cloudflare
+  - Nginx
+  - Docker
 
 ## Complexity Points
 
@@ -62,16 +66,16 @@ Blueprint allows users to work on their project offline, and sync their changes 
 - React Flow (2 points) - for users to create interactive diagrams and charts
 - SendGrid (2 points) - for sending and managing emails
 - Auth0 (1 point) - for user authentication and authorization
-- PeerJS (1 point) - for users to video or audio call while collaborating
+- PeerJS (2 point) - for users to video or audio call while collaborating and can support calling for more than 2 people (group calling)
 
-**Total**: 9 points
+**Total**: 10 points
 
 ## Project Aim
 
 **Alpha Version** (March 6)  
 We aim to have the following core features implemented:
 
-- Users can create a page and collaborate real-time with other users
+- Users can create a board and collaborate real-time with other users
 - Users can add shapes and lines to create charts
 - Users can invite other users to collaborate
 - **Complexity points**: Yjs, React Flow, SendGrid
@@ -79,18 +83,16 @@ We aim to have the following core features implemented:
 **Beta Version** (March 20)  
 We aim to extend and improve the core features:
 
-- Users can create and join teams
 - Users can video or audio call other collaborators
 - Implement authentication and authorization
   - Users have different permission levels:
     - Owner (read/write/delete permission)
     - Collaborator (read/write permission)
-    - Viewer (read-only permission)
-  - Users can collaborate anonymously through project link
+  - Users can collaborate through project link
   - Users can SSO with other third parties (e.g. Google)
 - **Complexity points**: Yjs, React Flow, SendGrid, Auth0, PeerJS
 
-**Final Version** (April 3)  
+**Final Version** (April 5)  
 We aim to implement additional features and have a fluid and cohesive whiteboarding collaboration tool by the end:
 
 - Implement awareness
