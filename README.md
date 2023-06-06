@@ -1,20 +1,16 @@
 # Blueprint
 
-**Product Name**: Blueprint
-
-**Team Name**: The Blueprint
-
 **Demo Link**: https://youtu.be/NJDPoNPXiMQ
 
-**Deployed Website Link**: https://theblueprint.cc/
+**Deployed Website Link**: https://theblueprint.cc/ **(DEPRECATED)**
 
 ## Team Information
 
-| Name         | Student Number | UTORid   | Email                           |
-| ------------ | -------------- | -------- | ------------------------------- |
-| Man Hei Ho   | 1006030162     | homan10  | man.ho@mail.utoronto.ca         |
-| Christina Ma | 1006163615     | machri16 | christinacm.ma@mail.utoronto.ca |
-| David Tan    | 1005396652     | tandavi5 | dave.tan@mail.utoronto.ca       |
+| Name         | Email                           |
+| ------------ | ------------------------------- |
+| Man Hei Ho   | man.ho@mail.utoronto.ca         |
+| Christina Ma | christinacm.ma@mail.utoronto.ca |
+| David Tan    | dave.tan@mail.utoronto.ca       |
 
 ## What is Blueprint?
 
@@ -68,41 +64,10 @@ Here is a list of some feature we've implemented aside from the easily idenfitab
   - Nginx
   - Docker
 
-## Complexity Points
+## Integrated Libraries
 
-- Yjs (3 points) - CRDT implementation for real-time collaborative editing of shared data
-- React Flow (2 points) - for users to create interactive diagrams and charts
-- SendGrid (2 points) - for sending and managing emails
-  - Note: For this project, all emails are sent from a personal email: christina.bt.ma@gmail.com. We did not want to create a new email only for it to be disposed of later. However, if this product were to go into production, it would be sent from a general Blueprint email.
-- Auth0 (1 point) - for user authentication and authorization
-- PeerJS (2 points) - for users to video or audio call while collaborating and can support calling for more than 2 people (group calling)
-
-**Total**: 10 points
-
-## Project Aim
-
-**Alpha Version** (March 6)  
-We aim to have the following core features implemented:
-
-- Users can create a board and collaborate real-time with other users
-- Users can add shapes and lines to create charts
-- Users can invite other users to collaborate
-- **Complexity points**: Yjs, React Flow, SendGrid
-
-**Beta Version** (March 20)  
-We aim to extend and improve the core features:
-
-- Users can video or audio call other collaborators
-- Implement authentication and authorization
-  - Users have different permission levels:
-    - Owner (read/write/delete permission)
-    - Collaborator (read/write permission)
-  - Users can SSO with other third parties (e.g. Google)
-- **Complexity points**: Yjs, React Flow, SendGrid, Auth0, PeerJS
-
-**Final Version** (April 5)  
-We aim to implement additional features and have a fluid and cohesive whiteboarding collaboration tool by the end:
-
-- Finetune all features
-- Deploy the product to the cloud
-- **Complexity points**: Yjs, React Flow, SendGrid, Auth0, PeerJS
+- Yjs - CRDT implementation for real-time collaborative editing of shared data
+- React Flow - for users to create interactive diagrams and charts
+- SendGrid - for sending and managing emails
+- Auth0 - for user authentication and authorization
+- PeerJS - for users to video or audio call while collaborating and can support calling for more than 2 people (group calling)
